@@ -4,11 +4,28 @@
     <head>
         <title>
             <?php $name=$_GET[ "name"]; echo $name; ?>
-                - Lilo^Log 0.1^100
+                - <?php 
+				require("stuff/config.php");
+				echo constant('SITE_NAME');
+				?>
         </title>
         <link href="stuff/style_view.css" rel="stylesheet" type="text/css" media="screen"/>
         <link href="stuff/style_view_print.css" rel="stylesheet" type="text/css" media="print"/>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<meta http-equiv="Content-Type" content="text/html; charset=ANSI" />
+        <meta name="description" content="<?php 			$file_name=$name.'.txt'; 
+		$context="404 Error Occured. Bazinga!";
+			if( is_file( $file_name ) )
+			{ 
+			include_once "stuff/markdown.php"; 
+			$context=file_get_contents( $file_name ); 
+			echo $context;
+			$context=Markdown($context);
+            }
+			?>"
+        />
+        <meta name="keywords" content="t.t.t powered,blog,tslmy,personal,chinese,english,geek"
+        />
         <!-- below to </head>: Google Analytics Code. -->
         <script type="text/javascript">
             var _gaq = _gaq || [];
@@ -32,20 +49,12 @@
         </div>
 		<div id="paper">
 				<nav>
-			<div class="button" id="button_back"><a href="index.php">Back</a></div>
-			<div class="button" id="button_txt"><a href="<?php echo $name.".txt";?>">.TXT</a></div>
-			<div class="button" id="button_print"><a href="javascript:window.print() ">Print</a></div>
+			<div class="button" onclick="location.href='index.php'">Back</div>
+			<div class="button" onclick="location.href='<?php echo $name.".txt";?>'">.TXT</div>
+			<div class="button" onclick="javascript:window.print()">Print</div>
 		</nav>
         <div id="context">
-            <?php 
-			$file_name=$name.'.txt'; 
-			if( is_file( $file_name ) )
-			{ 
-			include_once "stuff/markdown.php"; 
-			$context=file_get_contents( $file_name ); 
-			echo Markdown($context);
-            }
-			?>
+            <?php echo $context;?>
 </div>
         </div>
 <div id="attach_paper">

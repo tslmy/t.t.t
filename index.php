@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
-    
     <head>
+	
         <title>
-            Lilo^Log 0.1^100
+            <?php 
+				require("stuff/config.php");
+				echo constant('SITE_NAME');
+				?>
         </title>
 		<meta http-equiv="Content-Type" content="text/html; charset=ANSI" />
         <meta name="description" content="Tslmy's personal blog, powered by t.t.t, the simplest plain-text-based, database-free blog engine."
@@ -30,7 +33,7 @@
 		<div id="left_texts">
 		<div id="logo">
                 <a href="http://tslmy.tk">
-                    Lilo^Log
+                    <?php echo constant('SITE_NAME');?>
                 </a>
 		</div>
             <div id="intro">
@@ -62,7 +65,7 @@ if ($handler = opendir("./")){
 	}
 	krsort($files,SORT_NUMERIC);
 	foreach ($files as $each_one){
-		echo "<li><a href='view.php?name=".$each_one."'>".$each_one."</a></li><div class='hr'></div>\n";
+		echo "<li onclick=\"location.href='view.php?name=".$each_one."';\">".$each_one."</li><div class='hr'></div>\n";
 	}
 	closedir($handler);
 }else {

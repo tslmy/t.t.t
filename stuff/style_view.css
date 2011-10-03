@@ -77,6 +77,9 @@ nav{
 	-webkit-transition-duration: .3s;
 	transition-timing-function:ease-out;
 	height:20px;
+	color: #777;
+	font-family:Arial;
+	cursor:pointer;
 }
 .button:hover {
 	box-shadow:0 -7px 14px #dedede;
@@ -84,11 +87,6 @@ nav{
 	height:80px;
 	border-radius:3px 3px 20px 0px;
 }
-.button a {
-	color: #777;
-	font-family:Arial;
-}
-
 #title{
 	font-family: 'Open Sans', sans-serif;
 	font-size:60px;
