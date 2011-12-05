@@ -8,7 +8,8 @@
 				echo constant('SITE_NAME');
 				?>
         </title>
-		<meta http-equiv="Content-Type" content="text/html; charset=ANSI" />
+		<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
+		<link href="/stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
         <meta name="description" content="Tslmy's personal blog, powered by t.t.t, the simplest plain-text-based, database-free blog engine."
         />
         <meta name="keywords" content="t.t.t powered,blog,tslmy,personal,chinese,english,geek"
@@ -38,7 +39,7 @@
 		</div>
             <div id="intro">
            <?php
-		   $intro_file_name="_intro.txt";
+		   $intro_file_name="content/_intro.txt";
 		   if(file_exists($intro_file_name)){
 				$file=fopen( $intro_file_name, "r");
 				while(!feof($file))
@@ -47,32 +48,39 @@
 				}
 				fclose($file);
 				} else {
-				echo "Yet another t.t.t-powered minimal blog.";
+				echo "Just another t.t.t-powered minimal blog.";
 				}
 			?>
             </div>
 		</div>
-		<div id="verizon_line"></div>
         </div>
-        <ul id="main">
+        <div id="main">
 <?php
-if ($handler = opendir("./")){ 
+if ($handler = opendir("content/")){ 
 	while (false !== ($filename = readdir($handler))) { 
 		$len=strlen($filename);
 		if (substr($filename,0,1)!="_" && strtolower(substr($filename,$len-4,$len))==".txt") {
-			$files[filemtime($filename)] = substr($filename,0,$len-4);
+			$files[filemtime("content/".$filename)] = substr($filename,0,$len-4);
 		}
 	}
 	krsort($files,SORT_NUMERIC);
 	foreach ($files as $each_one){
-		echo "<li onclick=\"location.href='view.php?name=".$each_one."';\">".$each_one."</li><div class='hr'></div>\n";
+		echo 
+		"<a class='item' href='view.php?name=".$each_one."'>
+		".$each_one."</a>
+			<!--div class='brick'></div-->
+				
+			<div class='hr'></div>
+		
+		\n"
+		;
 	}
 	closedir($handler);
 }else {
 	echo "Error occured. Contact tslmy!";
 }
 ?>
-        </ul>
+        </div>
     </body>
 
 </html>

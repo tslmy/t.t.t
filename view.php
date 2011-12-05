@@ -11,8 +11,9 @@
         </title>
         <link href="stuff/style_view.css" rel="stylesheet" type="text/css" media="screen"/>
         <link href="stuff/style_view_print.css" rel="stylesheet" type="text/css" media="print"/>
+		<link href="/stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-		<meta http-equiv="Content-Type" content="text/html; charset=ANSI" />
+		<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
         <meta name="description" content="An article about <?php echo $name; ?> on <?php echo constant('SITE_NAME'); ?>."
         />
         <meta name="keywords" content="<?php echo constant('SITE_NAME'); ?>,t.t.t-powered,blog,tslmy,minimal-design"
@@ -41,12 +42,14 @@
 		<div id="paper">
 				<nav>
 			<div class="button" onclick="location.href='index.php'">Back</div>
-			<div class="button" onclick="location.href='<?php echo $name.".txt";?>'">.TXT</div>
+			<div class="button" onclick="location.href='<?php
+			$file_name='content/'.$name.'.txt'; 
+			echo $file_name;?>'">.TXT</div>
 			<div class="button" onclick="javascript:window.print()">Print</div>
 		</nav>
         <div id="context">
             <?php
- 		$file_name=$name.'.txt'; 
+ 		
 		$context="404 Error Occured. Bazinga!";
 		if( is_file( $file_name ) )
 			{ 
@@ -82,19 +85,13 @@ var jiathis_config={
 </div>
 <!-- disqus end -->
 			<hr>
-		<!-- wumii start -->
-<script type="text/javascript">
-    var wumiiPermaLink = "http://the.tslmy.tk/view.php?name=<?php echo $name; ?>";
-var wumiiTitle = <?php echo json_encode($title); ?>;
-    var wumiiTags = ""; 
-    var wumiiSitePrefix = "http://the.tslmy.tk/";
-    var wumiiParams = "&num=5&mode=2&pf=JAVASCRIPT";
+		<!-- linkwithin start -->
+<script>
+var linkwithin_site_id = 932511;
 </script>
-<script type="text/javascript" src="http://widget.wumii.com/ext/relatedItemsWidget.htm"></script>
-<a href="http://www.wumii.com/widget/relatedItems.htm" style="border:0;">
-</a>
-<script type="text/javascript" id="wumiiRelatedItems"></script>
-<!--wumii end-->
+<script src="http://www.linkwithin.com/widget.js"></script>
+<a href="http://www.linkwithin.com/"><img src="http://www.linkwithin.com/pixel.png" alt="Related Posts Plugin for WordPress, Blogger..." style="border: 0" /></a>
+<!--linkwithin end-->
 </div>
 </body>
 </html>
