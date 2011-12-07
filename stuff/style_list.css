@@ -1,44 +1,69 @@
 ﻿body {
 	padding: 0;
 	margin: 0;
-	width:1000px;
-	font-family: Arial,"微软雅黑";
+	width:100%;
+	font-family: 'Muli', sans-serif, "微软雅黑";
+	overflow-x:hidden;
+}
+a {
+	text-decoration:none;
+	color: #39F;
 }
 .item {
+	margin-left:251px;
 	list-style-type: none;
+}
+/*Navigator Part START*/
+#nav_holder {
+	position:relative;
+	width:180px;
+	padding:0 10px;
+	margin:20px 0;
+	height:100%;
+	background:#e1e1e1;
+	border-radius:10px;
+	box-shadow:inset 0 1px 4px #aaa;
+	overflow-y:hidden;
+	opacity: 0.75;
+}
+.nav_button {
+	position:relative;
+	top:1px;
+	display:inline;
+	padding:0 15px;
+	-webkit-transition-duration: .3s;
+	text-shadow:0px 1px 0 #fff,0px -1px 0 #000;
+	color:#777;
+}
+.nav_button:hover {
+	background:#bbb;
+	box-shadow:inset 0 0px 5px #777;
+}
+/*Navigator Part END*/
+.item .name{
 	-webkit-transition-duration: .3s;
 	-webkit-transition-timing-function: ease-out;
 	position:relative;
-	height:50px;
+	min-height:50px;
+	height:100;
 	top:20px;
 	text-shadow:0px 3px 3px #ddd;
 	cursor:pointer;
 	font-size:20px;
-	color: #39F;
 	text-transform: capitalize;
-	white-space:nowrap;
+	width:100%;
 	display:block;
-}
-.item:hover{
-	padding: 10px 0;
 
-	font-size:40px;
 }
-.brick {
-	background:grey;
-	width:5px;
-	height:40px;
-	position:relative;
-	right:12px;
-	bottom:-21px;
-	border-radius:0 2px 2px 0;
+.item .name:hover{
+	padding: 10px 0;
+	font-size:40px;
 }
 #left_texts{
 	position:float;
 	float:left;
 	width:198px;
 }
-
 .hr{
 	height:1px;
 	background:-webkit-gradient(linear,0 0,100% 0,from(#ddd), to(#fff));
@@ -47,9 +72,21 @@
 	top:4px;
 	right:11px;
 }
-a {
-	text-decoration:none;
+
+.mtime{
+	display:inline;
+	float:right;
+	color:#ddd;
+	z-index:-2;
+	position:relative;
+	top:-12px;
+	right:20px;
+	font-weight:900;
+	font-size:20px;
+	height:17px;
+	overflow:hidden;
 }
+
 
 #left{
 	position:fixed;
@@ -92,12 +129,10 @@ a {
 	font-size:15px;
 	text-align:left;
 	cursor:default;
-	text-shadow:0px 5px 4px #c9c9c9;
+	text-shadow:0px 5px 4px #ccc;
 }
 #main{
 	position:absolute;
-	left:251px;
-	top:50px;
-	width:700px;
-	z-index:-3;
+	top:20px;
+	width:100%;
 }
