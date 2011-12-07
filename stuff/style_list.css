@@ -76,7 +76,7 @@ a {
 .mtime{
 	display:inline;
 	float:right;
-	color:#eee;
+	color:rgba(255,255,255,0);
 	z-index:-2;
 	position:relative;
 	bottom:17px;
