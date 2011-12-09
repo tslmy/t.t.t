@@ -63,7 +63,7 @@
 										".$each_one."
 									</div>
 									<div class='mtime'>
-										".date("Y-m-d H:i:s",filemtime("content/".$filename))."
+										".date("Y-m-d H:i:s",filemtime("content/".$each_one.".txt"))."
 									</div>
 								</a>
 								<div class='hr'></div>
