@@ -67,7 +67,7 @@ a {
 .hr{
 	height:1px;
 	background:-webkit-gradient(linear,0 0,100% 0,from(#ddd), to(#fff));
-	width:700px;
+	width:100%;
 	position:relative;
 	top:4px;
 	right:11px;
@@ -88,6 +88,16 @@ a {
 	text-shadow:0 0 3px #DDD;
 }
 
+#web_background{
+	background:rgba(0,0,0,.04) url(../stuff/web.gif);
+	width:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	height:100%;
+	opacity:.1;
+	z-index:-3;
+}
 
 #left{
 	position:fixed;
@@ -96,11 +106,12 @@ a {
 	width:220px;
 	height:100%;
 	padding-left:20px;
-	background:rgba(0,0,0,.04);
+	background:rgba(0, 0, 0, .05);
 	z-index:3;
 	border-right-width:1px;
 	border-right-color:#ddd;
 	border-right-style: solid;
+	box-shadow:0 0 30px #ddd;
 }
 #logo {
 	position:float;
@@ -123,14 +134,12 @@ a {
 	text-shadow: 0px -20px 4px rgba(100,100,100,.5),0 20px 4px rgba(255,255,255,.5);
 }
 #intro {
-	position:float;
-	float:top;
-	color: #aaa;
+	color: #8a8a8a;
 	width:210px;
 	font-size:15px;
 	text-align:left;
 	cursor:default;
-	text-shadow:0px 5px 4px #ccc;
+	text-shadow:0 1px 0 white,0px 5px 4px #CCC;
 }
 #main{
 	position:absolute;

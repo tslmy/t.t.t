@@ -13,6 +13,14 @@
         <link href="stuff/style_view_print.css" rel="stylesheet" type="text/css" media="print"/>
 		<link href="/stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<!-- code syntax highlighter START-->
+		<script src="stuff/highlight/highlight.pack.js"></script>
+		<link rel="stylesheet" href="stuff/highlight/solarized_light.css">
+		<script>
+		    hljs.tabReplace = '    ';
+		    hljs.initHighlightingOnLoad();
+		</script>
+		<!-- code syntax highlighter END-->
 		<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
         <meta name="description" content="An article about <?php echo $name; ?> on <?php echo constant('SITE_NAME'); ?>."
         />
@@ -33,7 +41,7 @@
         </script>
     </head>
     
-    <body>
+    <body onload="prettyPrint()">
         <div id="title">
             <a href="index.php">
                 <?php echo $name; ?>
