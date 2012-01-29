@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-	
         <title>
             <?php 
 				require("stuff/config.php");
@@ -9,13 +8,14 @@
 				?>
         </title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link href="/stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
         <meta name="description" content="Tslmy's personal blog, powered by t.t.t, the simplest plain-text-based, database-free blog engine."
         />
         <meta name="keywords" content="t.t.t powered,blog,tslmy,personal,chinese,english,geek"
         />
+		<link href="stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
+		<link href="stuff/rss.php" type="application/atom+xml" rel="alternate" title="Lilo^log R.S.S." />
 		<link href='http://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
-        <link href="stuff/style_list.css" rel="stylesheet" type="text/css" />
+        <link href="stuff/css/style_list.css" rel="stylesheet" type="text/css" />
         <!-- below to </head>: Google Analytics Code. -->
         <script type="text/javascript">
             var _gaq = _gaq || [];
@@ -31,7 +31,6 @@
         </script>
     </head>
     <body>
-		<div id="web_background"></div>
         <div id="main">
 			<?php
 			if ($handler = opendir("content/")){  //try to open the directory.
@@ -52,19 +51,38 @@
 				$prev_items_to_omit=($this_page-1)*constant('ITEMS_DISPLAYED_PEER_PAGE');
 				$count=0;//set counter to zero
 				$items_limit=$prev_items_to_omit+constant('ITEMS_DISPLAYED_PEER_PAGE');
+				$current_date_year='';
+				$current_date_month='';
 				foreach ($files as $each_one){
 					if ($count<$items_limit){
 						$count++;
 						if ($count>$prev_items_to_omit){
+							$this_mtime=filemtime("content/".$each_one.".txt");
+							$this_modified_year=date("Y",$this_mtime);
+							if ($current_date_year<>$this_modified_year) {
+								echo "<div class='item date year'>".$this_modified_year.'</div>';
+								$current_date_year=$this_modified_year;
+							};
+							$this_modified_month=date("F",$this_mtime);
+							if ($current_date_month<>$this_modified_month) {
+								echo "<div class='item date'>".$this_modified_month.'</div>';
+								$current_date_month=$this_modified_month;
+							};
 							echo 
 							"<div class='item'>
 								<a href='view.php?name=".$each_one."'>
-									<div class='name'>
-										".$each_one."
-									</div>
-									<div class='mtime'>
-										".date("Y-m-d H:i:s",filemtime("content/".$each_one.".txt"))."
-									</div>
+
+									<span class='effect'>
+										<!--span class='prefix'-->
+											<span class='day'>".date("d",$this_mtime)."</span> 
+										<!--/span-->
+										<span class='name'>
+											".$each_one."
+										</span>
+									</span>
+									<span class='mtime'>
+										".date("D H:i",$this_mtime)."
+									</span>
 								</a>
 								<div class='hr'></div>
 							</div>

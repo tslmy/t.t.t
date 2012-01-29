@@ -9,8 +9,8 @@
 				echo constant('SITE_NAME');
 				?>
         </title>
-        <link href="stuff/style_view.css" rel="stylesheet" type="text/css" media="screen"/>
-        <link href="stuff/style_view_print.css" rel="stylesheet" type="text/css" media="print"/>
+        <link href="stuff/css/style_view.css" rel="stylesheet" type="text/css" media="screen"/>
+        <link href="stuff/css/style_view_print.css" rel="stylesheet" type="text/css" media="print"/>
 		<link href="/stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 		<!-- code syntax highlighter START-->
@@ -61,9 +61,16 @@
 		$context="404 Error Occured. Bazinga!";
 		if( is_file( $file_name ) )
 			{ 
-				include_once "stuff/markdown.php"; 
+				include_once "stuff/markdown.php";
+				include_once "stuff/smartypants.php";
+				//read the context to a varible
 				$context=file_get_contents( $file_name ); 
-				echo Markdown($context);
+				// Create the HTML to cache
+				$pagehtml = SmartyPants(Markdown($context));
+				// Now add the internal links (replace ~shortname~ with the link)
+				$pagehtml = preg_replace('/~([^:~]*):([^~]*)~/', '<a href="view.php?name=$1">$2</a>', $pagehtml);
+				$pagehtml = preg_replace('/~([^:~]*)~/', '<a href="view.php?name=$1">$1</a>', $pagehtml);
+				echo $pagehtml;
             }?>
 		</div>
         </div>

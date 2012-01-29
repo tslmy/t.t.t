@@ -1,0 +1,83 @@
+**A brief intro to this blog and its tech...Upgraded!**
+
+_This is a demo site for t.t.t, the simple plain-text-based, Markdown-powered, database-free blog engine._
+
+__UPGRADE: No Python scripts are required! Anymore!__
+
+With _t.t.t_, blogging is super-easy.
+
+*   Write your journal (__Markdown supported!__) down a small _.txt_ file;
+*   Upload them to your server.
+
+And... it's Done!
+
+But, 
+###what's that for?###
+LOL.
+
++   I'm a poor Chinese student and I could not afford to buy a server good enough for fast Wordpressing and big SQL space. So, the **requirement** of this blog engine is **only a php-powered web space**. Beside these, nothing.
++   Tiddlyspace.com, is good for simple blogging. But ,sadly, its JS architecture seemed not sweet enough for legacy PCs.
++   I am a geek.
+
+###Why poor .txt?###
++   With markup languages like Markdown, plain texts are not poor anymore.
++   It's ultra-portable. Not only Windows, MAC OS, Linux, Android, iOS, WebOS, Windows Mobile, Windows Phone 7, Windows CE, DOS, even my electronic dictionary is able to write notes down to txt files. For that reason, it's the best choice I could ever think of.
+
+###Wow! I'd like to have one for myself...###
+Feeling like to have a site like t(he).t(slmy).t(k)?
+To generate a simple txt-collection-like site, simply:
+
+1. Download [t.t.t.7z](http://the.tslmy.tk/stuff/t.t.t.7z) 
+2. Unzip it into a folder containing a few text files.
+3. Edit...
+5. Upload all the files in the folder to your web space and there you go!
+
+##What to edit##
+
+###stuff/config.php__
++   SITE_NAME is the name of the site
++   ITEMS_DISPLAYED_PEER_PAGE sets how many items to be shown per page on index
+
+###view.php__
+
++   Replace my Google Analytics Code with yours.
+
+###_intro.txt
+
+This contains brief descriptions for your site (or yourself!), just under the main title on the index page.
+
+Additionally, all the files whose name starts with "_" won't be shown in the article list. Please notice that.
+
+###About the strange formats. Strange!###
+You may found it strange that I was repeatively emphasizing that this blog engine is based on plain text files, while some neat formats on the pages caught your eyes.
+
+In fact, all the pretty formats are originally in [Markdown]('http://daringfireball.net/projects/markdown/') language. With it, the good-looking of t.t.t is provided both in .txt files and .php pages.
+
+Didn't know a single word about it? Here's a little official description:
+
+>Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).
+
+##I am here to mock!##
+Then you are here to help!
+
+A single busy student, especially in China, isn't enough for t.t.t to evolve. Thus, your ideas, comments and even "Humm.."-s are highly appreciated.
+
+Contact <tslimingyang@126.com>! Else if you have a QQ ID, mine is <tslimingyang@126.com>.
+
+You see, a single e-mail could delight me for a few days.
+
+### Branching your own t.t.t ###
+Now that you would like to make some contribution to the source code, it is wise to download [make.bat][1] and [stuff/pack.lst][2] for easy packing.
+
+[1]: http://the.tslmy.tk/make.bat
+[2]: http://the.tslmy.tk/stuff/pack.lst
+
+The bat file is going to simply pack up the files written in pack.lst using 7z, which by default is allocated under d:\\program files\\7-Zip.
+
+#### Or... ####
+Just fork me on [GitHub](https://github.com/tslmy/t.t.t)!!
+
+
+### I can't code, I just wanna take a look
+All right, everything is up to you. You can follow me on <http://twitter.com/tslmy>, or submit to my rss feed: <http://www.feed43.com/6243634760676474.xml>.   
+Additionally, it's suggested to take a look at my Sourceforge belongings: <https://sourceforge.net/p/tslmy/home/Home/>.
