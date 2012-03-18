@@ -3,7 +3,7 @@
     
     <head>
         <title>
-            <?php $name=$_GET[ "name"]; echo $name; ?>
+            <?php $name=$_GET["name"]; echo $name; ?>
                 - <?php 
 				require("stuff/config.php");
 				echo constant('SITE_NAME');
@@ -57,21 +57,19 @@
 		</nav>
         <div id="context">
             <?php
- 		
-		$context="404 Error Occured. Bazinga!";
-		if( is_file( $file_name ) )
+		$content="404 Error Occured. Bazinga!";
+		if (constant('LIST_MODE')==0){
+			if( is_file( $file_name ) )
 			{ 
 				include_once "stuff/markdown.php";
 				include_once "stuff/smartypants.php";
-				//read the context to a varible
-				$context=file_get_contents( $file_name ); 
-				// Create the HTML to cache
-				$pagehtml = SmartyPants(Markdown($context));
-				// Now add the internal links (replace ~shortname~ with the link)
-				$pagehtml = preg_replace('/~([^:~]*):([^~]*)~/', '<a href="view.php?name=$1">$2</a>', $pagehtml);
-				$pagehtml = preg_replace('/~([^:~]*)~/', '<a href="view.php?name=$1">$1</a>', $pagehtml);
-				echo $pagehtml;
-            }?>
+				include_once "stuff/get_content.php";
+				echo get_content($file_name);
+            }
+		} else {
+			echo file_get_contents( 'cache/'.$name.'.htm' );
+		}
+		?>
 		</div>
         </div>
 <div id="attach_paper">
@@ -89,7 +87,7 @@ var jiathis_config={
 <!-- disqus start -->
 <div id="disqus_thread">
 <script type="text/javascript">
-    var disqus_shortname = 'tslmy';
+    var disqus_shortname = "<?php echo constant('DISQUS_SHORTNAME'); ?>";
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
@@ -99,14 +97,16 @@ var jiathis_config={
 <noscript>JavaScript is required to load comments.</noscript>
 </div>
 <!-- disqus end -->
-			<hr>
-		<!-- linkwithin start -->
-<script>
-var linkwithin_site_id = 932511;
-</script>
-<script src="http://www.linkwithin.com/widget.js"></script>
-<a href="http://www.linkwithin.com/"><img src="http://www.linkwithin.com/pixel.png" alt="Related Posts Plugin for WordPress, Blogger..." style="border: 0" /></a>
-<!--linkwithin end-->
+<hr>
+	<!-- linkwithin start -->
+	<script>
+		var linkwithin_site_id = 932511;
+	</script>
+	<script src="http://www.linkwithin.com/widget.js"></script>
+	<a href="http://www.linkwithin.com/">
+		<img src="http://www.linkwithin.com/pixel.png" alt="Related Posts Plugin for WordPress, Blogger..." style="border: 0" />
+	</a>
+	<!--linkwithin end-->
 </div>
 </body>
 </html>

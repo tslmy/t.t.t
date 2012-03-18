@@ -1,0 +1,1 @@
+"D:\Program Files\7-Zip\7z.exe" a stuff\t.t.t.7z @stuff\pack.lst

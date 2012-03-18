@@ -2,16 +2,14 @@
 	padding: 0;
 	margin: 0;
 	width:100%;
-	font-family: 'Muli', sans-serif, "微软雅黑";
+	height:100%;
+	min-width:630px;
+	font-family: 'Muli', Helvetica, "微软雅黑";
 	overflow-x:hidden;
 }
 a {
 	text-decoration:none;
 	color: #39F;
-}
-.item {
-	margin-left:251px;
-	/*list-style-type: none;*/
 }
 /*Navigator Part START*/
 #nav_holder {
@@ -50,7 +48,16 @@ a {
 	padding-top: 30px;
 	color:#555;
 }
-.item .name{
+.item {
+	-webkit-transition-duration: .15s;
+	-webkit-transition-timing-function: ease-out;
+	margin-left:241px;
+	/*list-style-type: none;*/
+	padding-left:10px;
+	background:#fff;
+}
+.item:hover {
+	background:#eee;
 }
 .item .day {
 	color:grey;
@@ -59,7 +66,7 @@ a {
 }
 .item .effect{
 	-webkit-transition-duration: .3s;
-	-webkit-transition-timing-function: ease-out;
+	-webkit-transition-timing-function: ease-out; 
 	position:relative;
 	min-height:50px;
 	overflow:hidden;
@@ -71,7 +78,7 @@ a {
 	width:100%;
 	display:block;
 }
-.item .effect:hover{
+/*.item .effect:hover{
 	padding: 10px 0;
 	font-size:40px;
 }
@@ -79,21 +86,7 @@ a {
 	color:#aaa;
 	font-size:14px;
 }
-#left_texts{
-	position:float;
-	float:left;
-	width:198px;
-}
-.hr{
-	height:1px;
-	background:-webkit-gradient(linear,0 0,100% 0,from(#ddd), to(#fff));
-	width:100%;
-	position:relative;
-	top:4px;
-	right:11px;
-}
-
-.mtime{
+.item .mtime{
 	display:inline;
 	float:right;
 	color:rgba(255,255,255,0);
@@ -105,19 +98,36 @@ a {
 	height:23px;
 	overflow:hidden;
 	text-shadow:0 0 3px #DDD;
+}*/
+.item article .mtime {
+	font-weight:bold;
+	padding-right:4px;
 }
-
-#web_background{
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(252,255,244,1)), color-stop(100%,rgba(233,233,206,1)));
+.item article {
+	color: #888;
+	font-family: tahoma;
+	font-size: 15px;
+	line-height: 18px;
+	margin-left: 18px;
+	margin-top: 8px;
+	margin-bottom: 13px;
+	word-wrap:break-word;
+	word-break:break-all;
+	overflow:hidden;
+	width: 90%;
+}
+#left_texts{
+	position:float;
+	float:left;
+	width:198px;
+}
+.hr{
+	height:1px;
+	background:-webkit-gradient(linear,0 0,100% 0,from(#ddd), to(#fff));
 	width:100%;
-	position:fixed;
-	top:0;
-	left:0;
-	height:100%;
-	opacity:.1;
-	z-index:-3;
+	position:relative;
+	right:11px;
 }
-
 #left{
 	position:fixed;
 	top:0;
@@ -160,8 +170,8 @@ a {
 	cursor:default;
 	text-shadow:0 1px 0 white,0px 5px 4px #CCC;
 }
-#main{
+/*#main{
 	position:absolute;
 	top:20px;
 	width:100%;
-}
+}*/

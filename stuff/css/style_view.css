@@ -56,8 +56,8 @@ right:18px;
 	font-size:16px;
 	line-height:20px;
 	color:#222;
-	word-wrap:break-word;
-	word-break:break-all;
+	text-align:justify;
+	text-justify:inter-ideograph;
 	cursor:default;
 }
 nav{
