@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 #
 # SmartyPants  -  Smart punctuation for web sites

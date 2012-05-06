@@ -1,8 +1,0 @@
-I've been talking about pushing my t.t.t onto Git network for wider sharing, and now it's accomplished.
-
-I know that, I just denied my recent learning Git, But... sometimes you just got leisure time with nothing to do, you know. 
-
-# So from now t.t.t is settled on GitHub!#
-t.t.t blog engine now available at: <https://github.com/tslmy/t.t.t>
-
-Next plan? Maybe moving .txt file hosting to Git network, too.
