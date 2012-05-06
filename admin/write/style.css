@@ -1,0 +1,108 @@
+ html,body {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, sans-serif;
+	background-color: #EEEEEE;
+}
+html {
+	overflow: hidden;
+}
+textarea {
+	font-family: monospace;
+}
+.pane {
+	margin: 0;
+	padding: 0;
+	width: 50%;
+	position: absolute;
+	right: 0;
+	border: none;
+	background-color: #FFFFFF;
+	/* note: the panes get their height set with javascript;
+	see sizeTextAreas().for now, set a height so things look nice if the user has javascript disabled*/
+	height: 100%;
+	z-index: 1;
+}
+#previewPane {
+	background-color: #DDDDDD;
+}
+#outputPane {
+	background-color: #DDDDDD;
+	color: #333;
+	display: none;
+}
+#syntaxPane {
+	background-color: #DDDDDD;
+	display: none;
+}
+#inputPane {
+	background-color: #FFFFFF;
+	left: 0;
+}
+#previewPane {
+	padding: 0;
+	overflow:auto;
+}
+#previewPane > * {
+	margin-left: 4px;
+	margin-right: 4px;
+}
+#previewPane > blockquote {
+	margin-left: 3em;
+}
+#previewPane > : first-child {
+	margin-top: 4px;
+	/* pane padding*/
+	
+}
+#previewPane * {
+	line-height: 1.4em;
+}
+#previewPane code {
+	font-size: 1.3em;
+}
+#footer {
+	margin: 0;
+	padding: 0;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: -webkit-gradient(linear,0 0,0 27,from(rgba(238,238,238,0.6)),to(rgba(204,204,204,0.6)));
+	z-index: 2;
+	height: 20px;
+	white-space: nowrap;
+}
+#footer a {
+	text-decoration: none;
+	color: #000000;
+}
+#footer a: hover {
+	text-decoration: underline;
+}
+#byline {
+	padding-left: 2em;
+	color: #000000;
+}
+#convertTextControls {
+	border: none;
+	position: float;
+	float: right;
+}
+#paneSetting {
+	position: float;
+	float: right;
+}
+#processingTime {
+	margin: 0;
+	padding: 0;
+
+	padding-left:10px;
+	font-size: 16px;
+	line-height: 20px;
+	color:grey;
+	display:inline;
+}
+#t {
+	position: float;
+	float: right;
+}

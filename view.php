@@ -1,9 +1,14 @@
+﻿<?php 
+$name=$_GET["name"];
+if (!file_exists('content/'.$name.'.txt')) {
+	header("location:stuff/pages/404/");
+}
+?>
 <!DOCTYPE html>
 <html>
-    
     <head>
         <title>
-            <?php $name=$_GET["name"]; echo $name; ?>
+            <?php echo $name; ?>
                 - <?php 
 				require("stuff/config.php");
 				echo constant('SITE_NAME');
@@ -21,7 +26,7 @@
 		    hljs.initHighlightingOnLoad();
 		</script>
 		<!-- code syntax highlighter END-->
-		<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="description" content="An article about <?php echo $name; ?> on <?php echo constant('SITE_NAME'); ?>."
         />
         <meta name="keywords" content="<?php echo constant('SITE_NAME'); ?>,t.t.t-powered,blog,tslmy,minimal-design"

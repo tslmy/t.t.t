@@ -1,0 +1,38 @@
+#Making a blog wiki
+During the afternoon teatime, Mr.Liu happened to mention MediaWiki in our conversation. I t inspired me to make a simple Wiki engine, just featured like [t.t.t](http://the.tslmy.tk).
+
+Since [Wikitext][] and [Markdown][] are all markup languages, it's easy to inherit the good plain-text readability from wiki systems.
+[Markdown]:http://daringfireball.net/projects/markdown/
+[Wikitext]:(http://en.wikipedia.org/wiki/Wikitext)
+
+##Free Links
+The only problem remained, was the _free links_. 
+
+In the official help page of Wikipedia, <http://en.wikipedia.org/wiki/Help:Wiki_markup#Free_links>, it's explained as:
+
+>In Wikipedia and some other Wikis, free links are used in [Wikitext markup](http://en.wikipedia.org/wiki/Wikitext) to produce internal links between pages
+
+This is a particularly important function that could differ wiki from blog. Without that, there's no big difference between them two. Wiki is famous for its strongly connected pages, after all.
+
+We have just replaced our Markdown render engine to Markdown Extra yesterday for internel experiments, so the first idea was to use one of those newly-added functions to get to the goal. However, there's nothing else except anchors, for which Mr.Liu said impossible.
+
+While digging through the web, I found serveral lightweight wiki engine capable with Markdown. Most of them needs plugins to enable it.
+
+One of them is called [Glider](http://bencrowder.net/coding/glider/). It supports Markdown natively, but I abandoned it for its requirement for mySQL. Later, I suddenly noticed that, I could possibly learn something from its enhanced Markdwon language--as long as it's a Wiki engine, it must supports free links!
+
+And the answer? Definitely YES!
+
+I found two sentences particularly drawed my attention. Wrapped in a stand-alone function, it calls not only Markdown(), but also [smartypants()](http://daringfireball.net/projects/smartypants/) (another John Gruber work. Wow.) to complete prasing the Markdown input. The "smartypants" line, is the very line that enables free links.
+
+I quickly applied it to t.t.t, and equipped it with another title-omitted method, which enhanced the Glider power even more. 
+
+(I understand it appears to be an evil copt-and-paste, so I wrote this article to delear my innocence.)
+
+From now on, if I feel like linking to my another article, I could simply put `~What is this:What is this~`(Glider style) or even more simple, `~What is this~` to where I desire. And the result should be simply like ~this:What is this~ or ~What is this~!
+
+##Other?
+After enabling free link, t.t.t is qualified to be refered as a "wiki engine" (although no Wiki Markup allowed, LOL). I now have a strong eager for the next function--sitemap. 
+
+I would like the sitemap to be in mindmap style, each node representing a unique article, with curvy arrows pointing free links from one to another. Added a little flexibility, it would be great.
+
+But that's next week's project(not to mention we are now getting buzier by the end of the year,  preparing both housework and schoolwork--don't forget I am only grade 11). For now, I will push the new changes to Git as soon as possible, and after I am done, you all who want a _plain-text-based, Markdown-supported, database-free wiki engine_ could enjoy the new t.t.t!

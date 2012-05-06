@@ -1,0 +1,11 @@
+Now testing RSS feature...
+
+RSS, is a more integrated interface for all your interested info sources.
+
+However, it seemed too hard for a over-lightweighted blog engine like t.t.t to equip with.
+
+So I decided to use third-party services, and, thank you Feed43!
+
+Stay tuned with:
+
+    http://www.feed43.com/tslmy.xml

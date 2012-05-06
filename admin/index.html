@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>t.t.t:admin</title>
+        <link rel="stylesheet" href="style.css" />
+        <!--[if lt IE 9]>
+          <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+    
+    <body>
+		<div id="floater">
+			<div id="formContainer">
+				<form id="back">
+					<a href="#" id="flipToRecover" class="flipLink"></a>
+					<p class="warning">4O4</p>
+					<div id="buttonContainer">
+						<a href="javascript:history.back()" class="redButton">BACK</a>
+					</div>
+				</form>
+				<form id="auth" method="post" action="write/">
+					<p class="warning">&#9762;</p>
+					<a id="flipToLogin" class="flipLink"></a>
+					<input type="password" name="pass" id="pass" value=""  maxlength="16" />
+					<input type="submit" name="submit" value="Login" style="display:none" />
+				</form>
+			</div>
+		</div>
+        <!-- JavaScript includes -->
+		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<!-- The main script file -->
+		<script src="script.js"></script>
+    </body>
+</html>
+

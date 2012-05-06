@@ -1,0 +1,27 @@
+What came along straight after our sports meeting was not plenty of homework. To me, it at least means another full-reading of [Giles Colborne](http://www.cxpartners.co.uk/about/people/giles_colborne)'s new book, and adding [comment function](http://disqus.com) to [t.t.t](http://the.tslmy.tk).
+
+#More about t.t.t#
+
+For simplicity, I've been avoiding putting massive functions all into a sidebar in view.php. Comments, as well as Related Articles, are placed on a piece of `attach_paper` under the main context.
+
+    UPGRADED@111002: Now the blog engine -- t.t.t -- is on GitHub, but moving all articles to it takes time.
+
+## About Git ##
+
+People told me that I should use git to share my t.t.t code with everyone else. I did my research, but it seems to take up lots of time to learn.
+
+But, it still did give me inspirations. Maybe I could take the advantages of git, and try to move t.t.t's plain-text storage here. On every time people visit a t.t.t-based blog, its server will simply go to git network to gather data, which reduced server pressure even more!
+
+## Widgets ##
+
+I created my first personal web site in fifth grade, which used a lot of frustrating tables to style (even the first version of [tslmy.tk](http://tslmy.tk) was designed in that way), lots of JS effects to attract people, and lots of web-page widgets to power it up.
+
+Of course,those stuff achieved nothing but slowing down visitors' PC (Yes, PC-only. Since lot's ActiveX objects are used). That's the reason why I removed weather add-ons, music add-ons, slideshows and nearly everything else designing [tslmy.tk](tslmy.tk). 
+
+But, for a blog, it really needs something nice -- if [tslmy.tk](http://tslmy.tk) was only a portal, [t.t.t](http://the.tslmy.tk) should be Wordpress.
+
+For this consideration, I added [Wumii](http://www.wumii.com)(which seems to be looking down on t.t.t now), [JiaThis](http://www.jiathis.com), [Disqus](http://disqus.com) to t.t.t.
+
+The bad thing happened again. It sloooooowed down.
+
+>MAMMA MIA! How Can I __assist__ You?

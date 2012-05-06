@@ -1,0 +1,42 @@
+First things first. Let's fin out what is real code and what is pseudo code.
+
+"Real codes? What?" Sorry, this is the temporary name that I gave to those "computer programming languages", in order to separate it from "pseudo codes"(What? I'll talk about it soon). When you turn up a computer, it boots -- there's a software called bootloader. When you see a desktop, there is a operating system and a window manager. These wonderful works are all  made of real codes. It's powerful, isn't it?
+
+Question: do you think that you are like a computer? Maybe most of you say "No". Then how much du you think you thinks in computers way? Another "No",I think. Then there is a problem: real codes are made for computers and it is not so understandable for human. Can you translate this for me in the blank blow?
+
+    filename=raw_input('Input File Name>')
+    do('copy '+filename+' '+filename+'.orignal')
+    fila = open(filename,'r')
+    context=fila.readlines()
+    time=0
+    fila.close()
+    for a in range(len(context)):
+        context[a]=context[a].strip()
+        temp=context[a].lower().find
+        if temp('end')>-1:
+            time=time-1;
+        for i in range(time):
+            context[a]='    '+context[a]
+        context[a]=context[a]+'\n'
+        if temp('begin')>-1 or temp('case')>-1:
+            time=time+1
+    fila = open(filename,'w+')
+    fila.writelines(context)
+    fila.close()
+
+Not so easy? See the difficulty?
+A little easy? In truth, this essay is for beginners, not for you shinning hackers, so I just wrote a easy one.
+Very easy? Is it in your mother language? Hello, computer!
+
+Here is the problem: real code can be easily understood by computers but not human beings.
+
+Then what is pseudo code? It's not hard to explain: suppose you are giving a presentation to your parnter or your boss at a programming company, you need to make your audiance understand how it worked in your way and, the most important, they can not understand C++ or Python at all! But you needed to use the logical structure. Then you found out that the only language they could understand is human language, so you came up with a idea: add human sentences into programming languages -- you got pseudo codes!
+
+Pseudo codes are really better than real so-called codes in some ways. Not only the ones who gives presentation about this stuff, nowadays, many people are trying to get themselves involved into the "programming circles", too. But when they finally scheduled some free time to learn programming languages, they scared. In this situation, once they found pseudo code, it would be much easier to learn than any other real code options. Especially if you are going to present your ideas which require deliberate logic, it's the best to make you sounds more like a human being than other real code speakers. But when shall we use real codes?
+
+We have talked about the characters of the both kinds of programming languages, this made the answer simple. As for real codes are designed for machines, it is for machines from head to toe. When we have to really program something, which means, you have to make your computer work for you, you have to try it. Additionally, if you are going through with a project and don't have to communicate with someone about it or your partner is well taught about this, real codes are also handy. Don't be scared by the facial things!
+
+Under some specific situations, your also need to use different methods to program. In a school or a collage or something like that, if you are teaching or being taught, use real codes! Because as a student, this won't give you a bad hobby (such as using not existed functions or making grammar errors), and as a teacher, this will do your students good for the same reason above. Even if you are studying/teaching only about ways to solve problem, not the language itself, use real codes -- this will make you brain work in a proper programming language and you will be nice and familiar with the way your computer thinks! On the opposite, are there any situation that a pseudo code is required as well?
+
+I am lazy. If possible, I will save any bit energy from writing. So I got a new usage of the pseudo code a few days ago: when I have some thing on schedule and have some parts are really regular, I will just write a "Repeat : ... Until ...;" on my calendar. See, that's a proper way to save time for a cat nap!
+

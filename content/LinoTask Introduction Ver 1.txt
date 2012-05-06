@@ -1,0 +1,21 @@
+#Linotask: a simple and geeky to-do list#
+[Download](http://sourceforge.net/projects/linotask.tslmy.p/files/)
+##Why Will I Love It?##
+* you only need one simplest way to write down to-dos
+* Microsoft notepad was your favorite but you are now tired of saving every single time you made changes
+* open window, type, hit return. that is the very way you would like your noting process be.
+* Because your to-dos are all plain texts, no multimedia required
+* Much more importantly, you want your deleting entries to be that easy, too !
+* your hands wants to be on your keyboard, not switching a lot between mouse and keyboard during adding and deleting an entry.
+* you want to be geeky, so a console interface would delight you
+* synced with Dropbox, etc. , you think that you might have the chance to edit your to-do list file by hand on some platform, such as your android phone. So the list is better to be a line-by-line .txt file.
+* The smaller the program file size is the better to you.
+* Freeware.
+* sometimes you are in a situation when you have to hurriedly bookmark some web links to somewhere and need to pick them up afterwards as soon as possible. as your messy bookmark bar may
+##So, Conclusion?##
+* cross-platform
+* minimalistic console interface
+* no mouse required
+* plain-text storage
+* open program, type entry or an entry number, hit return. done.
+* ultra portable

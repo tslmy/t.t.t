@@ -1,8 +1,9 @@
 My very personal plain-text blog.
 Welcome, my friend.
 I am Tslmy from China, now a senior school student.
-I had my little touch at HTML, CSS, PHP, Python, Pascal, BASIC(if it counts), Flash, Audition, Photoshop, After Effects, C/C++, and so on.
-I am now looking forward to opportunities for geeky jobs, in order to prepare for my after-university life.
-I like making friends, you can reach me at:
-tslimingyang@126.com
-QQ: 466548897
+Contact me via <a href="mailto:tslimingyang@126.com">email</a> or QQ: 466548897.
+
+
+<b>This blog engine "t.t.t" is hosted on <a href="http://github.com/tslmy/t.t.t">GitHub</a>.</b>
+
+Also check out <a href="http://c.lrin.tk">Consora</a>, a cloud console.

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <title>
@@ -15,6 +15,8 @@
 		<link href="stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
 		<link href="stuff/rss.php" type="application/atom+xml" rel="alternate" title="<?php echo constant('SITE_NAME'); ?> R.S.S." />
 		<!--link href='http://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'-->
+		
+		  <link rel="stylesheet" href="stuff/chosen/chosen.css" />
         <link href="stuff/css/style_list.css" rel="stylesheet" type="text/css" />
         <!-- below to </head>: Google Analytics Code. -->
         <script type="text/javascript">
@@ -33,14 +35,21 @@
     <body>
         <div id="main">
 			<?php
-			if ($handler = opendir("content/")){  //try to open the directory.
-				while (false !== ($filename = readdir($handler))) {//for each file in this directory
-					$len=strlen($filename);//get the length of the file name for the next step
-					if (substr($filename,0,1)!="_" && strtolower(substr($filename,$len-4,$len))==".txt") { //if this file is not intended to be omitted and it's a .txt file 
-						$files[filectime("content/".$filename)] = substr($filename,0,$len-4); //then put it into the file array with its Last Modified Time as its number
-					}
-				}
-				krsort($files,SORT_NUMERIC);//sort the array out
+				function get_filetree($path){ 
+					$tree = array(); 
+					foreach(glob($path.'/*') as $single){ 
+						if(is_dir($single)){ 
+							$tree = array_merge($tree,get_filetree($single)); 
+						} 
+						else{ 
+							$tree[$single] =  filemtime ($single);
+						} 
+					} 
+					return $tree; 
+				} 
+				$files=get_filetree('content');
+				asort ($files); 
+				$files=array_flip($files);
 				
 				if (constant('LIST_MODE')==0) {
 					include_once "stuff/markdown.php";
@@ -74,9 +83,21 @@
 							}
 						}
 						return $html;
-					}
+					} ?>
 
-				//doing the page number math START
+				<div class="item" id="search">
+					<select data-placeholder="Quick Enterance" class="chzn-select">
+					<option value=""></option> 
+					<?php 
+					foreach ($files as $this_file_path){
+						$file_name=basename($this_file_path,'.txt');
+						if (substr($file_name,0,1)=='_') {continue;}
+						echo "<option value='".$file_name."'>".$file_name."</option>";
+					}
+					?>
+					</select>
+				   </div>
+				<?php //doing the page number math START
 				if (isset($_GET["page"])){ //try to get the target page number
 					$this_page=$_GET["page"];
 				}else{//if failed, then the user has reached here by typing just the domain.
@@ -88,11 +109,12 @@
 				$items_limit=$prev_items_to_omit+constant('ITEMS_DISPLAYED_PEER_PAGE');
 				$current_date_year='';
 				$current_date_month='';
-				foreach ($files as $each_one){
+				foreach ($files as $this_file_path){
 					if ($count<$items_limit){
 						$count++;
 						if ($count>$prev_items_to_omit){
-							$this_file_path="content/".$each_one.".txt";
+							$each_one=basename($this_file_path,'.txt');
+							if (substr($each_one,0,1)=='_') {continue;};//omit the ones start with "_"
 							//labeling year and month START
 							$this_mtime=filemtime($this_file_path);
 							$this_modified_year=date("Y",$this_mtime);
@@ -108,12 +130,13 @@
 							};
 							//labeling year and month END
 							echo 	"<div class='item'>
-										<a href='view.php?name=".$each_one."'>
+										<a href='view.php?name=".urlencode(substr($this_file_path,8,-4))."'>
 											<span class='effect'>
 												<!--span class='prefix'-->
 													<span class='day'>".date("d",$this_mtime)."</span> 
 												<!--/span-->
 												<span class='name'>".$each_one."</span>
+												<span class='tags'>".str_replace('content','',dirname($this_file_path))."</span>
 											</span>
 										</a>
 										<article><span class='mtime'>".date("H:i",$this_mtime)."</span>";//things to start a new block for a post
@@ -146,9 +169,6 @@
 						break;
 					}
 				}
-			}else { //if failed to load the directory.
-				echo "Error occured. Contact tslmy!";
-			}
 			?>
 		</div>
 		<div id="left">
@@ -191,5 +211,17 @@
 				</div>
 			</div>
        </div>
+  <script src="stuff/jquery-1.7.2.min.js" type="text/javascript"></script>
+  <script src="stuff/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+  <script type="text/javascript"> 
+	$(".chzn-select").chosen();
+	$(".chzn-select").chosen().change(function(){window.location.href = 'view.php?name='+chose_get_value('.chzn-select');});
+	function chose_get_value(select){
+		return $(select).val();
+	}
+	function chose_get_text(select){
+		return $(select+" option:selected").text();
+	}
+  </script>
     </body>
 </html>

@@ -1,0 +1,33 @@
+Just few days ago, following Jack's expect, I managed to add paging function to t.t.t. As a newbie in [PHP](http://www.php.net/), I decided to write the codes all on myself, rather than to [google][1] for a already existing one -- moreover, most of the paging codes online are integrated with [MySQL](http://www.mysql.com), which is the first thing I wanna avoid (FYI, please refer to [What's This]()).
+
+Then bad thing just happened.
+
+As I expecting the output to be like `1 2 3 4 5`, it turned out to be `1 1 1 1 1 1 1 1 `...
+
+Below are the codes at that time:
+
+        for ($page_number=1; $page_number<=$max_page_number; $page_number++){
+         if ($page_number=$this_page) {
+          echo "<b>".$page_number." </b>";
+         } else {
+          echo "<a href='#'>".$page_number."</a> ";
+         }
+
+I believe that all of you PHP masters has picked out the bug rapid instantly as you read through it, but I took me a long time to find out why. My mind became much flooded as my IM kept buzzing me crazy.
+
+So finally I found the `if ($page_number=$this_page) {` problem.
+
+This line was intended to find out whether the current phrasing page indicates the very page user is visiting, so it should be `if ($page_number==$this_page) {`, while I written `if ($page_number=$this_page) {` for that. See the difference?
+
+__`=`? `==`!__
+
+A single equal symbol makes evaluation.
+  
+*    If the evaluation succeeded, a `True` is returned.
+*    If failed -- how can it? For example. you evaluate a constant (Yep, PHP still possesses that antique) -- it will eventually return `False`.
+
+So all my "equivalents" will repeatedly assign the variable `$page_number` with the current pagination, making the `if` sentence to foolishly carry a `True` back....
+
+What the Jack...
+
+[1]: http://google.com

@@ -1,0 +1,169 @@
+Apps in Imagination
+=====
+Somehow, after a thorough research on smartphone OS-s, I became eager about my own one (let's just call it _MyOS_).
+
+User Interface is, however, not the major part, since I've got  my imaginary desktop OS -- [Cos](httpc.lrin.tk) and my own website (not imaginary this time) --[Tslimitic](httptslmy.tk) to care about.
+So,the really functioning part, the _apps_, is considerable.
+
+Unities
+-------
+Smartphone should be able to take good care for itself before assisting user. 
+You brought your phone to assist you, not to assist it!
+
+So a few apps come in handy
+###Wifily
+This app checks WiFi signals around, and displays them in a variety of charts.
+
+3G4G5G(may be available if my OS should come into being) and so on mobile networks can also have a app like this.  
+Vodafone signal better here Switch to it.
+T-mobile better there Switch.
+Always get the best signal dBm, as long as enough SIM cards are inserted!
+
+###Lino
+Somewhat like sister Siri, but smarter and local(in contrast of Siri's requesting server). 
+It's an AI.
+
+   You can teach her what to do or say under a told condition.
+   It remembers events and have feeling, so DO remember to present a bunch of flower asking for forgiving your rudeness last weekend if she kept ignoring all of your jokes.
+
+###Controller
+It's the Control Panel of your phone, your accounts and your personal rocket as well (if you got one).
+
+###Console
+People know you are a advanced user when they see you do things in console (and I hardly understands this phenomenon). 
+They also know your phone is a high-tech gadget when they saw the Console app, which continuously implies your smartphone's keyboard!
+
+###Grapher
+Other apps put numeral steams into Grapher and it draws intended graph.  
+Useful when monitoring CPU usage, heartbeats, network connections, etc.
+
+###Notification Bar
+This is like the one in Android, with richer controls. 
+For example
+
+   __Music Player Bar__ offers simple music control on it's bar.
+   __Your-Friend-Just-Added-New-Photo Bar__ provides with simple slideshow.
+   __Each single sentence or entry__ in your IM, RSS feeds, SMS and Email chats show here as a individual bar.
+
+You can check out [Cos BluPrint](httpc.lrin.tk), and this is shown on the right-hand side.
+
+###Voice Toys
+These two plays with voice IO.
+####TTS
+Richer characteristic than any other TTS engine.
+####Voice Recognition
+It exceeds others, since it recognizes every language(even slang), without Internet Connection.
+
+###Basic Commuication
+Please don't tell me you forgot it's a _phone_...
+####Dial
+Fuzzily searches through your contacts.
+###Contact
+Automatically looks for further information about people within your Failbook, Goggle-, Fwittor, etc.
+###SMS and Email
+They just integrates together.
+
+FUAK
+---------
+The abbreviation _FUAK_ stands for Frequently Used App Kit, the ones you uses most frequently.
+
+###Newsstood
+Not only a Google Reader client.
+The serialized novels you are reading are also included!
+###LinoTask
+The best easy-to-use, distraction-free TO-DO managing app. Windows version [here](httpssf.netptslmylinotask).
+###EveryNote++
+MyOS client for EverNote, with __functions from Notepad++__!
+###Navigator
+Map app with navigation functionality. _No Internet connection required_ when searching for a place, road and even __route__!
+###Chrome
+No need to explain...what you need one!
+
+
+Players
+------------
+Works with any media file, from `.txt` to `.mkv`!
+
+###Player
+Plays any video file.
+
+###Picasa
+No more to say, just a photo manager.
+
+###¦Ìsic
+A powerful music player, comes with a built-in DJ sets. 
+Connected with Spotify, Grooveshark, Pandora and so on, it's backed up with a unlimited amount of audio to enjoy.
+
+Of course, deciding whether to play a song by analyzing it's emotion and how the wind blows.
+###Reder
+It's the text file reader of your phone, in a iOS's-Newsstand-style. 
+HTML, plain-text, Real-time rendered Markdown...whatever in text.
+
+Actually, it is called _[iReader](httpwww.zhangyue.com)_ in China
+(not including the Markdown part).
+
+
+Accessories
+--------
+
+###Remote Set
+####Remote Control
+No matter it's via VNC or 3389, it will be the touchscreen of your computer.  
+Of course you can't expect a small phone to hack through your electricity wire to your PC -- it's nearly Impossible.
+
+####Another Screen
+With an additional driver to your computer, your desktop OS will take your phone's little screen as another screen (resolution customizable!), extending your vista.
+
+####Any Remote
+Remote anything that's remotely controllable. Including
+
+   Air conditioner
+   TV
+   Home stereo
+   DSLR
+
+###Paint
+Can you believe that many phones with touchscreens are __without__ this _fantasy_ and _fun_ functionality to show off their touch-ability!
+
+Just mock how conventional the factor is.
+
+###Camera
+Along with effects like in Instagram and Pudding Camera.
+
+###Calc
+Just heard about a calculator that understands natural language, and it may be in my MyOS.
+
+###Torch
+Touch the _Torch_ icon to lighten your LED flash light (into a flashlight) and touchscreen, then delight everybody even without your lighter.
+
+###EMERGENCY
+Click it when and only when emergency happens.
+
+It just simply reach the best network around and sends every kind of SOS signals to the outside world.
+
+In the meantime, it tries to calm you down with a few built-in instructions under exceptional situations.
+
+Making-you-superman Apps
+---------
+###OCR
+An OCR system that __could recognize hand-writings__ is adorable.
+###Voice Changer
+You can sound like whatever you like in your phone and others' ear.
+###PhotoSupermarket
+Guess what it is.
+###Empty
+
+###Music Instruments
+Simulates any music instruments, from piano to whistle.
+###Virtual Machine
+Want to try out Windows 8, Mac OS X Lion, NeXT, MS-DOS and Ubuntu 11.11 Grab your phone!
+
+Others
+-----
+This section displays the ones that I have not give a think about, but been announced already.
+
+  Google Sky
+  iLightr
+  Serveral games
+  Unified Remote
+  Google Goggles

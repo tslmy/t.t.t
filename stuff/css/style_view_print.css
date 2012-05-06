@@ -41,6 +41,7 @@ a {
 display:block;
 background:#eee;
 margin-left:20px;
+word-wrap: break-word;
 }
 #context p code {
 display:inline;

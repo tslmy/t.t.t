@@ -122,6 +122,7 @@ a {
 #context code {
 display:block;
 margin-left:20px;
+word-wrap: break-word;
 }
 #context p code {
 display:inline;
