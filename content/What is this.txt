@@ -1,0 +1,86 @@
+About:t.t.t
+=====
+
+_t.t.t_ is the provisional name of the engine that powers this site -- [the.tslmy.tk](http://the.tslmy.tk).
+
+Feature
+------
+###   __Posting__ your journal is super-__easy__!  
+1. Save/upload your post (in `.txt` file) to `content/` folder.    
+
+Done!
+
+###   __NO__ database is needed!  
+There's no need to <del>go into [phpMyAdmin](http://www.phpmyadmin.net) and type a long long command and press `enter` and wait for callback and write down some troublesome code and log in _Control Panel_ (or _Administration Center_ or something else) and input the new database information and hit "install" and wait and $%^&*...</del>   
+
+###   Contents are in `.txt` files!
+You can __write or edit__ your posts __on__ a unprecedentedly __wide range of devices__!
+
+###   Plain is _new_ rich!  
+Just because you are saving your time and article as plain text, 
+doesn't mean your __format__ can;t be __colorful and juicy__!
+
+With the __support__ from __[Markdown](http://daringfireball.net/projects/markdown/)__, headings, quotes, bold, italic, images, links, codes... all made possible!  
+
+>Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).
+
+Still not satisfied? Then use __HTML__! Videos, Flash, Musics... whatever a webpage accepts!
+
+Plus, there's a new function called __Free Links__, allows you to link between your articles just like a __WIKI__!  
+Check out ~Free links Added~.   
+_Note: This is a original creation, NOT included in the standard Markdown Extra grammar!_
+
+###   Need illustrations? Okay!
+Just save a `[TITLE].jpg` in the `content` folder to add a illustration for `[TITLE].txt`!
+
+e.g.If you would like to add illustration for article “A Fine Day” which is named as `a Fine day.txt` in the `content` folder, just put a `a Fine day.jpg` there!
+
+##Download / Install / Setting Up
+
+1. [Download it from GitHub](https://github.com/tslmy/t.t.t/zipball/master) then unzip.
+2. _(Optional)_Edit the followings:
+   *  `stuff/config.php`
+   *  `content/_intro.txt`
+     +   This contains brief descriptions for your site (or yourself!), just under the main title on the index page.
+     +   Similarly, all the __files whose name starts with "`_`" will be hidden__.
+   *  3 `.php` files in the root folder  
+      Replace my _Google Analytics Code_ with yours. Or leave it alone if you are not sure what to do. The code won't hurt people, after all.
+3. _(Optional)_Upload to your web-hosting server.
+
+##Q&A   
+
+###Any meaning?###
+LOL.
+
++   I'm a poor Chinese student and I could not afford to buy a server good enough for fast Wordpressing and big SQL space. So, the **requirement** of this blog engine is **only a php-powered web space**. Beside these, nothing.
++   Tiddlyspace.com, is good for simple blogging. But ,sadly, its JS architecture seemed not sweet enough for legacy PCs.
++   I am a geek.
+
+###Why poor `.txt`?###
++   With markup languages like Markdown, plain texts are not poor anymore.
++   It's ultra-portable. Not only Windows, MAC OS, Linux, Android, iOS, WebOS, Windows Mobile, Windows Phone 7, Windows CE, DOS, even my electronic dictionary is able to write notes down to txt files. For that reason, it's the best choice I could ever think of.
+
+
+##I am here to mock!##
+Then you are here to help!
+
+A single busy student, especially in China, isn't enough for t.t.t to evolve. Thus, your ideas, comments and even "Humm.."-s are highly appreciated.
+
+Contact <tslimingyang@126.com>! Else if you have a QQ ID, mine is 466548897.
+
+You see, a single e-mail could delight me for a few days.
+
+### Branching your own t.t.t ###
+
+Just fork me on [GitHub](https://github.com/tslmy/t.t.t)!!
+
+
+##Appendix
+My web-related projects: <http://github.com/tslmy>.
+
+Follow me on Twitter: [@tslmy](http://twitter.com/tslmy).
+
+Submit to my [RSS feed](http://www.feed43.com/tslmy.xml).
+
+My SourceForge projects: <https://sourceforge.net/p/tslmy/home/Home/>.
+

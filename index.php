@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <title>
@@ -8,16 +8,15 @@
 				?>
         </title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="description" content="Tslmy's personal blog, powered by t.t.t, the simplest plain-text-based, database-free blog engine."
+		<meta name="description" content="Tslmy's personal blog, powered by t.t.t, the simplest plain-text-based, database-free blog engine."
         />
-        <meta name="keywords" content="t.t.t powered,blog,tslmy,personal,chinese,english,geek"
+		<meta name="keywords" content="t.t.t powered,blog,tslmy,personal,chinese,english,geek"
         />
 		<link href="stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
 		<link href="stuff/rss.php" type="application/atom+xml" rel="alternate" title="<?php echo constant('SITE_NAME'); ?> R.S.S." />
 		<!--link href='http://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'-->
-		
-		  <link rel="stylesheet" href="stuff/chosen/chosen.css" />
-        <link href="stuff/css/style_list.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="stuff/chosen/chosen.css" />
+        <link href="stuff/css/list.css" rel="stylesheet" type="text/css" />
         <!-- below to </head>: Google Analytics Code. -->
         <script type="text/javascript">
             var _gaq = _gaq || [];
@@ -37,7 +36,7 @@
 			<?php
 				function get_filetree($path){ 
 					$tree = array(); 
-					foreach(glob($path.'/*') as $single){ 
+					foreach(glob($path.'/*.txt') as $single){ //edit this line for different file formats!
 						if(is_dir($single)){ 
 							$tree = array_merge($tree,get_filetree($single)); 
 						} 
@@ -47,8 +46,23 @@
 					} 
 					return $tree; 
 				} 
-				$files=get_filetree('content');
-				asort ($files); 
+				if (isset($_GET["folder"])){ //try to get the target page number
+					//securing START
+					$exploded_path=explode('/',$_GET["folder"]);
+					$folder='';
+					foreach ($exploded_path as $each_exploded_path) {
+						if ($each_exploded_path!='..'){
+							$folder=$folder.'/'.$each_exploded_path;
+						}
+					}
+					//securing END
+					$folder='content'.$folder;
+				}else{//if failed, then the user has reached here by typing just the domain.
+					$folder='content';
+				}
+
+				$files=get_filetree($folder);
+				arsort ($files,SORT_NUMERIC); 
 				$files=array_flip($files);
 				
 				if (constant('LIST_MODE')==0) {
@@ -92,10 +106,22 @@
 					foreach ($files as $this_file_path){
 						$file_name=basename($this_file_path,'.txt');
 						if (substr($file_name,0,1)=='_') {continue;}
-						echo "<option value='".$file_name."'>".$file_name."</option>";
+						echo "<option value='".urlencode(substr($this_file_path,8,-4))."'>".$file_name."</option>";
 					}
 					?>
 					</select>
+					<div id="paths">
+						<?php 
+						$paths=explode('/',substr($folder,8,strlen($folder)));
+						$absolute_path='';
+						foreach ($paths as $each_folder) {
+							if ($each_folder!=''){
+								$absolute_path = $absolute_path.'/'.$each_folder;
+								echo '<a class="path" href="index.php?folder='.urlencode($absolute_path).'">'.$each_folder.'</a>';
+							}
+						}
+						?>
+					</div>
 				   </div>
 				<?php //doing the page number math START
 				if (isset($_GET["page"])){ //try to get the target page number
@@ -115,9 +141,11 @@
 						if ($count>$prev_items_to_omit){
 							$each_one=basename($this_file_path,'.txt');
 							if (substr($each_one,0,1)=='_') {continue;};//omit the ones start with "_"
+							//or strtolower(substr($this_file_path,strlen($this_file_path)-4,strlen($this_file_path)))!='.txt'
 							//labeling year and month START
 							$this_mtime=filemtime($this_file_path);
 							$this_modified_year=date("Y",$this_mtime);
+							$this_dirname=dirname($this_file_path);
 							if ($current_date_year<>$this_modified_year) {
 								echo "<div class='item date year'>".$this_modified_year.'</div>';
 								$current_date_year=$this_modified_year;
@@ -129,14 +157,19 @@
 								$current_date_month=$this_modified_month;
 							};
 							//labeling year and month END
-							echo 	"<div class='item'>
+							echo 	"<div class='item'";
+							$assumed_img_path=substr($this_file_path,0,strlen($this_file_path)-3).'jpg';
+							if (file_exists($assumed_img_path)){
+								echo 'style=\'background-image:-webkit-gradient(linear,70% 0%, 100% 0%, from(rgba(255,255,255,1)), to(rgba(255,255,255,0))),url("'.$assumed_img_path.'");\' ';
+							}
+							echo		">
 										<a href='view.php?name=".urlencode(substr($this_file_path,8,-4))."'>
 											<span class='effect'>
 												<!--span class='prefix'-->
 													<span class='day'>".date("d",$this_mtime)."</span> 
 												<!--/span-->
 												<span class='name'>".$each_one."</span>
-												<span class='tags'>".str_replace('content','',dirname($this_file_path))."</span>
+												<span class='tags'>".str_replace('/','&gt;',substr($this_dirname,strlen($folder)+1,strlen($this_dirname)))."</span>
 											</span>
 										</a>
 										<article><span class='mtime'>".date("H:i",$this_mtime)."</span>";//things to start a new block for a post
@@ -158,10 +191,9 @@
 								echo closetags(fread(fopen($cache_file_path, "r"),constant('PREVIEW_SIZE_IN_KB')));
 							}
 							
-							echo		"...</article>
-										<div class='hr'></div>
-									</div>
-									\n";
+							echo "...</article>
+									 <div class='hr'></div>
+								</div>\n";
 						}
 					}
 					else
@@ -205,7 +237,7 @@
 						}
 						fclose($file);
 						} else {
-							echo "Just another t.t.t-powered minimal blog.";
+							echo "Just another t.t.t-powered minimalist blog.";
 						}
 					?>
 				</div>
