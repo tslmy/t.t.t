@@ -1,5 +1,0 @@
-			<!--div class="button" id="button_pdf">
-			<!-- BEGIN joliprint Code >
-				<script charset='ISO-8859-1' src='http://api.joliprint.com/joliprint/js/joliprint.js' type='text/javascript'></script>
-				<script type='text/javascript'>$joliprint().set("label","PDF").set("labelposition","after").set("buttonUrl", null).write();</script>
-				<!-- END joliprint Code ></div-->

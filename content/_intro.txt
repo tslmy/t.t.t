@@ -1,9 +1,0 @@
-My very personal plain-text blog.
-Welcome, my friend.
-I am Tslmy from China, now a senior school student.
-Contact me via <a href="mailto:tslimingyang@126.com">email</a> or QQ: 466548897.
-
-
-<b>This blog engine "t.t.t" is hosted on <a href="http://github.com/tslmy/t.t.t">GitHub</a>.</b>
-
-Also check out <a href="http://c.lrin.tk">Consora</a>, a cloud console.
