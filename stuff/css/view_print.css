@@ -17,6 +17,38 @@ body {
 	text-justify:inter-ideograph;
 	cursor:default;
 }
+#tags {
+	float: right;
+	line-height: 22px;
+	font-family: Arial;
+	position: relative;
+	bottom: 30px;
+	right: 20px;
+}
+#tags .tag {
+	display:inline-block;
+	height: 22px;
+	background: #B57373;
+	padding: 1px 5px;
+	color: #fff;
+	font-size: 14px;
+	margin-left:6px;
+}
+#tags .tag:after {
+    content:'';
+    position:relative;
+    left:8px;
+    border-top: 4px solid #B57373;
+    border-left: 4px solid #B57373;
+    border-bottom: 4px solid transparent;
+
+}
+#tags .tag:hover {
+	background:#a55;
+}
+#tags .tag:hover:after {
+	background:#a55;
+}
 #title{
 	font-family: Tahoma;
 	font-size:30px;

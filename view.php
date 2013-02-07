@@ -90,7 +90,7 @@ if (!file_exists('content/'.$get_name.'.txt')) {
 					echo get_content($file_name);
 				}
 			} else {
-				echo file_get_contents( 'cache/'.$get_name.'.htm' );
+				echo file_get_contents( "cache/".$get_name.".htm");
 			}
 			?>
 		</div>

@@ -36,11 +36,10 @@
 			<?php
 				function get_filetree($path){ 
 					$tree = array(); 
-					foreach(glob($path.'/*.txt') as $single){ //edit this line for different file formats!
+					foreach(glob($path.'/*') as $single){ //edit this line for different file formats!
 						if(is_dir($single)){ 
 							$tree = array_merge($tree,get_filetree($single)); 
-						} 
-						else{ 
+						} elseif (strtolower(substr($single,-4)) == '.txt') {
 							$tree[$single] =  filemtime ($single);
 						} 
 					} 
@@ -125,7 +124,7 @@
 				   </div>
 				<?php //doing the page number math START
 				if (isset($_GET["page"])){ //try to get the target page number
-					$this_page=$_GET["page"];
+					$this_page=(int)$_GET["page"];
 				}else{//if failed, then the user has reached here by typing just the domain.
 					$this_page=1;
 				}
@@ -139,13 +138,14 @@
 					if ($count<$items_limit){
 						$count++;
 						if ($count>$prev_items_to_omit){
-							$each_one=basename($this_file_path,'.txt');
-							if (substr($each_one,0,1)=='_') {continue;};//omit the ones start with "_"
+							$this_title=basename($this_file_path,'.txt');		//'title'
+							if (substr($this_title,0,1)=='_') {continue;};//omit the ones start with "_"
 							//or strtolower(substr($this_file_path,strlen($this_file_path)-4,strlen($this_file_path)))!='.txt'
 							//labeling year and month START
 							$this_mtime=filemtime($this_file_path);
 							$this_modified_year=date("Y",$this_mtime);
-							$this_dirname=dirname($this_file_path);
+							$this_dirname=dirname($this_file_path);			//'content/essay/'
+							$this_shorterpath=substr($this_file_path,8,-4);	//'essay/title'
 							if ($current_date_year<>$this_modified_year) {
 								echo "<div class='item date year'>".$this_modified_year.'</div>';
 								$current_date_year=$this_modified_year;
@@ -163,12 +163,12 @@
 								echo 'style=\'background-image:-webkit-gradient(linear,70% 0%, 100% 0%, from(rgba(255,255,255,1)), to(rgba(255,255,255,0))),url("'.$assumed_img_path.'");\' ';
 							}
 							echo		">
-										<a href='view.php?name=".urlencode(substr($this_file_path,8,-4))."'>
+										<a href='view.php?name=".urlencode($this_shorterpath)."'>
 											<span class='effect'>
 												<!--span class='prefix'-->
 													<span class='day'>".date("d",$this_mtime)."</span> 
 												<!--/span-->
-												<span class='name'>".$each_one."</span>
+												<span class='name'>".$this_title."</span>
 												<span class='tags'>".str_replace('/','&gt;',substr($this_dirname,strlen($folder)+1,strlen($this_dirname)))."</span>
 											</span>
 										</a>
@@ -177,7 +177,11 @@
 							if (constant('LIST_MODE')==0) {//0(default, takes up more CPU):  Renders everything from Markdown everytime they are needed.
 								echo closetags(substr(get_content($this_file_path),0,constant('PREVIEW_SIZE_IN_KB')));
 							} else {//1(recommended, takes up more disk storage and PHP's writing permission): Make a HTML cache for every new/updated post when index.php finds one, and then everyone else reads directly from cache.
-								$cache_file_path="cache/".$each_one.".htm";
+								$cache_dir='cache'.substr($this_dirname,7);
+								if (!is_dir($cache_dir)){
+									mkdir($cache_dir);
+								}
+								$cache_file_path="cache/".$this_shorterpath.".htm";
 								if ((file_exists($cache_file_path)==false) or (filemtime($cache_file_path)<filemtime($this_file_path))) {
 								//if the corresponding cache file does not exist or havn't been updated since the last time that this post changed
 									if (function_exists('Markdown')==false){
@@ -206,7 +210,7 @@
 		<div id="left">
 			<div id="left_texts">
 				<div id="logo">
-					<a href="http://tslmy.tk">
+					<a href="http://the.tslimi.tk/">
 						<?php echo constant('SITE_NAME');?>
 					</a>
 				</div>

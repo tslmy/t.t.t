@@ -1,3 +1,6 @@
+cache/
+content/
+publish.sh
 admin/
 stuff/OLD/
 stuff/backup.txt

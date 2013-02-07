@@ -6,7 +6,7 @@ body {
 	max-width:800px;
 }
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{width:8px;background:#888;border-radius:4px 0 0 4px}::-webkit-scrollbar-button{display:none}
-#tags{
+#tags {
 	float: right;
 	line-height: 22px;
 	font-family: Arial;
@@ -14,7 +14,7 @@ body {
 	bottom: 30px;
 	right: 20px;
 }
-.tag {
+#tags .tag {
 	display:inline-block;
 	height: 22px;
 	background: #B57373;
@@ -23,7 +23,7 @@ body {
 	font-size: 14px;
 	margin-left:6px;
 }
-.tag:after {
+#tags .tag:after {
     content:'';
     position:relative;
     left:8px;
@@ -32,7 +32,10 @@ body {
     border-bottom: 4px solid transparent;
 
 }
-.tag:hover {
+#tags .tag:hover {
+	background:#a55;
+}
+#tags .tag:hover:after {
 	background:#a55;
 }
 #paper {
