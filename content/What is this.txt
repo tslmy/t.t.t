@@ -1,7 +1,7 @@
 About:t.t.t
 =====
 
-_t.t.t_ is the provisional name of the engine that powers this site -- [the.tslmy.tk](http://the.tslmy.tk).
+_t.t.t_ is the provisional name of the engine that powers this site -- [the.tslimi.tk](http://the.tslimi.tk).
 
 Feature
 ------
@@ -49,7 +49,7 @@ e.g.If you would like to add illustration for article “A Fine Day” which is 
 
 ##Q&A   
 
-###Any meaning?###
+###What for?###
 LOL.
 
 +   I'm a poor Chinese student and I could not afford to buy a server good enough for fast Wordpressing and big SQL space. So, the **requirement** of this blog engine is **only a php-powered web space**. Beside these, nothing.

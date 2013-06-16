@@ -2,8 +2,8 @@ body {
 	padding: 0;
 	margin: 0 auto;
 	background:#efefef;
-	width:80%;
-	max-width:800px;
+	width:100%;
+	max-width:900px;
 }
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{width:8px;background:#888;border-radius:4px 0 0 4px}::-webkit-scrollbar-button{display:none}
 #tags {
@@ -43,7 +43,7 @@ body {
 	top:10px;
 	margin-bottom:60px;
 	background:#fefefe;
-	padding:25px;
+	padding:80px 50px;
 	border-radius:5px;
 	box-shadow: 0px 0px 20px #ccc;
 	z-index:2;
@@ -105,7 +105,7 @@ nav{
 	background:#fafafa;
 	padding: 12px 12px 7px 12px;
 	border-radius:3px 3px 0 0;
-	box-shadow:0 -5px 5px #ccc;
+	box-shadow:0 -1px 5px #ccc;
 	-webkit-transition-duration: .3s;
 	transition-timing-function:ease-out;
 	height:20px;
@@ -125,7 +125,7 @@ nav{
 	text-shadow: 0px -4px #eaeaea,0 4px #eaeaea,-4px 0 #eaeaea, 4px 0 #eaeaea;
 	width:100%;
 	margin:0 auto;
-	margin-top:50px;
+	padding-top:50px;
 	text-align:right;
 	font-weight: bold;
 	text-transform:capitalize;
@@ -146,33 +146,25 @@ nav{
 }
 #context blockquote {
 	background:#FEFF9C;
-	padding: 0px 30px;
+	padding: 10px 50px;
 }
 a {
 	text-decoration: none;
 	color: #39F;
 }
 #context code {
-display:block;
-margin-left:20px;
-word-wrap: break-word;
+    word-wrap: break-word;
 }
 #context p code {
-display:inline;
-margin-left:0px;
+    display:inline;
+    margin-left:0px;
 }
 #context p { margin-top:35px; }
 #context ul {
-list-style-type: circle;
-color:#333;
-margin-left:40px;
-}
-#context ol {
-color:#333;
-margin-left:40px;
+    list-style-type: circle;
 }
 #context li {
-color:#165151;
+    color:#165151;
 }
  hr {
 border:none;
