@@ -1,7 +1,6 @@
 <?php
     require __DIR__ . '/vendor/autoload.php';
-    require("config.php");
-    include_once "get_content.php";
+    require "commons.php";
 
     function get_filetree($path)
     {

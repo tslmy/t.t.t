@@ -1,7 +1,6 @@
 <?php
     require __DIR__ . '/vendor/autoload.php';
-    require "config.php";
-    require "get_content.php";
+    require "commons.php";
 
     $get_name=$_GET["name"];
     $file_path = pathinfo($_GET["name"]);
