@@ -1,4 +1,4 @@
-# t.t.t
+# ![logo](favicon-16x16.png) t.t.t
 
 A database-free blog engine that reads from a folder of Markdown files.
 

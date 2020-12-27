@@ -70,14 +70,18 @@
     <head>
         <title><?php echo constant('SITE_NAME');?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link href="stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
         <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
     </head>
     <body>
         <header>
             <nav>
-                <?php echo constant('SITE_NAME');?>
+                <a href="/"><img src="favicon-32x32.png" /></a>
                 <ul>
+                    You are at:
                     <li><a href="/">Home</a></li>
                     <?php
                     $paths=explode('/', substr($folder, 8, strlen($folder)));
@@ -85,7 +89,7 @@
                     foreach ($paths as $each_folder) {
                         if ($each_folder!='') {
                             $absolute_path = $absolute_path.'/'.$each_folder;
-                            echo '<li><a href="index.php?folder='.urlencode($absolute_path).'">'.$each_folder.'</a></li>';
+                            echo '> <li><a href="index.php?folder='.urlencode($absolute_path).'">'.$each_folder.'</a></li>';
                         }
                     }
                     ?>
