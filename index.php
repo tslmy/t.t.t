@@ -14,7 +14,6 @@
         />
 		<link href="stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
 		<link href="stuff/rss.php" type="application/atom+xml" rel="alternate" title="<?php echo constant('SITE_NAME'); ?> R.S.S." />
-		<link rel="stylesheet" href="stuff/chosen/chosen.css" />
         <link href="stuff/css/index.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
@@ -148,16 +147,17 @@
 				</div>
 			</div>
        </div>
-  <script src="stuff/jquery-1.7.2.min.js" type="text/javascript"></script>
-  <script src="stuff/chosen/chosen.jquery.min.js" type="text/javascript"></script>
-  <script type="text/javascript"> 
-	$(".chzn-select").chosen().change(function(){window.location.href = 'view.php?name='+chose_get_value('.chzn-select');});
-	function chose_get_value(select){
-		return $(select).val();
-	}
-	function chose_get_text(select){
-		return $(select+" option:selected").text();
-	}
-  </script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha512-yVvxUQV0QESBt1SyZbNJMAwyKvFTLMyXSyBHDO4BG5t7k/Lw34tyqlSDlKIrIENIzCl+RVUNjmCPG+V/GMesRw==" crossorigin="anonymous" />
+	<script type="text/javascript"> 
+		$(".chzn-select").chosen().change(function(){window.location.href = 'view.php?name='+chose_get_value('.chzn-select');});
+		function chose_get_value(select){
+			return $(select).val();
+		}
+		function chose_get_text(select){
+			return $(select+" option:selected").text();
+		}
+	</script>
     </body>
 </html>
