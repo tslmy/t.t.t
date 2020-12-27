@@ -2,7 +2,7 @@
 
 A database-free blog engine that reads from a folder of Markdown files.
 
-![demo](https://i.imgur.com/h7GJfJX.jpg)
+![demo](https://imgur.com/XNnu0w8.jpg)
 
 ## When should I use it?
 
