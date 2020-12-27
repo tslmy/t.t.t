@@ -96,17 +96,6 @@ if (!file_exists('content/'.$get_name.'.txt')) {
 		</div>
         </div>
 <div id="attach_paper">
-		<!-- JiaThis Button BEGIN -->
-<div id="ckepop">
-<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
-</div>
-<script type="text/javascript" >
-var jiathis_config={
-	hideMore:true
-}
-</script>
-<script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
 <!-- disqus start -->
     <div id="disqus_thread"></div>
     <script type="text/javascript">
