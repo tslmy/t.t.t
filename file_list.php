@@ -33,19 +33,15 @@
         $this_dirname=dirname($this_file_path); //'content/essay/'
         $this_shorterpath=substr($this_file_path, 8, -4); //'essay/title'
         //labeling year and month END
-        echo "<div";
-        $assumed_img_path=substr($this_file_path, 0, strlen($this_file_path)-3).'jpg';
-        if (file_exists($assumed_img_path)) {
-            echo 'style=\'background-image:-webkit-gradient(linear,70% 0%, 100% 0%, from(rgba(255,255,255,1)), to(rgba(255,255,255,0))),url("'.$assumed_img_path.'");\' ';
-        }
-        echo ">
-            <small>".date("Y M d (D) H:i", $this_mtime)."</small>
-            <h2>
-                <a href='view.php?name=".urlencode($this_shorterpath)."'>
-                    ".$this_title."
-                </a>
-            </h2>
-            <article>";//things to start a new block for a post
+        echo "
+            <div>
+                <small>".date("Y M d (D) H:i", $this_mtime)."</small>
+                <h2>
+                    <a href='view.php?name=".urlencode($this_shorterpath)."'>
+                        ".$this_title."
+                    </a>
+                </h2>
+                <article>";//things to start a new block for a post
 
         if (constant('LIST_MODE')==0) {
             //0(default, takes up more CPU):  Renders everything from Markdown everytime they are needed.
@@ -71,11 +67,11 @@
         }
         
         echo "...
-            </article>
-            <small>
-                Published under: ".str_replace('/', ' &gt; ', substr($this_dirname, strlen($folder)+1, strlen($this_dirname)))."
-            </small>
-            <hr>
-        </div>\n";
+                </article>
+                <small>
+                    Published under: ".str_replace('/', ' &gt; ', substr($this_dirname, strlen($folder)+1, strlen($this_dirname)))."
+                </small>
+                <hr>
+            </div>\n";
     }
 ?>

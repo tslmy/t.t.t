@@ -37,5 +37,3 @@ Alternatively, you can try one of the following methods:
 ## Usage
 
 To post a new article, simply upload your `txt` file to `content/`.
-
-Feeling fancy? You can give your post a header image by putting an image with the same name as JPG. For example, say you have a post at `content/Hello.txt`, put an image at `content.Hello.jpg`.
