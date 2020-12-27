@@ -1,6 +1,8 @@
 ﻿<?php 
 	date_default_timezone_set('UTC');
-	require("stuff/config.php"); ?>
+	require __DIR__ . '/vendor/autoload.php';
+	require("stuff/config.php");
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -49,8 +51,6 @@
 				$files=array_flip($files);
 				
 				if (constant('LIST_MODE')==0) {
-					include_once "stuff/markdown.php";
-					include_once "stuff/smartypants.php";
 					include_once "stuff/get_content.php";
 				}
 				

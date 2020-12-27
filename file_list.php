@@ -60,9 +60,7 @@
 								$cache_file_path="cache/".$this_shorterpath.".htm";
 								if ((file_exists($cache_file_path)==false) or (filemtime($cache_file_path)<filemtime($this_file_path))) {
 								//if the corresponding cache file does not exist or havn't been updated since the last time that this post changed
-									if (function_exists('Markdown')==false){
-										include_once "stuff/markdown.php";
-										include_once "stuff/smartypants.php";
+									if (function_exists('get_content')==false){
 										include_once "stuff/get_content.php";
 									}
 									fwrite(fopen($cache_file_path,"w+"),get_content($this_file_path));//try "fgetss" sometime.

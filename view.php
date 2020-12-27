@@ -84,8 +84,6 @@ if (!file_exists('content/'.$get_name.'.txt')) {
 			if (constant('LIST_MODE')==0){
 				if( is_file( $file_name ) )
 				{ 
-					include_once "stuff/markdown.php";
-					include_once "stuff/smartypants.php";
 					include_once "stuff/get_content.php";
 					echo get_content($file_name);
 				}

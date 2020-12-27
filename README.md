@@ -8,7 +8,19 @@ For more info, see `content/What is this.txt`.
 
 Written purely in PHP with most dependencies hard-copied in the codebase, this engine is suitable for restrictive hosting platforms where PHP is the only option and no database or package manager is allowed.
 
+## Deploy
+
+You can try
+
 ## Setup
+
+First, install dependencies. Assuming you have [Composer](https://getcomposer.org/doc/01-basic-usage.md) installed somewhere in your `$PATH`, do:
+
+```shell
+composer.phar install
+```
+
+Then, actually execute the server.
 
 You can run t.t.t via Docker (because, 2020):
 
@@ -19,9 +31,7 @@ docker run -p 80:80 --rm --name the-tslimi-tk ttt
 
 Alternatively, you can try one of the following methods:
 
-- Manual setup: Simply upload all files to your server.
 - Locally (macOS): `php -S localhost:9000`.
-- Deploy to [Heroku](https://heroku.com/deploy).
 - Docker Compose: `docker-compose up`.
 
 ## Usage
