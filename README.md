@@ -10,7 +10,7 @@ Written purely in PHP with most dependencies hard-copied in the codebase, this e
 
 ## Deploy
 
-You can try
+You can deploy to [Heroku](https://heroku.com/deploy) wtih one click.
 
 ## Setup
 
