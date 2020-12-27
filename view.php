@@ -15,8 +15,8 @@ if (!file_exists('content/'.$get_name.'.txt')) {
                 echo constant('SITE_NAME');
                 ?>
         </title>
-        <link href="stuff/css/view.css" rel="stylesheet" type="text/css" media="screen"/>
-        <link href="stuff/css/view_print.css" rel="stylesheet" type="text/css" media="print"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="https://unpkg.com/mvp.css">
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -30,11 +30,6 @@ if (!file_exists('content/'.$get_name.'.txt')) {
             hljs.initHighlightingOnLoad();
         </script>
         <!-- code syntax highlighter END-->
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="description" content="An article about <?php echo $get_name; ?> on <?php echo constant('SITE_NAME'); ?>."
-        />
-        <meta name="keywords" content="<?php echo constant('SITE_NAME'); ?>,t.t.t-powered,blog,tslmy,minimal-design"
-        />
         <!-- below to </head>: Google Analytics Code. -->
         <script type="text/javascript">
             var _gaq = _gaq || [];
@@ -51,65 +46,67 @@ if (!file_exists('content/'.$get_name.'.txt')) {
     </head>
     
     <body onload="prettyPrint()">
-        <div id="title">
-            <a href="index.php">
-                <?php echo $file_path['basename']; ?>
-            </a>
-        </div>
-        <div id="paper">
+        <header>
             <nav>
-                <div class="button" onclick="location.href='index.php'">Back</div>
-                <div class="button" onclick="location.href='<?php
-                $file_name='content/'.$get_name.'.txt';
-                echo $file_name;?>'">Source</div>
-                <div class="button" onclick="javascript:window.print()">Print</div>
-            </nav>
-            <div id="context">
-                <?php
-                $path=$file_path['dirname'];
-                if ($path!='.') {//if not the root folder "content"
-                    echo '<div id="tags">';
-                    $path_tags=explode('/', $path);
-                    $absolute_path='';
-                    foreach ($path_tags as $each_tag) {
-                        if ($each_tag!='') {
-                            $absolute_path = $absolute_path.'/'.$each_tag;
-                            echo '<a class="tag" href="index.php?folder='.urlencode($absolute_path).'">'.$each_tag.'</a>';
+                <a href="/"><img src="favicon-32x32.png" /></a>
+                <ul>
+                    You are at:
+                    <li><a href="/">Home</a></li>
+                    <?php
+                        $path=$file_path['dirname'];
+                        if ($path!='.') {//if not the root folder "content"
+                            $path_tags=explode('/', $path);
+                            $absolute_path='';
+                            foreach ($path_tags as $each_tag) {
+                                if ($each_tag!='') {
+                                    $absolute_path = $absolute_path.'/'.$each_tag;
+                                    echo '&gt; <li><a href="index.php?folder='.urlencode($absolute_path).'">'.$each_tag.'</a></li>';
+                                }
+                            }
                         }
-                    }
-                    echo '</div>';
-                }
-                ?>
-                
+                    ?>
+                </ul>
+            </nav>
+            <h1>
+                <?php echo $file_path['basename']; ?>
+            </h1>
+        </header>
+        <main>
+            <article>
                 <?php
-                $content="404 Error Occured. Bazinga!";
-                if (constant('LIST_MODE')==0) {
-                    if (is_file($file_name)) {
-                        include_once "stuff/get_content.php";
-                        echo get_content($file_name);
+                    if (constant('LIST_MODE')==0) {
+                        if (is_file($file_name)) {
+                            include_once "stuff/get_content.php";
+                            echo get_content($file_name);
+                        }
+                    } else {
+                        echo file_get_contents("cache/".$get_name.".htm");
                     }
-                } else {
-                    echo file_get_contents("cache/".$get_name.".htm");
-                }
                 ?>
-            </div>
-        </div>
-        <div id="attach_paper">
-        <!-- disqus start -->
-            <div id="disqus_thread"></div>
-            <script type="text/javascript">
-                /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                var disqus_shortname = 'tslmy'; // required: replace example with your forum shortname
+            </article>
+            <hr>
+            <div id="attach_paper">
+            <!-- disqus start -->
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'tslmy'; // required: replace example with your forum shortname
 
-                /* * * DON'T EDIT BELOW THIS LINE * * */
-                (function() {
-                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                })();
-            </script>
-            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-            <!-- disqus end -->
-        </div>
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <!-- disqus end -->
+            </div>
+        </main>
+        <footer>
+            <a href='<?php
+                $file_name='content/'.$get_name.'.txt';
+                echo $file_name;?>'>Source</a>
+        </footer>
     </body>
 </html>
