@@ -13,7 +13,6 @@
 		<meta name="keywords" content="t.t.t, blog"
         />
 		<link href="stuff/favicon.ico" rel="bookmark" type="image/x-icon" />
-		<link href="stuff/rss.php" type="application/atom+xml" rel="alternate" title="<?php echo constant('SITE_NAME'); ?> R.S.S." />
         <link href="stuff/css/index.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
