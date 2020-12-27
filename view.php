@@ -1,19 +1,19 @@
-﻿<?php 
+<?php
 $get_name=$_GET["name"];
 $file_path = pathinfo($_GET["name"]);
 if (!file_exists('content/'.$get_name.'.txt')) {
-	header("location:stuff/pages/404/");
+    header("location:stuff/pages/404/");
 }
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>
-            <?php echo str_replace('/','&gt;',$get_name); ?>
-                - <?php 
-				require("stuff/config.php");
-				echo constant('SITE_NAME');
-				?>
+            <?php echo str_replace('/', '&gt;', $get_name); ?>
+                - <?php
+                require("stuff/config.php");
+                echo constant('SITE_NAME');
+                ?>
         </title>
         <link href="stuff/css/view.css" rel="stylesheet" type="text/css" media="screen"/>
         <link href="stuff/css/view_print.css" rel="stylesheet" type="text/css" media="print"/>
@@ -57,40 +57,39 @@ if (!file_exists('content/'.$get_name.'.txt')) {
 				<nav>
 			<div class="button" onclick="location.href='index.php'">Back</div>
 			<div class="button" onclick="location.href='<?php
-			$file_name='content/'.$get_name.'.txt'; 
-			echo $file_name;?>'">Source</div>
+            $file_name='content/'.$get_name.'.txt';
+            echo $file_name;?>'">Source</div>
 			<div class="button" onclick="javascript:window.print()">Print</div>
 		</nav>
         <div id="context">
 			
-				<?php 
-				$path=$file_path['dirname'];
-				if ($path!='.'){//if not the root folder "content"
-					echo '<div id="tags">';
-					$path_tags=explode('/',$path);
-					$absolute_path='';
-					foreach ($path_tags as $each_tag) {
-						if ($each_tag!=''){
-							$absolute_path = $absolute_path.'/'.$each_tag;
-							echo '<a class="tag" href="index.php?folder='.urlencode($absolute_path).'">'.$each_tag.'</a>';
-						}
-					}
-					echo '</div>';
-				}
-				?>
+				<?php
+                $path=$file_path['dirname'];
+                if ($path!='.') {//if not the root folder "content"
+                    echo '<div id="tags">';
+                    $path_tags=explode('/', $path);
+                    $absolute_path='';
+                    foreach ($path_tags as $each_tag) {
+                        if ($each_tag!='') {
+                            $absolute_path = $absolute_path.'/'.$each_tag;
+                            echo '<a class="tag" href="index.php?folder='.urlencode($absolute_path).'">'.$each_tag.'</a>';
+                        }
+                    }
+                    echo '</div>';
+                }
+                ?>
 			
 			<?php
-			$content="404 Error Occured. Bazinga!";
-			if (constant('LIST_MODE')==0){
-				if( is_file( $file_name ) )
-				{ 
-					include_once "stuff/get_content.php";
-					echo get_content($file_name);
-				}
-			} else {
-				echo file_get_contents( "cache/".$get_name.".htm");
-			}
-			?>
+            $content="404 Error Occured. Bazinga!";
+            if (constant('LIST_MODE')==0) {
+                if (is_file($file_name)) {
+                    include_once "stuff/get_content.php";
+                    echo get_content($file_name);
+                }
+            } else {
+                echo file_get_contents("cache/".$get_name.".htm");
+            }
+            ?>
 		</div>
         </div>
 <div id="attach_paper">
