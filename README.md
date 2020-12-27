@@ -37,3 +37,19 @@ Alternatively, you can try one of the following methods:
 ## Usage
 
 To post a new article, simply upload your `txt` file to `content/`.
+
+To classify your posts into categories, simply create subdirectories under `content/` and put `txt` files there. Nested directories are accepted.
+
+To modify the site description on the index page, create a `_intro.txt` under `content/`. No markdown is supported in this file.
+
+To hide a post, rename it so that its file name begins with a `_`.
+
+To change the favicon, replace these files:
+
+- android-chrome-192x192.png
+- android-chrome-512x512.png
+- apple-touch-icon.png
+- favicon-16x16.png
+- favicon-32x32.png
+- favicon.ico
+- site.webmanifest

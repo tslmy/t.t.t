@@ -2,8 +2,6 @@ cache/
 content/
 publish.sh
 admin/
-stuff/OLD/
-stuff/backup.txt
 
 .php_cs.cache
 tools/

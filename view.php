@@ -1,19 +1,13 @@
 <?php
 $get_name=$_GET["name"];
 $file_path = pathinfo($_GET["name"]);
-if (!file_exists('content/'.$get_name.'.txt')) {
-    header("location:stuff/pages/404/");
-}
+require("config.php");
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>
-            <?php echo str_replace('/', '&gt;', $get_name); ?>
-                - <?php
-                require("stuff/config.php");
-                echo constant('SITE_NAME');
-                ?>
+            <?php echo str_replace('/', '&gt;', $get_name); ?> - <?php echo constant('SITE_NAME'); ?>
         </title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" href="https://unpkg.com/mvp.css">
@@ -33,7 +27,7 @@ if (!file_exists('content/'.$get_name.'.txt')) {
         <!-- below to </head>: Google Analytics Code. -->
         <script type="text/javascript">
             var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-21290300-1']);
+            _gaq.push(['_setAccount', '<?php echo constant('GA_ID'); ?>']);
             _gaq.push(['_trackPageview']); (function() {
                 var ga = document.createElement('script');
                 ga.type = 'text/javascript';
@@ -76,7 +70,7 @@ if (!file_exists('content/'.$get_name.'.txt')) {
                 <?php
                     if (constant('LIST_MODE')==0) {
                         if (is_file($file_name)) {
-                            include_once "stuff/get_content.php";
+                            include_once "get_content.php";
                             echo get_content($file_name);
                         }
                     } else {
@@ -86,11 +80,11 @@ if (!file_exists('content/'.$get_name.'.txt')) {
             </article>
             <hr>
             <div id="attach_paper">
-            <!-- disqus start -->
+                <!-- disqus start -->
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
                     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                    var disqus_shortname = 'tslmy'; // required: replace example with your forum shortname
+                    var disqus_shortname = '<?php echo constant('DISQUS_SHORTNAME'); ?>';
 
                     /* * * DON'T EDIT BELOW THIS LINE * * */
                     (function() {

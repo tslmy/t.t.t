@@ -58,7 +58,7 @@
             if ((file_exists($cache_file_path)==false) or (filemtime($cache_file_path)<filemtime($this_file_path))) {
                 //if the corresponding cache file does not exist or havn't been updated since the last time that this post changed
                 if (function_exists('get_content')==false) {
-                    include_once "stuff/get_content.php";
+                    include_once "get_content.php";
                 }
                 fwrite(fopen($cache_file_path, "w+"), get_content($this_file_path));
                 echo "[NEW]";
