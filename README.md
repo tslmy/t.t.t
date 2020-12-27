@@ -10,18 +10,19 @@ Written purely in PHP with most dependencies hard-copied in the codebase, this e
 
 ## Setup
 
-Simply upload all files to your server.
-
-Alternatively, you can run t.t.t via Docker (because, 2020):
+You can run t.t.t via Docker (because, 2020):
 
 ```shell
 docker build -t ttt .
 docker run -p 80:80 --rm --name the-tslimi-tk ttt
 ```
 
-You can also make use of the `docker-compose.yml` instead (although I really can't see the point).
+Alternatively, you can try one of the following methods:
 
-To try it out locally, on macOS, you can simply do `php -S localhost:9000`.
+- Manual setup: Simply upload all files to your server.
+- Locally (macOS): `php -S localhost:9000`.
+- Deploy to [Heroku](https://heroku.com/deploy).
+- Docker Compose: `docker-compose up`.
 
 ## Usage
 
