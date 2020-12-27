@@ -4,12 +4,6 @@ A database-free blog engine that reads from a folder of Markdown files.
 
 ![demo](https://imgur.com/Ei5ZgaA.jpg)
 
-## When should I use it?
-
-Written purely in PHP with most dependencies hard-copied in the codebase, this engine is suitable for restrictive hosting platforms where PHP is the only option and no database or package manager is allowed.
-
-## Deploy
-
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Setup
@@ -26,7 +20,7 @@ You can run t.t.t via Docker (because, 2020):
 
 ```shell
 docker build -t ttt .
-docker run -p 80:80 --rm --name the-tslimi-tk ttt
+docker run -p 80:80 --rm --name ttt-demo ttt
 ```
 
 Alternatively, you can try one of the following methods:
@@ -49,6 +43,15 @@ To change the favicon, replace these files:
 - favicon-32x32.png
 - favicon.ico
 - site.webmanifest
+
+## FAQ
+
+- When should I use it?
+  This engine is great when you want to publish a folder of `txt` files as a blog real quick.
+- Why the name "t.t.t"?
+  It was an acronym for my old blog, `the.tslimi.tk`. Apparently, it has lost this origin as I moved on to other blogging platforms. Feel free to interpret it any way you like.
+- Why PHP?
+  This project was developed during an era where cPanel-based free web-hosting were popular. These web-hosting providers usually only allow PHP as the only dynamic web language on their platforms, hence the choice.
 
 ## Changelog
 
