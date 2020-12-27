@@ -19,6 +19,8 @@ docker build -t ttt .
 docker run -p 80:80 --rm --name the-tslimi-tk ttt
 ```
 
+You can also make use of the `docker-compose.yml` instead (although I really can't see the point).
+
 To try it out locally, on macOS, you can simply do `php -S localhost:9000`.
 
 ## Usage
