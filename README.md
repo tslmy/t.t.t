@@ -2,8 +2,6 @@
 
 A database-free blog engine that reads from a folder of Markdown files.
 
-For more info, see `content/What is this.txt`.
-
 ## When should I use it?
 
 Written purely in PHP with most dependencies hard-copied in the codebase, this engine is suitable for restrictive hosting platforms where PHP is the only option and no database or package manager is allowed.
@@ -37,3 +35,5 @@ Alternatively, you can try one of the following methods:
 ## Usage
 
 To post a new article, simply upload your `txt` file to `content/`.
+
+Feeling fancy? You can give your post a header image by putting an image with the same name as JPG. For example, say you have a post at `content/Hello.txt`, put an image at `content.Hello.jpg`.
