@@ -33,6 +33,18 @@
     $files=get_filetree($folder);
     arsort($files, SORT_NUMERIC);
     $files=array_flip($files);
+
+    use Pagerfanta\Adapter\ArrayAdapter;
+    use Pagerfanta\Pagerfanta;
+
+    $adapter = new ArrayAdapter($files);
+    $pagerfanta = new Pagerfanta($adapter);
+    $pagerfanta->setMaxPerPage(constant('ITEMS_DISPLAYED_PEER_PAGE'));
+    $page = 1;
+    if (isset($_GET["page"])) {
+        $page=(int)$_GET["page"];
+        $pagerfanta->setCurrentPage((int)$_GET["page"]);
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -80,20 +92,46 @@
             <h1> <?php echo constant('SITE_NAME');?> </h1>
             <p> <?php echo constant('SITE_DESC');?> </p>
         </header>
-        <main> <?php include_once "file_list.php"; ?> </main>
+        <main>
+            <?php
+                $paths = $pagerfanta->getCurrentPageResults();
+                foreach ($paths as $path) {
+                    $title=basename($path, '.txt'); //'title'
+                    $mtime=filemtime($path);
+                    $dirname=dirname($path); //'content/essay/'
+                    $shorterpath=substr($path, 8, -4); //'essay/title'
+                    //labeling year and month END
+                    $file_content = get_content($path, constant('PREVIEW_SIZE_IN_KB'));
+                    echo "
+                        <div>
+                            <small>".date("Y M d (D) H:i", $mtime)."</small>
+                            <h2>
+                                <a href='view.php?name=".urlencode($shorterpath)."'>
+                                    ".$title."
+                                </a>
+                            </h2>
+                            <article>
+                                ".$file_content."...
+                            </article>
+                            <small>
+                                Published under: ".str_replace('/', ' &gt; ', substr($dirname, strlen($folder)+1, strlen($dirname)))."
+                            </small>
+                            <hr>
+                        </div>\n";
+                }
+            ?>
+        </main>
         <footer>
             <nav>
                 Page
                 <ul>
                     <?php
-                        $url=$_SERVER["REQUEST_URI"]; //get the current URL
-                        $max_page_number=ceil(count($files)/constant('ITEMS_DISPLAYED_PEER_PAGE'));
-                        if ($max_page_number>1) {
-                            for ($page_number=1; $page_number<=$max_page_number; $page_number++) {
-                                if ($page_number==$this_page) {
-                                    echo "<li>".$page_number."</li>";
+                        if ($pagerfanta->haveToPaginate()) {
+                            for ($i=1; $i<=$pagerfanta->getNbPages(); $i++) {
+                                if ($i==$page) {
+                                    echo "<li>".$i."</li>";
                                 } else {
-                                    echo "<li><a href='index.php?page=".$page_number."'>".$page_number."</a></li>";
+                                    echo "<li><a href='index.php?page=".$i."'>".$i."</a></li>";
                                 }
                             }
                         }

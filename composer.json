@@ -1,6 +1,7 @@
 {
     "require": {
         "league/commonmark": "^1.5",
-        "michelf/php-smartypants": "^1.8"
+        "michelf/php-smartypants": "^1.8",
+        "pagerfanta/pagerfanta": "^2.5"
     }
 }
