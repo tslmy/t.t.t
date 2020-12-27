@@ -2,13 +2,15 @@
 
 A database-free blog engine that reads from a folder of Markdown files.
 
+![demo](https://i.imgur.com/h7GJfJX.jpg)
+
 ## When should I use it?
 
 Written purely in PHP with most dependencies hard-copied in the codebase, this engine is suitable for restrictive hosting platforms where PHP is the only option and no database or package manager is allowed.
 
 ## Deploy
 
-You can deploy to [Heroku](https://heroku.com/deploy) wtih one click.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Setup
 
