@@ -23,10 +23,6 @@
         }
         // else:
         $this_title=basename($this_file_path, '.txt'); //'title'
-        if (substr($this_title, 0, 1)=='_') {
-            //omit txt files whose names start with "_"
-            continue;
-        };
         $this_mtime=filemtime($this_file_path);
         $this_dirname=dirname($this_file_path); //'content/essay/'
         $this_shorterpath=substr($this_file_path, 8, -4); //'essay/title'

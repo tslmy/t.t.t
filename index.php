@@ -77,27 +77,10 @@
                     ?>
                 </ul>
             </nav>
-            <h1>
-                <?php echo constant('SITE_NAME');?>
-            </h1>
-            <p>
-                <?php
-                    $intro_file_name="content/_intro.txt";
-                    if (file_exists($intro_file_name)) {
-                        $file=fopen($intro_file_name, "r");
-                        while (!feof($file)) {
-                            echo "<p>".fgets($file)."</p>";
-                        }
-                        fclose($file);
-                    } else {
-                        echo "Just another t.t.t-powered minimalist blog.";
-                    }
-                ?>
-            </p>
+            <h1> <?php echo constant('SITE_NAME');?> </h1>
+            <p> <?php echo constant('SITE_DESC');?> </p>
         </header>
-        <main>
-            <?php include_once "file_list.php"; ?>
-        </main>
+        <main> <?php include_once "file_list.php"; ?> </main>
         <footer>
             <nav>
                 Page
