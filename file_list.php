@@ -12,8 +12,6 @@
     $num_items_to_skip=($this_page-1)*constant('ITEMS_DISPLAYED_PEER_PAGE');
     $count=0;//set counter to zero
     $items_limit=$num_items_to_skip+constant('ITEMS_DISPLAYED_PEER_PAGE');
-    $current_date_year='';
-    $current_date_month='';
     foreach ($files as $this_file_path) {
         if ($count>=$items_limit) {
             break;
@@ -33,6 +31,7 @@
         $this_dirname=dirname($this_file_path); //'content/essay/'
         $this_shorterpath=substr($this_file_path, 8, -4); //'essay/title'
         //labeling year and month END
+        $file_content = get_content($this_file_path, constant('PREVIEW_SIZE_IN_KB'));
         echo "
             <div>
                 <small>".date("Y M d (D) H:i", $this_mtime)."</small>
@@ -41,32 +40,8 @@
                         ".$this_title."
                     </a>
                 </h2>
-                <article>";//things to start a new block for a post
-
-        if (constant('LIST_MODE')==0) {
-            //0(default, takes up more CPU):  Renders everything from Markdown everytime they are needed.
-            $file_content = get_content($this_file_path);
-            $truncated = substr($file_content, 0, constant('PREVIEW_SIZE_IN_KB'));
-            echo closetags($truncated);
-        } else {
-            //1(recommended, takes up more disk storage and PHP's writing permission): Make a HTML cache for every new/updated post when index.php finds one, and then everyone else reads directly from cache.
-            $cache_dir='cache'.substr($this_dirname, 7, strlen($this_dirname));
-            if (!is_dir($cache_dir)) {
-                mkdir($cache_dir);
-            }
-            $cache_file_path="cache/".$this_shorterpath.".htm";
-            if ((file_exists($cache_file_path)==false) or (filemtime($cache_file_path)<filemtime($this_file_path))) {
-                //if the corresponding cache file does not exist or havn't been updated since the last time that this post changed
-                if (function_exists('get_content')==false) {
-                    include_once "get_content.php";
-                }
-                fwrite(fopen($cache_file_path, "w+"), get_content($this_file_path));
-                echo "[NEW]";
-            }
-            echo closetags(fread(fopen($cache_file_path, "r"), constant('PREVIEW_SIZE_IN_KB')));
-        }
-        
-        echo "...
+                <article>
+                    ".$file_content."...
                 </article>
                 <small>
                     Published under: ".str_replace('/', ' &gt; ', substr($this_dirname, strlen($folder)+1, strlen($this_dirname)))."

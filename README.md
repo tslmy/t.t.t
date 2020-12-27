@@ -38,7 +38,7 @@ Alternatively, you can try one of the following methods:
 
 To post a new article, simply upload your `txt` file to `content/`.
 
-To classify your posts into categories, simply create subdirectories under `content/` and put `txt` files there. Nested directories are accepted.
+To organize posts into categories, simply create subdirectories under `content/` and put `txt` files there. Nested directories are accepted.
 
 To modify the site description on the index page, create a `_intro.txt` under `content/`. No markdown is supported in this file.
 

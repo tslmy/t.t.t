@@ -1,7 +1,11 @@
 <?php
-$get_name=$_GET["name"];
-$file_path = pathinfo($_GET["name"]);
-require("config.php");
+    require __DIR__ . '/vendor/autoload.php';
+    require "config.php";
+    require "get_content.php";
+
+    $get_name=$_GET["name"];
+    $file_path = pathinfo($_GET["name"]);
+    $file_name = 'content/'.$get_name.'.txt';
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,14 +72,7 @@ require("config.php");
         <main>
             <article>
                 <?php
-                    if (constant('LIST_MODE')==0) {
-                        if (is_file($file_name)) {
-                            include_once "get_content.php";
-                            echo get_content($file_name);
-                        }
-                    } else {
-                        echo file_get_contents("cache/".$get_name.".htm");
-                    }
+                    echo get_content($file_name, -1);
                 ?>
             </article>
             <hr>
@@ -98,9 +95,7 @@ require("config.php");
             </div>
         </main>
         <footer>
-            <a href='<?php
-                $file_name='content/'.$get_name.'.txt';
-                echo $file_name;?>'>Source</a>
+            <a href='<?php echo $file_name; ?>'>Source</a>
         </footer>
     </body>
 </html>

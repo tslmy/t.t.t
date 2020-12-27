@@ -1,6 +1,7 @@
 <?php
     require __DIR__ . '/vendor/autoload.php';
     require("config.php");
+    include_once "get_content.php";
 
     function get_filetree($path)
     {
@@ -32,38 +33,6 @@
     $files=get_filetree($folder);
     arsort($files, SORT_NUMERIC);
     $files=array_flip($files);
-
-    if (constant('LIST_MODE')==0) {
-        include_once "get_content.php";
-    }
-    
-    function closetags($html)
-    {
-        /*get all content BEFORE the last "<", ensuring every HTML tag in the content is finished with a ">"*/
-        $html = preg_replace("~<[^<>]+?$~i", "", $html);
-        /*start to finish all unfinished tags*/
-        #put all opened tags into an array
-        preg_match_all("#<([a-z]+)( .*[^/])?(?!/)>#iU", $html, $result);
-        $openedtags = $result[1];
-        #put all closed tags into an array
-        preg_match_all("#</([a-z]+)>#iU", $html, $result);
-        $closedtags = $result[1];
-        $len_opened = count($openedtags);
-        # all tags are closed
-        if (count($closedtags) == $len_opened) {
-            return $html;
-        }
-        $openedtags = array_reverse($openedtags);
-        # close tags
-        for ($i = 0; $i < $len_opened; $i++) {
-            if (!in_array($openedtags[$i], $closedtags)) {
-                $html .= '</' . $openedtags[$i] . '>';
-            } else {
-                unset($closedtags[array_search($openedtags[$i], $closedtags)]);
-            }
-        }
-        return $html;
-    } 
 ?>
 <!DOCTYPE html>
 <html>
