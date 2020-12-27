@@ -8,25 +8,24 @@ A database-free blog engine that reads from a folder of Markdown files.
 
 ## Setup
 
-First, install dependencies. Assuming you have [Composer](https://getcomposer.org/doc/01-basic-usage.md) installed somewhere in your `$PATH`, do:
+### Locally
+Assuming you have [Composer](https://getcomposer.org/doc/01-basic-usage.md) installed somewhere in your `$PATH`, do:
 
 ```shell
-composer.phar install
+composer.phar install # install dependencies
+php -S localhost:9000 # actually start the server
 ```
 
-Then, actually execute the server.
+### Via Docker
 
-You can run t.t.t via Docker (because, 2020):
+You can run t.t.t via Dockerfile:
 
 ```shell
 docker build -t ttt .
 docker run -p 80:80 --rm --name ttt-demo ttt
 ```
 
-Alternatively, you can try one of the following methods:
-
-- Locally (macOS): `php -S localhost:9000`.
-- Docker Compose: `docker-compose up`.
+... or via Docker Compose: `docker-compose up`.
 
 ## Usage
 
