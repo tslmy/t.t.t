@@ -27,6 +27,23 @@ docker run -p 80:80 --rm --name ttt-demo ttt
 
 ... or via Docker Compose: `docker-compose up`.
 
+### Via Kubernetes
+
+I will be using [minikube](https://minikube.sigs.k8s.io/) in this walkthrough. I will be using the local Docker Registry as the source of the Kubenetes image.
+
+```shell
+# Start the cluster:
+minikube start
+# Register the Docker Registry to minikube -- This is because we will be building the image from the Dockerfile for Kubenetes:
+eval $(minikube docker-env)
+# Build the Docker image for Kubenetes:
+docker build -t ttt .
+# Apply the Deployment (which manages the Pods/"virtual hosts" in the minikube cluster for the app) as well as the Service (which is a Load Balancer in this case that exposes the web app in the Pods) using the manifest file:
+kubectl apply -f kubernetes-manifest.yml
+# Access the web app:
+minikube service ttt-demo-service
+```
+
 ## Usage
 
 To post a new article, simply upload your `txt` file to `content/`.

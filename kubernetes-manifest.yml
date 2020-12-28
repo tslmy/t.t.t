@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttt-demo-deployment
+spec:
+  selector:
+    matchLabels:
+      run: ttt-demo # This selects the Pod Template defined below.
+  replicas: 2 # num of pods matching the template
+  template:
+    metadata:
+      labels:
+        run: ttt-demo # This labels/identifies this template as "run: ttt-demo".
+    spec:
+      containers:
+      - name: ttt-container
+        image: ttt:latest
+        imagePullPolicy: Never # required since we are using a local Docker registry
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ttt-demo-service
+spec:
+  selector:
+    run: ttt-demo # This selects the pods defined in the Deployment above.
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
