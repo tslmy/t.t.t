@@ -113,7 +113,18 @@
                     if ($rel_dir!='.') {
                         echo "
                             <small>
-                                Published under: ".str_replace('/', ' &gt; ', $rel_dir)."
+                                Published under: 
+                                <a href=\"index.php\">Home</a>";
+                            $path_tags=explode('/', $rel_dir);
+                            $absolute_path='';
+                            foreach ($path_tags as $each_tag) {
+                                if ($each_tag=='') {
+                                    continue;
+                                }
+                                $absolute_path = $absolute_path.'/'.$each_tag;
+                                echo ' &gt; <a href="index.php?folder='.urlencode($absolute_path).'">'.$each_tag.'</a>';
+                            }
+                        echo "
                             </small>";
                     }
                     echo "<hr>
