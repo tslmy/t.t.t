@@ -43,10 +43,10 @@
     <body>
         <header>
             <nav>
-                <a href="/"><img src="favicon-32x32.png" /></a>
+                <a href="index.php"><img src="favicon-32x32.png" /></a>
                 <ul>
                     You are at:
-                    <li><a href="/">Home</a></li>
+                    <li><a href="index.php">Home</a></li>
                     <?php
                         $path=$file_path['dirname'];
                         if ($path!='.') {//if not the root folder "content"
