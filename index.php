@@ -31,7 +31,6 @@
 
     $files=get_filetree($folder);
     arsort($files, SORT_NUMERIC);
-    $files=array_flip($files);
 
     use Pagerfanta\Adapter\ArrayAdapter;
     use Pagerfanta\Pagerfanta;
@@ -94,9 +93,8 @@
         <main>
             <?php
                 $paths = $pagerfanta->getCurrentPageResults();
-                foreach ($paths as $path) {
+                foreach ($paths as $path => $mtime) {
                     $title=basename($path, '.txt'); //'title'
-                    $mtime=filemtime($path);
                     $dirname=dirname($path); //'content/essay/'
                     $shorterpath=substr($path, 8, -4); //'essay/title'
                     //labeling year and month END
