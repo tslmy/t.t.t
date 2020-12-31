@@ -52,7 +52,7 @@
         echo constant('SITE_NAME');
         $display_dir = substr($folder, strlen($content_dir)+1);
         if ($display_dir!='') {
-            echo ' - '.str_replace('/', '&gt;', $d);
+            echo ' - '.str_replace('/', '&gt;', $display_dir);
         }
         ?></title>
         <?php include 'head.php'; ?>

@@ -26,13 +26,13 @@
 
     $file_path = pathinfo($get_name);
     $display_dir = $file_path['dirname'];
-    $basename = substr($file_path['basename'], 0, -strlen($file_path['extension'])-1);
+    $basename = substr($file_path['basename'], 0, -strlen($extn)-1);
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>
-            <?php echo str_replace('/', '&gt;', $get_name); ?> - <?php echo constant('SITE_NAME'); ?>
+            <?php echo $basename; ?> - <?php echo constant('SITE_NAME'); ?>
         </title>
         <!-- code syntax highlighter START-->
         <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/solarized_light.min.css">
@@ -58,9 +58,8 @@
                     ?>
                 </ul>
             </nav>
-            <h1>
-                <?php echo $basename; ?>
-            </h1>
+            <h1> <?php echo $basename;?> </h1>
+            <p> Published at <?php echo date("Y M d (D) H:i", filemtime($file_name));?> </p>
         </header>
         <main>
             <article>
