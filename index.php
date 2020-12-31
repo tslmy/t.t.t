@@ -37,7 +37,7 @@
 
     $adapter = new ArrayAdapter($files);
     $pagerfanta = new Pagerfanta($adapter);
-    $pagerfanta->setMaxPerPage(constant('ITEMS_DISPLAYED_PEER_PAGE'));
+    $pagerfanta->setMaxPerPage(constant('ITEMS_DISPLAYED_PER_PAGE'));
     $page = 1;
     if (isset($_GET["page"])) {
         $page=(int)$_GET["page"];
