@@ -96,6 +96,7 @@
                 foreach ($paths as $path => $mtime) {
                     $title=basename($path, '.txt'); //'title'
                     $dirname=dirname($path); //'content/essay/'
+                    $rel_dir=substr($dirname, strlen($folder)+1, strlen($dirname));
                     $shorterpath=substr($path, 8, -4); //'essay/title'
                     //labeling year and month END
                     $file_content = get_content($path, constant('PREVIEW_SIZE_IN_KB'));
@@ -109,32 +110,37 @@
                             </h2>
                             <article>
                                 ".$file_content."...
-                            </article>
+                            </article>";
+                    if ($rel_dir!='') {
+                        echo "
                             <small>
-                                Published under: ".str_replace('/', ' &gt; ', substr($dirname, strlen($folder)+1, strlen($dirname)))."
-                            </small>
-                            <hr>
+                                Published under: ".str_replace('/', ' &gt; ', $rel_dir)."
+                            </small>";
+                    }
+                    echo "<hr>
                         </div>\n";
                 }
             ?>
         </main>
         <footer>
-            <nav>
-                Page
-                <ul>
-                    <?php
-                        if ($pagerfanta->haveToPaginate()) {
-                            for ($i=1; $i<=$pagerfanta->getNbPages(); $i++) {
-                                if ($i==$page) {
-                                    echo "<li>".$i."</li>";
-                                } else {
-                                    echo "<li><a href='index.php?page=".$i."'>".$i."</a></li>";
-                                }
-                            }
+            <?php
+                if ($pagerfanta->haveToPaginate()) {
+                    echo "
+                        <nav>
+                            Page
+                            <ul>";
+                    for ($i=1; $i<=$pagerfanta->getNbPages(); $i++) {
+                        if ($i==$page) {
+                            echo "<li>".$i."</li>";
+                        } else {
+                            echo "<li><a href='index.php?page=".$i."'>".$i."</a></li>";
                         }
-                    ?>
-                </ul>
-            </nav>
+                    }
+                    echo "
+                            </ul>
+                        </nav>";
+                }
+            ?>
             <small>
                 Copyright <?php echo constant('SITE_NAME');?>
             </small>
