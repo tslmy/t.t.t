@@ -7,7 +7,7 @@ define('CONTENT_DIR', 'content');			//Where the txt files should be stored.
 define('DISQUS_SHORTNAME', 'tslmy');			//disqus_shortname
 define('GA_ID', 'UA-21290300-1');			//Google Analytics tracking ID
 
-$content_dir = stripslashes(constant('CONTENT_DIR'));
+$content_dir = trim(constant('CONTENT_DIR'), '/');
 $content_abs_dir = getcwd().'/'.$content_dir;
 
 use League\CommonMark\GithubFlavoredMarkdownConverter;
