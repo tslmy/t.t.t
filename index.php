@@ -2,6 +2,19 @@
     require __DIR__ . '/vendor/autoload.php';
     require "commons.php";
 
+    $subfolder = isset($_GET["folder"]) ? $_GET["folder"] : '';
+    $path = realpath($content_abs_dir.'/'.$subfolder);
+    if (!str_starts_with($path, $content_abs_dir)) {
+        http_response_code(403);
+        die;
+    }
+    if (!is_dir($path)) {
+        # to eliminate the possibility that $path is a file.
+        http_response_code(404);
+        die;
+    }
+    $folder = substr($path, strlen(getcwd())+1);
+
     function get_filetree($path)
     {
         $tree = array();
@@ -14,21 +27,6 @@
         }
         return $tree;
     }
-    if (isset($_GET["folder"])) { //try to get the target page number
-        //securing START
-        $exploded_path=explode('/', $_GET["folder"]);
-        $folder='';
-        foreach ($exploded_path as $each_exploded_path) {
-            if ($each_exploded_path!='..') {
-                $folder=$folder.'/'.$each_exploded_path;
-            }
-        }
-        //securing END
-        $folder='content'.$folder;
-    } else {//if failed, then the user has reached here by typing just the domain.
-        $folder='content';
-    }
-
     $files=get_filetree($folder);
     arsort($files, SORT_NUMERIC);
 
@@ -76,7 +74,7 @@
                     You are at:
                     <li><a href="index.php">Home</a></li>
                     <?php
-                    $paths=explode('/', substr($folder, 8, strlen($folder)));
+                    $paths=explode('/', substr($folder, strlen($content_dir)+1, strlen($folder)));
                     $absolute_path='';
                     foreach ($paths as $each_folder) {
                         if ($each_folder!='') {
@@ -97,7 +95,7 @@
                     $title=basename($path, '.txt'); //'title'
                     $dirname=dirname($path); //'content/essay/'
                     $rel_dir=substr($dirname, strlen($folder)+1, strlen($dirname));
-                    $shorterpath=substr($path, 8, -4); //'essay/title'
+                    $shorterpath=substr($path, strlen($content_dir)+1, -4); //'essay/title'
                     //labeling year and month END
                     $file_content = get_content($path, constant('PREVIEW_SIZE_IN_KB'));
                     echo "

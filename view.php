@@ -2,9 +2,24 @@
     require __DIR__ . '/vendor/autoload.php';
     require "commons.php";
 
-    $get_name=$_GET["name"];
-    $file_path = pathinfo($_GET["name"]);
-    $file_name = 'content/'.$get_name.'.txt';
+    if (!isset($_GET["name"])) {
+        http_response_code(400);
+        die;
+    }
+    $path = realpath($content_abs_dir.'/'.$_GET["name"].'.txt');
+    if (!str_starts_with($path, $content_abs_dir)) {
+        http_response_code(403);
+        die;
+    }
+    if (!is_file($path)) {
+        # to eliminate the possibility that $path is a directory.
+        http_response_code(404);
+        die;
+    }
+    $file_name = substr($path, strlen(getcwd())+1);
+    $get_name = substr($file_name, 0, -4);
+
+    $file_path = pathinfo(substr($get_name, strlen($content_dir)));
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,10 +68,11 @@
                             $path_tags=explode('/', $path);
                             $absolute_path='';
                             foreach ($path_tags as $each_tag) {
-                                if ($each_tag!='') {
-                                    $absolute_path = $absolute_path.'/'.$each_tag;
-                                    echo '&gt; <li><a href="index.php?folder='.urlencode($absolute_path).'">'.$each_tag.'</a></li>';
+                                if ($each_tag=='') {
+                                    continue;
                                 }
+                                $absolute_path = $absolute_path.'/'.$each_tag;
+                                echo '&gt; <li><a href="index.php?folder='.urlencode($absolute_path).'">'.$each_tag.'</a></li>';
                             }
                         }
                     ?>
