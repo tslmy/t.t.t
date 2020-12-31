@@ -21,8 +21,11 @@
         foreach (glob($path.'/*') as $single) {
             if (is_dir($single)) {
                 $tree = array_merge($tree, get_filetree($single));
-            } elseif (strtolower(substr($single, -4)) == '.txt') {
-                $tree[$single] =  filemtime($single);
+            } else {
+                $extn = pathinfo($single, PATHINFO_EXTENSION);
+                if (in_array($extn, constant('EXT_ALLOWED'))) {
+                    $tree[$single] = filemtime($single);
+                }
             }
         }
         return $tree;
@@ -92,24 +95,22 @@
             <?php
                 $paths = $pagerfanta->getCurrentPageResults();
                 foreach ($paths as $path => $mtime) {
-                    $title=basename($path, '.txt'); //'title'
-                    $dirname=dirname($path); //'content/essay/'
-                    $rel_dir=substr($dirname, strlen($folder)+1, strlen($dirname));
-                    $shorterpath=substr($path, strlen($content_dir)+1, -4); //'essay/title'
+                    $rel_path=substr($path, strlen($content_dir)+1); //'essay/title.txt'
+                    $rel_dir=dirname($rel_path);
                     //labeling year and month END
                     $file_content = get_content($path, constant('PREVIEW_SIZE_IN_KB'));
                     echo "
                         <div>
                             <small>".date("Y M d (D) H:i", $mtime)."</small>
                             <h2>
-                                <a href='view.php?name=".urlencode($shorterpath)."'>
-                                    ".$title."
+                                <a href='view.php?name=".urlencode($rel_path)."'>
+                                    ".pathinfo($rel_path, PATHINFO_FILENAME)."
                                 </a>
                             </h2>
                             <article>
                                 ".$file_content."...
                             </article>";
-                    if ($rel_dir!='') {
+                    if ($rel_dir!='.') {
                         echo "
                             <small>
                                 Published under: ".str_replace('/', ' &gt; ', $rel_dir)."

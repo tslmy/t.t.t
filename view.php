@@ -6,8 +6,13 @@
         http_response_code(400);
         die;
     }
-    $path = realpath($content_abs_dir.'/'.$_GET["name"].'.txt');
+    $path = realpath($content_abs_dir.'/'.$_GET["name"]);
     if (!str_starts_with($path, $content_abs_dir)) {
+        http_response_code(403);
+        die;
+    }
+    $extn = pathinfo($path, PATHINFO_EXTENSION);
+    if (!in_array($extn, constant('EXT_ALLOWED'))) {
         http_response_code(403);
         die;
     }
@@ -17,7 +22,7 @@
         die;
     }
     $file_name = substr($path, strlen(getcwd())+1);
-    $get_name = substr($file_name, 0, -4);
+    $get_name = substr($file_name, 0, strrpos($file_name, "."));
 
     $file_path = pathinfo(substr($get_name, strlen($content_dir)));
 ?>
