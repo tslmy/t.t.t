@@ -55,25 +55,7 @@
             echo ' - '.str_replace('/', '&gt;', $d);
         }
         ?></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
-        <!-- below to </head>: Google Analytics Code. -->
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', '<?php echo constant('GA_ID'); ?>']);
-            _gaq.push(['_trackPageview']); (function() {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl': 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
+        <?php include 'head.php'; ?>
     </head>
     <body>
         <header>
@@ -81,7 +63,7 @@
                 <a href="index.php"><img src="favicon-32x32.png" /></a>
                 <ul>
                     <?php
-                        if ($display_dir!='') {
+                        if (!in_array($display_dir, ['', '.'])) {
                             echo "You are at: ";
                             $paths = explode('/', $display_dir);
                             print_breadcrumb($paths, '/'.$display_dir);
