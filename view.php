@@ -65,20 +65,12 @@
             <nav>
                 <a href="index.php"><img src="favicon-32x32.png" /></a>
                 <ul>
-                    You are at:
-                    <li><a href="index.php">Home</a></li>
                     <?php
-                        $path=$file_path['dirname'];
-                        if ($path!='.') {//if not the root folder "content"
-                            $path_tags=explode('/', $path);
-                            $absolute_path='';
-                            foreach ($path_tags as $each_tag) {
-                                if ($each_tag=='') {
-                                    continue;
-                                }
-                                $absolute_path = $absolute_path.'/'.$each_tag;
-                                echo '&gt; <li><a href="index.php?folder='.urlencode($absolute_path).'">'.$each_tag.'</a></li>';
-                            }
+                        $display_dir=$file_path['dirname'];
+                        if ($display_dir!='') {
+                            echo "You are at: ";
+                            $paths = explode('/', $display_dir);
+                            print_breadcrumb($paths, '');
                         }
                     ?>
                 </ul>

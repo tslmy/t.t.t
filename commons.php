@@ -32,3 +32,20 @@ function get_content($file_name, $max_size)
     $content = preg_replace('/~([^<:>~]+?)~/', '<a href="view.php?name=$1">$1</a>', $content);
     return $content;
 }
+
+function print_breadcrumb($crumbs, $cur_path)
+{
+    echo "<a href=\"index.php\">Home</a>";
+    $absolute_path='';
+    foreach ($crumbs as $i => $folder_name) {
+        if ($folder_name=='') {
+            continue;
+        }
+        $absolute_path = $absolute_path.'/'.$folder_name;
+        if ($absolute_path==$cur_path) {
+            echo ' &gt; '.$folder_name.'';
+        } else {
+            echo ' &gt; <a href="index.php?folder='.urlencode($absolute_path).'">'.$folder_name.'</a>';
+        }
+    }
+}

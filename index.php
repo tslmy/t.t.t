@@ -48,7 +48,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><?php echo constant('SITE_NAME');?></title>
+        <title><?php
+        echo constant('SITE_NAME');
+        $display_dir = substr($folder, strlen($content_dir)+1);
+        if ($display_dir!='') {
+            echo ' - '.str_replace('/', '&gt;', $d);
+        }
+        ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" href="https://unpkg.com/mvp.css">
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -74,17 +80,12 @@
             <nav>
                 <a href="index.php"><img src="favicon-32x32.png" /></a>
                 <ul>
-                    You are at:
-                    <li><a href="index.php">Home</a></li>
                     <?php
-                    $paths=explode('/', substr($folder, strlen($content_dir)+1, strlen($folder)));
-                    $absolute_path='';
-                    foreach ($paths as $each_folder) {
-                        if ($each_folder!='') {
-                            $absolute_path = $absolute_path.'/'.$each_folder;
-                            echo '> <li><a href="index.php?folder='.urlencode($absolute_path).'">'.$each_folder.'</a></li>';
+                        if ($display_dir!='') {
+                            echo "You are at: ";
+                            $paths = explode('/', $display_dir);
+                            print_breadcrumb($paths, '/'.$display_dir);
                         }
-                    }
                     ?>
                 </ul>
             </nav>
@@ -113,17 +114,9 @@
                     if ($rel_dir!='.') {
                         echo "
                             <small>
-                                Published under: 
-                                <a href=\"index.php\">Home</a>";
+                                Published under: ";
                             $path_tags=explode('/', $rel_dir);
-                            $absolute_path='';
-                            foreach ($path_tags as $each_tag) {
-                                if ($each_tag=='') {
-                                    continue;
-                                }
-                                $absolute_path = $absolute_path.'/'.$each_tag;
-                                echo ' &gt; <a href="index.php?folder='.urlencode($absolute_path).'">'.$each_tag.'</a>';
-                            }
+                            print_breadcrumb($path_tags, '');
                         echo "
                             </small>";
                     }
