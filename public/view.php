@@ -53,7 +53,7 @@
                         if (!in_array($display_dir, ['', '.'])) {
                             echo "You are at: ";
                             $paths = explode('/', $display_dir);
-                            print_breadcrumb($paths, '');
+                            echo print_breadcrumb($paths, '');
                         }
                     ?>
                 </ul>

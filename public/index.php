@@ -66,7 +66,7 @@
                         if (!in_array($display_dir, ['', '.'])) {
                             echo "You are at: ";
                             $paths = explode('/', $display_dir);
-                            print_breadcrumb($paths, '/'.$display_dir);
+                            echo print_breadcrumb($paths, '/'.$display_dir);
                         }
                     ?>
                 </ul>
@@ -98,7 +98,7 @@
                             <small>
                                 Published under: ";
                             $path_tags=explode('/', $rel_dir);
-                            print_breadcrumb($path_tags, '');
+                        echo print_breadcrumb($path_tags, '');
                         echo "
                             </small>";
                     }
