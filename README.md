@@ -14,7 +14,7 @@ A database-free blog engine that reads from a folder of Markdown files.
 Assuming you have [Composer](https://getcomposer.org/doc/01-basic-usage.md) installed somewhere in your `$PATH`, do:
 
 ```shell
-composer.phar install # install dependencies
+composer install # install dependencies
 php -S localhost:9000 -t public  # actually start the server
 ```
 
@@ -70,6 +70,10 @@ To change the favicon, replace these files:
   It was an acronym for my old blog, `the.tslimi.tk`. Apparently, it has lost this origin as I moved on to other blogging platforms. Feel free to interpret it any way you like.
 - Why PHP?
   This project was developed during an era where cPanel-based free web-hosting were popular. These web-hosting providers usually only allow PHP as the only dynamic web language on their platforms, hence the choice.
+
+## Development
+
+I recommend running [the PHP Coding Standards Fixer (PHP CS Fixer)](https://github.com/FriendsOfPHP/PHP-CS-Fixer) everytime before committing. 
 
 ## Changelog
 

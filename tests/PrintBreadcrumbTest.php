@@ -1,5 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
+
 require "src/commons.php";
 
 final class PrintBreadcrumbTest extends TestCase
@@ -39,4 +40,3 @@ final class PrintBreadcrumbTest extends TestCase
         ];
     }
 }
-?>

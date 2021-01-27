@@ -97,7 +97,7 @@
                         echo "
                             <small>
                                 Published under: ";
-                            $path_tags=explode('/', $rel_dir);
+                        $path_tags=explode('/', $rel_dir);
                         echo print_breadcrumb($path_tags, '');
                         echo "
                             </small>";
