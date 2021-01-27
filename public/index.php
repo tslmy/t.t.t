@@ -1,6 +1,6 @@
 <?php
-    require __DIR__ . '/vendor/autoload.php';
-    require "commons.php";
+    require __DIR__ . '/../vendor/autoload.php';
+    require "../src/commons.php";
 
     $subfolder = isset($_GET["folder"]) ? $_GET["folder"] : '';
     $path = realpath($content_abs_dir.'/'.$subfolder);
@@ -55,7 +55,7 @@
             echo ' - '.str_replace('/', '&gt;', $display_dir);
         }
         ?></title>
-        <?php include 'head.php'; ?>
+        <?php include '../src/head.php'; ?>
     </head>
     <body>
         <header>

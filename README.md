@@ -13,7 +13,7 @@ Assuming you have [Composer](https://getcomposer.org/doc/01-basic-usage.md) inst
 
 ```shell
 composer.phar install # install dependencies
-php -S localhost:9000 # actually start the server
+php -S localhost:9000 -t public  # actually start the server
 ```
 
 ### Via Docker
@@ -46,9 +46,9 @@ minikube service ttt-demo-service
 
 ## Usage
 
-To post a new article, simply upload your `txt` file to `content/`.
+To post a new article, simply upload your `txt` file to `public/content/`.
 
-To organize posts into categories, simply create subdirectories under `content/` and put `txt` files there. Nested directories are accepted.
+To organize posts into categories, simply create subdirectories under `public/content/` and put `txt` files there. Nested directories are accepted.
 
 To change the favicon, replace these files:
 

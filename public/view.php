@@ -1,6 +1,6 @@
 <?php
-    require __DIR__ . '/vendor/autoload.php';
-    require "commons.php";
+    require __DIR__ . '/../vendor/autoload.php';
+    require "../src/commons.php";
 
     if (!isset($_GET["name"])) {
         http_response_code(400);
@@ -42,7 +42,7 @@
             hljs.initHighlightingOnLoad();
         </script>
         <!-- code syntax highlighter END-->
-        <?php include 'head.php'; ?>
+        <?php include '../src/head.php'; ?>
     </head>
     <body>
         <header>
