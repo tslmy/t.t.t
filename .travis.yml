@@ -2,3 +2,7 @@ language: php
 php:
   - '8.0'
 script: phpunit tests
+before_install:
+  - pip install --user codecov
+after_success:
+  - codecov --file coverage/lcov.info --disable search
