@@ -1,5 +1,7 @@
 # ![logo](favicon-16x16.png) t.t.t
 
+[![Build Status](https://www.travis-ci.com/tslmy/t.t.t.svg?branch=master)](https://www.travis-ci.com/tslmy/t.t.t)
+
 A database-free blog engine that reads from a folder of Markdown files.
 
 ![demo](https://imgur.com/Ei5ZgaA.jpg)
