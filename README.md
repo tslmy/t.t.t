@@ -2,6 +2,7 @@
 
 [![Build Status](https://www.travis-ci.com/tslmy/t.t.t.svg?branch=master)](https://www.travis-ci.com/tslmy/t.t.t)
 [![codecov](https://codecov.io/gh/tslmy/t.t.t/branch/master/graph/badge.svg?token=K603JQ63AV)](https://codecov.io/gh/tslmy/t.t.t)
+[![HitCount](http://hits.dwyl.com/tslmy/ttt.svg)](http://hits.dwyl.com/tslmy/ttt)
 
 A database-free blog engine that reads from a folder of Markdown files.
 
