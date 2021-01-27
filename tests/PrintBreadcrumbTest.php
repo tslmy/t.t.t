@@ -6,6 +6,7 @@ final class PrintBreadcrumbTest extends TestCase
 {
     /**
      * @dataProvider breadcrumbTestDataProvider
+     * @covers ::print_breadcrumb
      */
     public function testOutputs($crumbs, $cur_path, $want): void
     {
