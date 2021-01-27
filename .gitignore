@@ -1,7 +1,4 @@
-cache/
-content/
-publish.sh
-admin/
+public/content/
 
 .php_cs.cache
 tools/
