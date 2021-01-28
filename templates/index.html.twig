@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ head_title }}</title>
+        {{ include('head.html.twig') }}
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href="index.php"><img src="favicon-32x32.png" /></a>
+                <ul>
+                    {{ nav_breadcrumb|raw }}
+                </ul>
+            </nav>
+            <h1>{{ site_name }}</h1>
+            <p>{{ site_desc }}</p>
+        </header>
+        <main>
+            {% for path, metadata in paths_to_metadata %}
+                <div>
+                    <small>{{ metadata.date_str }}</small>
+                    <h2>
+                        <a href='view.php?name={{ metadata.rel_path|url_encode }}'>
+                            {{ metadata.filename }}
+                        </a>
+                    </h2>
+                    <article>
+                        {{ metadata.preview|raw }}
+                    </article>
+                    {% if metadata.rel_dir!='.' %}
+                        <small>
+                            Published under: {{ metadata.breadcrumb|raw }}
+                        </small>
+                    {% endif %}
+                    <hr>
+                </div>
+            {% endfor %}
+        </main>
+        <footer>
+            {% if have_to_paginate %}
+                <nav>
+                    Page
+                    <ul>
+                        {% for i in 1..num_pages %}
+                            {% if i==page %}
+                                <li>{{ i }}</li>
+                            {% else %}
+                                <li><a href='index.php?page={{ i }}'>{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+            {% endif %}
+
+            <small>
+                Copyright {{ site_name }}
+            </small>
+        </footer>
+    </body>
+</html>

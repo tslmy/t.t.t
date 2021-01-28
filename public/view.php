@@ -27,67 +27,28 @@
     $file_path = pathinfo($get_name);
     $display_dir = $file_path['dirname'];
     $basename = substr($file_path['basename'], 0, -strlen($extn)-1);
-?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>
-            <?php echo $basename; ?> - <?php echo constant('SITE_NAME'); ?>
-        </title>
-        <!-- code syntax highlighter START-->
-        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/solarized_light.min.css">
-        <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
-        <script>
-            hljs.tabReplace = '    ';
-            hljs.initHighlightingOnLoad();
-        </script>
-        <!-- code syntax highlighter END-->
-        <?php include '../src/head.php'; ?>
-    </head>
-    <body>
-        <header>
-            <nav>
-                <a href="index.php"><img src="favicon-32x32.png" /></a>
-                <ul>
-                    <?php
-                        if (!in_array($display_dir, ['', '.'])) {
-                            echo "You are at: ";
-                            $paths = explode('/', $display_dir);
-                            echo print_breadcrumb($paths, '');
-                        }
-                    ?>
-                </ul>
-            </nav>
-            <h1> <?php echo $basename;?> </h1>
-            <p> Published at <?php echo date("Y M d (D) H:i", filemtime($file_name));?> </p>
-        </header>
-        <main>
-            <article>
-                <?php
-                    echo get_content($file_name, -1);
-                ?>
-            </article>
-            <hr>
-            <div id="attach_paper">
-                <!-- disqus start -->
-                <div id="disqus_thread"></div>
-                <script type="text/javascript">
-                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                    var disqus_shortname = '<?php echo constant('DISQUS_SHORTNAME'); ?>';
 
-                    /* * * DON'T EDIT BELOW THIS LINE * * */
-                    (function() {
-                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();
-                </script>
-                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                <!-- disqus end -->
-            </div>
-        </main>
-        <footer>
-            <a href='<?php echo $file_name; ?>'>Source</a>
-        </footer>
-    </body>
-</html>
+    $nav_breadcrumb = '';
+    if (!in_array($display_dir, ['', '.'])) {
+        $nav_breadcrumb .= "You are at: ";
+        $paths = explode('/', $display_dir);
+        $nav_breadcrumb .= print_breadcrumb($paths, '/'.$display_dir);
+    }
+
+    use Twig\Environment;
+    use Twig\Loader\FilesystemLoader;
+
+    $loader = new FilesystemLoader(__DIR__ . '/../templates');
+    $twig = new Environment($loader);
+
+    echo $twig->render('view.html.twig', [
+        'ga_id' => constant('GA_ID'),
+        'basename' => $basename,
+        'site_name' => constant('SITE_NAME'),
+        'nav_breadcrumb' => $nav_breadcrumb,
+        'date_str' => date("Y M d (D) H:i", filemtime($file_name)),
+        'content' => get_content($file_name, -1),
+        'disqus' => constant('DISQUS_SHORTNAME'),
+        'file_name' => $file_name,
+    ]);
+?>
