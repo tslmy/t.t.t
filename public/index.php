@@ -96,4 +96,3 @@
         'page' => $page,
         'paths_to_metadata' => $paths_to_metadata,
     ]);
-?>

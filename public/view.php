@@ -51,4 +51,3 @@
         'disqus' => constant('DISQUS_SHORTNAME'),
         'file_name' => $file_name,
     ]);
-?>
