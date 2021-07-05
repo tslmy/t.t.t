@@ -8,7 +8,7 @@ RUN composer install \
     --prefer-dist
 
 
-FROM php:8.0.3-apache as php-server
+FROM php:8.1.0alpha1-apache as php-server
 
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 COPY . /var/www/html
