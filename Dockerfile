@@ -9,7 +9,6 @@ RUN composer install \
 
 
 FROM php:8.1.0alpha2-apache as php-server
-
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
