@@ -1,6 +1,6 @@
 public/content/
 
-.php_cs_fixer.cache
+.php-cs-fixer.cache
 .php_cs.cache
 tools/
 
