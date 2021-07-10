@@ -6,6 +6,5 @@ repos:
   - id: php-unit
   - id: php-cs-fixer
     files: \.(php)$
-    args: [--level=PSR2]
   - id: php-stan
     files: \.(php)$
