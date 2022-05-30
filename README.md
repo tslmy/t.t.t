@@ -75,7 +75,7 @@ To change the favicon, replace these files:
 
 ## Development
 
-I recommend running [the PHP Coding Standards Fixer (PHP CS Fixer)](https://github.com/FriendsOfPHP/PHP-CS-Fixer) everytime before committing. 
+I recommend running [the PHP Coding Standards Fixer (PHP CS Fixer)](https://github.com/FriendsOfPHP/PHP-CS-Fixer) everytime before committing.
 
 ## Changelog
 
