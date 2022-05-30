@@ -1,3 +1,21 @@
+# Apply to all files without commiting:
+#   pre-commit run --all-files
+# Update this file:
+#   pre-commit autoupdate
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+    -   id: check-ast
+    -   id: check-byte-order-marker
+    -   id: check-case-conflict
+    -   id: check-executables-have-shebangs
+    -   id: check-json
+    -   id: check-yaml
+    -   id: debug-statements
+    -   id: detect-private-key
+    -   id: trailing-whitespace
+    -   id: mixed-line-ending
 repos:
 - repo: https://github.com/digitalpulp/pre-commit-php.git
   rev: 1.4.0
