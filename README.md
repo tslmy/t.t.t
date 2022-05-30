@@ -1,12 +1,14 @@
 # ![logo](public/favicon-16x16.png) t.t.t
 
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+
 [![Build Status](https://www.travis-ci.com/tslmy/t.t.t.svg?branch=master)](https://www.travis-ci.com/tslmy/t.t.t)
 [![codecov](https://codecov.io/gh/tslmy/t.t.t/branch/master/graph/badge.svg?token=K603JQ63AV)](https://codecov.io/gh/tslmy/t.t.t)
 [![HitCount](http://hits.dwyl.com/tslmy/ttt.svg)](http://hits.dwyl.com/tslmy/ttt)
 
 A database-free blog engine that reads from a folder of Markdown files.
 
-![demo](https://imgur.com/Ei5ZgaA.jpg)
+![Screenshot](https://tva1.sinaimg.cn/large/e6c9d24egy1h2r3dr7vyqj20qw0m0jt1.jpg)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
@@ -22,11 +24,16 @@ php -S localhost:9000 -t public  # actually start the server
 
 ### Via Docker
 
+Set up an environment variable `$PATH_TO_NOTES` to the path to the posts you'd like to render with _t.t.t_.
+
 You can run t.t.t via Dockerfile:
 
 ```shell
+# Build the Docker image:
 docker build -t ttt .
-docker run -p 80:80 --rm --name ttt-demo ttt
+
+# Create a Docker container with the image built above, mapping $PATH_TO_NOTES to the content folder:
+docker run -p 80:80 --rm --name ttt-demo -v $PATH_TO_NOTES:/var/www/html/public/content:ro ttt
 ```
 
 ... or via Docker Compose: `docker-compose up`.
@@ -75,7 +82,7 @@ To change the favicon, replace these files:
 
 ## Development
 
-I recommend running [the PHP Coding Standards Fixer (PHP CS Fixer)](https://github.com/FriendsOfPHP/PHP-CS-Fixer) everytime before committing. 
+I recommend running [the PHP Coding Standards Fixer (PHP CS Fixer)](https://github.com/FriendsOfPHP/PHP-CS-Fixer) everytime before committing.
 
 ## Changelog
 

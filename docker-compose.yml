@@ -8,3 +8,5 @@ services:
     image: ttt
     ports:
       - 80:80
+    volumes:
+      - "${PATH_TO_NOTES}:/var/www/html/public/content"
