@@ -1,99 +1,129 @@
-# ![logo](public/favicon-16x16.png) t.t.t
+# ![Logo](public/favicon-16x16.png) **t.t.t**
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Build Status](https://www.travis-ci.com/tslmy/t.t.t.svg?branch=master)](https://www.travis-ci.com/tslmy/t.t.t)
 [![codecov](https://codecov.io/gh/tslmy/t.t.t/branch/master/graph/badge.svg?token=K603JQ63AV)](https://codecov.io/gh/tslmy/t.t.t)
 [![HitCount](http://hits.dwyl.com/tslmy/ttt.svg)](http://hits.dwyl.com/tslmy/ttt)
 
-A database-free blog engine that reads from a folder of Markdown files.
+**t.t.t** is a lightweight, database-free blog engine that renders a folder of Markdown files as blog posts.
 
-![Screenshot](https://tva1.sinaimg.cn/large/e6c9d24egy1h2r3dr7vyqj20qw0m0jt1.jpg)
+<p align="center">
+  <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2r3dr7vyqj20qw0m0jt1.jpg" alt="Screenshot" />
+</p>
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-## Setup
+---
 
-### Locally
-Assuming you have [Composer](https://getcomposer.org/doc/01-basic-usage.md) installed somewhere in your `$PATH`, do:
+## 🚀 Setup
 
-```shell
-composer install # install dependencies
-php -S localhost:9000 -t public  # actually start the server
+### 🔧 Local
+
+Make sure [Composer](https://getcomposer.org/doc/01-basic-usage.md) is installed and available in your `$PATH`.
+
+```bash
+composer install                   # Install dependencies
+php -S localhost:9000 -t public   # Start the server
 ```
 
-### Via Docker
+### 🐳 Docker
 
-Set up an environment variable `$PATH_TO_NOTES` to the path to the posts you'd like to render with _t.t.t_.
+Set an environment variable `$PATH_TO_NOTES` to the folder containing your blog posts.
 
-You can run t.t.t via Dockerfile:
+**Using Dockerfile:**
 
-```shell
-# Build the Docker image:
+```bash
+# Build the Docker image
 docker build -t ttt .
 
-# Create a Docker container with the image built above, mapping $PATH_TO_NOTES to the content folder:
-docker run -p 80:80 --rm --name ttt-demo -v $PATH_TO_NOTES:/var/www/html/public/content:ro ttt
+# Run the container
+docker run -p 80:80 --rm --name ttt-demo \
+  -v $PATH_TO_NOTES:/var/www/html/public/content:ro ttt
 ```
 
-... or via Docker Compose: `docker-compose up`.
+**Using Docker Compose:**
 
-### Via Kubernetes
+```bash
+docker-compose up
+```
 
-I will be using [minikube](https://minikube.sigs.k8s.io/) in this walkthrough. I will be using the local Docker Registry as the source of the Kubenetes image.
+### ☸️ Kubernetes (via Minikube)
 
-```shell
-# Start the cluster:
+```bash
+# Start the cluster
 minikube start
-# Register the Docker Registry to minikube -- This is because we will be building the image from the Dockerfile for Kubenetes:
+
+# Point Docker CLI to Minikube’s Docker daemon
 eval $(minikube docker-env)
-# Build the Docker image for Kubenetes:
+
+# Build the image
 docker build -t ttt .
-# Apply the Deployment (which manages the Pods/"virtual hosts" in the minikube cluster for the app) as well as the Service (which is a Load Balancer in this case that exposes the web app in the Pods) using the manifest file:
+
+# Apply Kubernetes manifests
 kubectl apply -f kubernetes-manifest.yml
-# Access the web app:
+
+# Access the app
 minikube service ttt-demo-service
 ```
 
-## Usage
+---
 
-To post a new article, simply upload your `txt` file to `public/content/`.
+## ✍️ Usage
 
-To organize posts into categories, simply create subdirectories under `public/content/` and put `txt` files there. Nested directories are accepted.
+- **To publish a post:** Upload your `.txt` or `.md` file to `public/content/`.
+- **To categorize posts:** Create subdirectories under `public/content/` and place files inside. Nested directories are supported.
+- **To change the favicon:** Replace the following files:
 
-To change the favicon, replace these files:
+  ```
+  android-chrome-192x192.png
+  android-chrome-512x512.png
+  apple-touch-icon.png
+  favicon-16x16.png
+  favicon-32x32.png
+  favicon.ico
+  site.webmanifest
+  ```
 
-- android-chrome-192x192.png
-- android-chrome-512x512.png
-- apple-touch-icon.png
-- favicon-16x16.png
-- favicon-32x32.png
-- favicon.ico
-- site.webmanifest
+---
 
-## FAQ
+## ❓ FAQ
 
-- When should I use it?
-  This engine is great when you want to publish a folder of `txt` files as a blog real quick.
-- Why the name "t.t.t"?
-  It was an acronym for my old blog, `the.tslimi.tk`. Apparently, it has lost this origin as I moved on to other blogging platforms. Feel free to interpret it any way you like.
-- Why PHP?
-  This project was developed during an era where cPanel-based free web-hosting were popular. These web-hosting providers usually only allow PHP as the only dynamic web language on their platforms, hence the choice.
+- **When should I use this?**  
+  When you want to quickly publish a blog from a folder of `.txt` or `.md` files with minimal setup.
 
-## Development
+- **Why the name “t.t.t”?**  
+  Originally short for `the.tslimi.tk`, my old blog. You're welcome to interpret it however you like now.
 
-I recommend running [the PHP Coding Standards Fixer (PHP CS Fixer)](https://github.com/FriendsOfPHP/PHP-CS-Fixer) everytime before committing.
+- **Why PHP?**  
+  Back in the day of cPanel-based free hosting, PHP was often the only server-side language supported — so, PHP it was.
 
-## Changelog
+---
 
-This project was originally written more than a decade ago while I was still a middle schooler. I didn't update this repo until recently (Dec 2020), during which time I removed/modified a number of features:
+## 🛠 Development
 
-- Instead of hard-wiring all the dependencies within the repo, t.t.t currently exploits CDNs and [package managers](https://getcomposer.org) for importing libraries.
-- The "quick access" list has been removed. Instead, use your favorite search engine.
-- The `_intro.txt` behavior has been removed to reduce complexity in the rendering process.
-- The caching behavior has been removed. It was a fun experience to have implemented my own caching mechanism, but the complexity-efficiency trade-off was just not paying off.
-- Instead of writing my own CSS, I'm now using the [mvp.css](https://andybrewer.github.io/mvp/) template. This switch keeps the HTML in this repo more semantic and the CSS more up to modern standards.
-- Instead of using one `favicon.ico` file, the blog engine is now using a whole set of favicon files generated from [favicon.io](https://favicon.io/).
+Run [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) before committing:
 
-## License
+```bash
+php-cs-fixer fix
+```
 
-GPL-3.0. See `LICENSE`.
+---
+
+## 📜 Changelog
+
+This project was first built when I was in middle school. In the Dec 2020 revamp, the following changes were made:
+
+- Switched to using CDNs and [Composer](https://getcomposer.org) for dependencies. (No, it had not dependency manager back then.)
+- Removed the “quick access” list — use your favorite search engine instead.
+- Removed `_intro.txt` support for rendering simplicity.
+- Dropped the custom caching logic to reduce complexity.
+- Replaced hand-rolled CSS with [mvp.css](https://andybrewer.github.io/mvp/) for cleaner HTML and modern styling.
+- Adopted a full favicon set generated via [favicon.io](https://favicon.io/).
+
+On Apr 21, 2025, I had ChatGPT rewrite this whole README file.
+
+---
+
+## 📝 License
+
+Licensed under **GPL-3.0**. See [`LICENSE`](LICENSE) for details.
