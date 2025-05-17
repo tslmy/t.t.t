@@ -131,17 +131,17 @@ _t.t.t_ is written with ~200 lines of PHP with just 4 dependencies. With page te
 
 Language|files|blank|comment|code
 :-------|-------:|-------:|-------:|-------:
-PHP|4|28|9|212
+PHP|4|28|24|213
 Twig|3|1|0|127
+Markdown|1|48|0|102
 YAML|5|4|4|95
-Markdown|1|43|0|86
-XML|1|1|0|25
+XML|1|1|0|25**
+JSON|2|0|0|24
 Dockerfile|1|3|0|15
-JSON|2|0|0|14
 Text|1|4|0|5
 Properties|1|3|7|2
 --------|--------|--------|--------|--------
-SUM:|19|87|20|581
+SUM:|19|92|35|608
 
 ---
 
