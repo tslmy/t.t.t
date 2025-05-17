@@ -15,7 +15,14 @@ $content_abs_dir = getcwd().'/'.$content_dir;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Michelf\SmartyPants;
 
-function get_content($file_name, $max_size)
+/**
+ * Get the content of a file, convert Markdown to HTML, apply SmartyPants, and add internal links.
+ *
+ * @param string $file_name The path to the file to read.
+ * @param int $max_size The maximum number of bytes to read from the file. Use 0 for no limit.
+ * @return string The processed HTML content.
+ */
+function get_content(string $file_name, int $max_size): string
 {
     $converter = new GithubFlavoredMarkdownConverter([
         'html_input' => 'strip',
@@ -34,7 +41,14 @@ function get_content($file_name, $max_size)
     return $content;
 }
 
-function print_breadcrumb($crumbs, $cur_path)
+/**
+ * Print a breadcrumb navigation HTML string based on the given crumbs and current path.
+ *
+ * @param array $crumbs Array of folder names representing the breadcrumb trail.
+ * @param string $cur_path The current absolute path.
+ * @return void
+ */
+function print_breadcrumb(array $crumbs, string $cur_path): void
 {
     $output = "<a href=\"index.php\">Home</a>";
     $absolute_path='';

@@ -16,7 +16,14 @@
     }
     $folder = substr($path, strlen(getcwd())+1);
 
-    function get_filetree($path)
+    /**
+     * Recursively get a flat array of all files in a directory and its subdirectories that have allowed extensions.
+     * Uses RecursiveDirectoryIterator for efficiency and readability.
+     *
+     * @param string $path The directory path to search.
+     * @return array<string, int> An associative array mapping file paths to their modification times.
+     */
+    function get_filetree(string $path): array
     {
         $tree = array();
         foreach (glob($path.'/*') as $single) {
