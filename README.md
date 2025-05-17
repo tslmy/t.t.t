@@ -8,7 +8,7 @@
 **t.t.t** is a lightweight, database-free blog engine that renders a folder of Markdown files as blog posts.
 
 <p align="center">
-  <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2r3dr7vyqj20qw0m0jt1.jpg" alt="Screenshot" />
+  <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2r3dr7vyqj20qw0m0jt1.jpg" alt="Screenshot" width="400px" />
 </p>
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
@@ -121,6 +121,27 @@ This project was first built when I was in middle school. In the Dec 2020 revamp
 - Adopted a full favicon set generated via [favicon.io](https://favicon.io/).
 
 On Apr 21, 2025, I had ChatGPT rewrite this whole README file.
+
+---
+
+
+## 📊 Code Statistics
+
+_t.t.t_ is written with ~200 lines of PHP with just 4 dependencies. With page templates totaling ~130 lines of [Twig](https://twig.symfony.com/) and CSS shamelessly delegated to [mvp.css](https://andybrewer.github.io/mvp/), _t.t.t_ is less than 400 lines of code in total.
+
+Language|files|blank|comment|code
+:-------|-------:|-------:|-------:|-------:
+PHP|4|28|9|212
+Twig|3|1|0|127
+YAML|5|4|4|95
+Markdown|1|43|0|86
+XML|1|1|0|25
+Dockerfile|1|3|0|15
+JSON|2|0|0|14
+Text|1|4|0|5
+Properties|1|3|7|2
+--------|--------|--------|--------|--------
+SUM:|19|87|20|581
 
 ---
 
