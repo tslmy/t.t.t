@@ -1,6 +1,6 @@
 {
     "require": {
-        "league/commonmark": "^1.5",
+        "league/commonmark": "^2.7.0",
         "michelf/php-smartypants": "^1.8",
         "pagerfanta/pagerfanta": "^2.5",
         "twig/twig": "^3.2"
