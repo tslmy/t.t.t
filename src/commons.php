@@ -46,9 +46,9 @@ function get_content(string $file_name, int $max_size): string
  *
  * @param array $crumbs Array of folder names representing the breadcrumb trail.
  * @param string $cur_path The current absolute path.
- * @return void
+ * @return string The HTML string representing the breadcrumb navigation.
  */
-function print_breadcrumb(array $crumbs, string $cur_path): void
+function print_breadcrumb(array $crumbs, string $cur_path): string
 {
     $output = "<a href=\"index.php\">Home</a>";
     $absolute_path='';
