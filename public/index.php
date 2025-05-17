@@ -16,29 +16,19 @@
     }
     $folder = substr($path, strlen(getcwd())+1);
 
-    /**
-     * Recursively get a flat array of all files in a directory and its subdirectories that have allowed extensions.
-     * Uses RecursiveDirectoryIterator for efficiency and readability.
-     *
-     * @param string $path The directory path to search.
-     * @return array<string, int> An associative array mapping file paths to their modification times.
-     */
-    function get_filetree(string $path): array
-    {
-        $tree = array();
-        foreach (glob($path.'/*') as $single) {
-            if (is_dir($single)) {
-                $tree = array_merge($tree, get_filetree($single));
-            } else {
-                $extn = pathinfo($single, PATHINFO_EXTENSION);
-                if (in_array($extn, constant('EXT_ALLOWED'))) {
-                    $tree[$single] = filemtime($single);
-                }
+    $files = array();
+    $allowed = constant('EXT_ALLOWED');
+    $iterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($folder, FilesystemIterator::SKIP_DOTS)
+    );
+    foreach ($iterator as $file) {
+        if ($file->isFile()) {
+            $extn = $file->getExtension();
+            if (in_array($extn, $allowed)) {
+                $files[$file->getPathname()] = $file->getMTime();
             }
         }
-        return $tree;
     }
-    $files=get_filetree($folder);
     arsort($files, SORT_NUMERIC);
 
     use Pagerfanta\Adapter\ArrayAdapter;
