@@ -1,4 +1,14 @@
 {
+    "name": "tslmy/t.t.t",
+    "description": "A minimal blog engine.",
+    "type": "project",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Ming",
+            "email": "ttt@myli.page"
+        }
+    ],
     "require": {
         "league/commonmark": "^2.7.0",
         "michelf/php-smartypants": "^1.8",
