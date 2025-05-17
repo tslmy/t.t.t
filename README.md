@@ -88,13 +88,13 @@ minikube service ttt-demo-service
 
 ## ❓ FAQ
 
-- **When should I use this?**  
+- **When should I use this?**
   When you want to quickly publish a blog from a folder of `.txt` or `.md` files with minimal setup.
 
-- **Why the name “t.t.t”?**  
+- **Why the name “t.t.t”?**
   Originally short for `the.tslimi.tk`, my old blog. You're welcome to interpret it however you like now.
 
-- **Why PHP?**  
+- **Why PHP?**
   Back in the day of cPanel-based free hosting, PHP was often the only server-side language supported — so, PHP it was.
 
 ---
