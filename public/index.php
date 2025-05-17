@@ -37,10 +37,15 @@
     $adapter = new ArrayAdapter($files);
     $pagerfanta = new Pagerfanta($adapter);
     $pagerfanta->setMaxPerPage(constant('ITEMS_DISPLAYED_PER_PAGE'));
-    $page = 1;
     if (isset($_GET["page"])) {
-        $page=(int)$_GET["page"];
-        $pagerfanta->setCurrentPage((int)$_GET["page"]);
+        $page = (int)$_GET["page"];
+        // Validate page number
+        if ($page < 1) {
+            $page = 1;
+        } elseif ($page > $pagerfanta->getNbPages()) {
+            $page = $pagerfanta->getNbPages();
+        }
+        $pagerfanta->setCurrentPage($page);
     }
 
     $head_title = constant('SITE_NAME');
