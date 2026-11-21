@@ -23,5 +23,13 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Ttt\\": "src/"
+        },
+        "files": [
+            "src/config.php"
+        ]
     }
 }

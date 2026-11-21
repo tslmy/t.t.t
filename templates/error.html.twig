@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html color-mode="user">
+    <head>
+        <title>{{ status }} - {{ site_name }}</title>
+        {{ include('head.html.twig') }}
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href="{{ home_url }}"><img src="{{ base }}/favicon-32x32.png" alt="Home" /></a>
+            </nav>
+            <h1>{{ status }}</h1>
+            <p>{{ message }}</p>
+        </header>
+        <main>
+            <p><a href="{{ home_url }}">Back to the home page</a></p>
+        </main>
+    </body>
+</html>

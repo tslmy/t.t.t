@@ -7,7 +7,7 @@
     <body>
         <header>
             <nav>
-                <a href="index.php"><img src="favicon-32x32.png" /></a>
+                <a href="{{ home_url }}"><img src="{{ base }}/favicon-32x32.png" alt="Home" /></a>
                 <ul>
                     {{ nav_breadcrumb|raw }}
                 </ul>
@@ -16,20 +16,18 @@
             <p>{{ site_desc }}</p>
         </header>
         <main>
-            {% for path, metadata in paths_to_metadata %}
+            {% for entry in entries %}
                 <div>
-                    <small>{{ metadata.date_str }}</small>
+                    <small>{{ entry.date_str }}</small>
                     <h2>
-                        <a href='view.php?name={{ metadata.rel_path|url_encode }}'>
-                            {{ metadata.filename }}
-                        </a>
+                        <a href="{{ entry.url }}">{{ entry.title }}</a>
                     </h2>
                     <article>
-                        {{ metadata.preview|raw }}
+                        {{ entry.preview|raw }}
                     </article>
-                    {% if metadata.rel_dir!='.' %}
+                    {% if entry.breadcrumb %}
                         <small>
-                            Published under: {{ metadata.breadcrumb|raw }}
+                            Published under: {{ entry.breadcrumb|raw }}
                         </small>
                     {% endif %}
                     <hr>
@@ -37,15 +35,15 @@
             {% endfor %}
         </main>
         <footer>
-            {% if have_to_paginate %}
+            {% if pages %}
                 <nav>
                     Page
                     <ul>
-                        {% for i in 1..num_pages %}
-                            {% if i==page %}
-                                <li>{{ i }}</li>
+                        {% for p in pages %}
+                            {% if p.current %}
+                                <li>{{ p.n }}</li>
                             {% else %}
-                                <li><a href='index.php?page={{ i }}'>{{ i }}</a></li>
+                                <li><a href="{{ p.url }}">{{ p.n }}</a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>

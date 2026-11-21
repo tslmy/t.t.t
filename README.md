@@ -22,7 +22,7 @@ Requires PHP 8.2+ and [Composer](https://getcomposer.org/doc/01-basic-usage.md) 
 
 ```bash
 composer install                   # Install dependencies
-php -S localhost:9000 -t public   # Start the server
+php -S localhost:9000 -t public public/index.php   # Start the server (index.php is the router)
 ```
 
 ### 🐳 Docker
@@ -83,6 +83,20 @@ All settings are optional environment variables (for Docker, add `-e NAME=value`
 | `TTT_ANALYTICS_SCRIPT_URL` | `https://plausible.io/js/script.js` | Point at a self-hosted Plausible/Umami-compatible script |
 
 CSS ([mvp.css](https://andybrewer.github.io/mvp/)) and syntax highlighting ([highlight.js](https://highlightjs.org/)) are vendored in `public/vendor/`, so the site makes no third-party requests unless you enable comments or analytics.
+
+---
+
+## 🔗 URLs
+
+| URL | Shows |
+|---|---|
+| `/` | Newest posts (`?page=2` for more) |
+| `/folder/essays/2024` | Newest posts under `public/content/essays/2024/` |
+| `/post/essays/2024/title` | One post (`title.md` or `title.txt`) |
+
+Old links (`view.php?name=…`, `index.php?folder=…`) are redirected permanently. Clean URLs need the rewrite rules in `public/.htaccess` (Apache with `mod_rewrite` and `AllowOverride All`; the Docker image and Heroku are already set up). For nginx, send any request that isn't a real file to `index.php`. The site also works in a sub-directory such as `/blog`.
+
+Link to another post from Markdown with `~essays/title.md~` or `~essays/title.md:link text~`.
 
 ---
 

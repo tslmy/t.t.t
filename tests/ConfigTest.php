@@ -3,7 +3,6 @@
 use PHPUnit\Framework\Attributes\CoversFunction;
 use PHPUnit\Framework\TestCase;
 
-require_once "src/commons.php";
 
 #[CoversFunction('env_string')]
 #[CoversFunction('env_int')]

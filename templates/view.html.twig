@@ -4,16 +4,16 @@
         <title>
             {{ basename }} - {{ site_name }}
         </title>
-        <link rel="stylesheet" href="vendor/github.min.css" media="(prefers-color-scheme: light)">
-        <link rel="stylesheet" href="vendor/github-dark.min.css" media="(prefers-color-scheme: dark)">
-        <script src="vendor/highlight.min.js"></script>
+        <link rel="stylesheet" href="{{ base }}/vendor/github.min.css" media="(prefers-color-scheme: light)">
+        <link rel="stylesheet" href="{{ base }}/vendor/github-dark.min.css" media="(prefers-color-scheme: dark)">
+        <script src="{{ base }}/vendor/highlight.min.js"></script>
         <script>document.addEventListener('DOMContentLoaded', function () { hljs.highlightAll(); });</script>
         {{ include('head.html.twig') }}
     </head>
     <body>
         <header>
             <nav>
-                <a href="index.php"><img src="favicon-32x32.png" /></a>
+                <a href="{{ home_url }}"><img src="{{ base }}/favicon-32x32.png" alt="Home" /></a>
                 <ul>
                     {{ nav_breadcrumb|raw }}
                 </ul>
@@ -40,7 +40,7 @@
             {% endif %}
         </main>
         <footer>
-            <a href='{{ file_name|url_encode }}'>Source</a>
+            <a href="{{ source_url }}">Source</a>
         </footer>
     </body>
 </html>
