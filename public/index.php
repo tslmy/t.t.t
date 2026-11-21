@@ -9,20 +9,13 @@
     require "../src/commons.php";
 
     // Get folder parameter from URL or default to empty string
-    $subfolder = isset($_GET["folder"]) ? $_GET["folder"] : '';
-    $path = realpath($content_abs_dir.'/'.$subfolder);
+    $subfolder = isset($_GET["folder"]) && is_string($_GET["folder"]) ? $_GET["folder"] : '';
+    $path = resolve_inside($content_abs_dir, $subfolder);
 
-    // Security check: prevent directory traversal attacks
-    if (!str_starts_with($path, $content_abs_dir)) {
-        http_response_code(403);
-        die;
-    }
-
-    // Ensure the path is a directory
-    if (!is_dir($path)) {
-        # to eliminate the possibility that $path is a file.
-        http_response_code(404);
-        die;
+    // Missing paths and directory traversal attempts both look like "not found".
+    // Also ensure the path is a directory, not a file.
+    if ($path === null || !is_dir($path)) {
+        abort_with(404, 'Not found.');
     }
 
     // Get relative path from current working directory
@@ -59,6 +52,7 @@
     $pagerfanta->setMaxPerPage(constant('ITEMS_DISPLAYED_PER_PAGE'));
 
     // Handle page parameter and validate it
+    $page = 1;
     if (isset($_GET["page"])) {
         $page = (int)$_GET["page"];
         // Validate page number
@@ -95,7 +89,7 @@
         $rel_dir=dirname($rel_path);
 
         // Get file content preview
-        $file_content = get_content($path, constant('PREVIEW_SIZE_IN_KB'));
+        $file_content = get_content($path, constant('PREVIEW_SIZE_IN_BYTES'));
 
         // Generate breadcrumb for this file
         $path_tags=explode('/', $rel_dir);

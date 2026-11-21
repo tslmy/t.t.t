@@ -3,24 +3,16 @@
     require __DIR__ . '/../vendor/autoload.php';
     require "../src/commons.php";
 
-    if (!isset($_GET["name"])) {
-        http_response_code(400);
-        die;
+    if (!isset($_GET["name"]) || !is_string($_GET["name"])) {
+        abort_with(400, 'Missing post name.');
     }
-    $path = realpath($content_abs_dir.'/'.$_GET["name"]);
-    if (!str_starts_with($path, $content_abs_dir)) {
-        http_response_code(403);
-        die;
+    $path = resolve_inside($content_abs_dir, $_GET["name"]);
+    if ($path === null || !is_file($path)) {
+        abort_with(404, 'Not found.');
     }
     $extn = pathinfo($path, PATHINFO_EXTENSION);
     if (!in_array($extn, constant('EXT_ALLOWED'))) {
-        http_response_code(403);
-        die;
-    }
-    if (!is_file($path)) {
-        # to eliminate the possibility that $path is a directory.
-        http_response_code(404);
-        die;
+        abort_with(403, 'Forbidden.');
     }
     $file_name = substr($path, strlen(getcwd())+1); # content/Lorem Ipsum.md
     $get_name = substr($path, strlen($content_abs_dir)+1, strrpos($path, "."));
