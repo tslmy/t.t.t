@@ -9,8 +9,9 @@ define('DISQUS_SHORTNAME', 'tslmy');			//disqus_shortname
 define('GA_ID', 'UA-21290300-1');           //Google Analytics tracking ID
 define('EXT_ALLOWED', ['txt', 'md']);
 
-$content_dir = trim(constant('CONTENT_DIR'), '/');
-$content_abs_dir = getcwd().'/'.$content_dir;
+// Where the posts live: relative to the working directory (public/), and absolute.
+define('CONTENT_REL_DIR', trim(constant('CONTENT_DIR'), '/'));
+define('CONTENT_ABS_DIR', getcwd().'/'.CONTENT_REL_DIR);
 
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Michelf\SmartyPants;
