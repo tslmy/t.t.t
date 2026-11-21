@@ -18,7 +18,7 @@
 
 ### 🔧 Local
 
-Requires PHP 8.2+ and [Composer](https://getcomposer.org/doc/01-basic-usage.md) available in your `$PATH`.
+Requires PHP 8.4+ and [Composer](https://getcomposer.org/doc/01-basic-usage.md) available in your `$PATH`.
 
 ```bash
 composer install                   # Install dependencies
