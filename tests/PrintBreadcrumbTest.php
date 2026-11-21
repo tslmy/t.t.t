@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require "src/commons.php";
+require_once "src/commons.php";
 
 final class PrintBreadcrumbTest extends TestCase
 {
