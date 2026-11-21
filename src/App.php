@@ -36,7 +36,7 @@ final class App
     {
         $urls = Urls::fromServer($server, constant('EXT_ALLOWED'));
         return new self(
-            new PostRepository(constant('CONTENT_ABS_DIR'), constant('EXT_ALLOWED')),
+            new PostRepository(constant('CONTENT_ABS_DIR'), constant('EXT_ALLOWED'), constant('SHOW_DRAFTS')),
             $urls,
             new Markdown($urls),
             new Environment(new FilesystemLoader(dirname(__DIR__).'/templates')),
@@ -106,7 +106,9 @@ final class App
                 'title' => $post->title(),
                 'url' => $this->urls->post($post->relPath),
                 'date_str' => date('Y M d (D) H:i', $post->date()),
-                'preview' => $this->markdown->renderFile($post->path, $this->settings['preview_bytes']),
+                'preview' => $post->summary() !== ''
+                    ? $this->markdown->render($post->summary())
+                    : $this->markdown->renderFile($post->path, $this->settings['preview_bytes']),
                 'breadcrumb' => $post->dir() === '' ? '' : Breadcrumb::render(explode('/', $post->dir()), '', $this->urls),
             ];
         }
@@ -138,7 +140,7 @@ final class App
         }
         $dir = $post->dir();
         return new Response(200, $this->twig->render('view.html.twig', $this->context([
-            'basename' => $post->title(),
+            'title' => $post->title(),
             'nav_breadcrumb' => $dir === '' ? '' : 'You are at: '.Breadcrumb::render(explode('/', $dir), '/'.$dir, $this->urls),
             'date_str' => date('Y M d (D) H:i', $post->date()),
             'content' => $this->markdown->renderFile($post->path),
