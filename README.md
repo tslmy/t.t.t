@@ -67,6 +67,25 @@ minikube service ttt-demo-service
 
 ---
 
+## ⚙️ Configuration
+
+All settings are optional environment variables (for Docker, add `-e NAME=value`; `docker-compose` passes them through from your shell).
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `TTT_SITE_NAME` | `My blog` | Site title |
+| `TTT_SITE_DESC` | `Powered by t.t.t, …` | Tagline shown on the index |
+| `TTT_ITEMS_PER_PAGE` | `10` | Posts per index page |
+| `TTT_PREVIEW_BYTES` | `1000` | How much of each post the index previews |
+| `TTT_CONTENT_DIR` | `content` | Posts folder, relative to `public/` |
+| `TTT_DISQUS_SHORTNAME` | _(empty)_ | Set to enable Disqus comments |
+| `TTT_ANALYTICS_DOMAIN` | _(empty)_ | Set to enable a [Plausible](https://plausible.io)-style analytics script for this domain |
+| `TTT_ANALYTICS_SCRIPT_URL` | `https://plausible.io/js/script.js` | Point at a self-hosted Plausible/Umami-compatible script |
+
+CSS ([mvp.css](https://andybrewer.github.io/mvp/)) and syntax highlighting ([highlight.js](https://highlightjs.org/)) are vendored in `public/vendor/`, so the site makes no third-party requests unless you enable comments or analytics.
+
+---
+
 ## ✍️ Usage
 
 - **To publish a post:** Upload your `.txt` or `.md` file to `public/content/`.

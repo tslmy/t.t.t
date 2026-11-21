@@ -4,14 +4,10 @@
         <title>
             {{ basename }} - {{ site_name }}
         </title>
-        <!-- code syntax highlighter START-->
-        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/solarized_light.min.css">
-        <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
-        <script>
-            hljs.tabReplace = '    ';
-            hljs.initHighlightingOnLoad();
-        </script>
-        <!-- code syntax highlighter END-->
+        <link rel="stylesheet" href="vendor/github.min.css" media="(prefers-color-scheme: light)">
+        <link rel="stylesheet" href="vendor/github-dark.min.css" media="(prefers-color-scheme: dark)">
+        <script src="vendor/highlight.min.js"></script>
+        <script>document.addEventListener('DOMContentLoaded', function () { hljs.highlightAll(); });</script>
         {{ include('head.html.twig') }}
     </head>
     <body>
@@ -30,17 +26,18 @@
                 {{ content|raw }}
             </article>
             <hr>
-            <!-- disqus start -->
+            {% if disqus %}
             <div id="disqus_thread"></div>
-            <script type="text/javascript">
+            <script>
                 (function() {
-                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                    dsq.src = '//{{ disqus }}.disqus.com/embed.js';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    var dsq = document.createElement('script');
+                    dsq.async = true;
+                    dsq.src = 'https://' + {{ disqus|json_encode|raw }} + '.disqus.com/embed.js';
+                    document.body.appendChild(dsq);
                 })();
             </script>
-            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-            <!-- disqus end -->
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+            {% endif %}
         </main>
         <footer>
             <a href='{{ file_name|url_encode }}'>Source</a>

@@ -35,7 +35,8 @@
     $twig = new Environment($loader);
 
     echo $twig->render('view.html.twig', [
-        'ga_id' => constant('GA_ID'),
+        'analytics_domain' => constant('ANALYTICS_DOMAIN'),
+        'analytics_script_url' => constant('ANALYTICS_SCRIPT_URL'),
         'basename' => $basename,
         'site_name' => constant('SITE_NAME'),
         'nav_breadcrumb' => $nav_breadcrumb,
