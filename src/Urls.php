@@ -31,6 +31,24 @@ final class Urls
         return new self($dir, $extensions);
     }
 
+    /**
+     * The site's origin ("https://example.com", no path): the configured one if valid, else guessed from the request.
+     *
+     * @param array<string, mixed> $server The $_SERVER array.
+     */
+    public static function origin(array $server, string $configured = ''): string
+    {
+        $parts = $configured === '' ? false : parse_url($configured);
+        if (is_array($parts) && in_array($parts['scheme'] ?? '', ['http', 'https'], true) && ($parts['host'] ?? '') !== '') {
+            return $parts['scheme'].'://'.$parts['host'].(isset($parts['port']) ? ':'.$parts['port'] : '');
+        }
+        $https = isset($server['HTTPS']) && $server['HTTPS'] !== '' && $server['HTTPS'] !== 'off';
+        $host = is_string($server['HTTP_HOST'] ?? null) && preg_match('/^[A-Za-z0-9.\-]+(:\d+)?$/', $server['HTTP_HOST'])
+            ? $server['HTTP_HOST']
+            : 'localhost';
+        return ($https ? 'https' : 'http').'://'.$host;
+    }
+
     public function base(): string
     {
         return $this->base;
@@ -39,6 +57,11 @@ final class Urls
     public function home(): string
     {
         return $this->base.'/';
+    }
+
+    public function feed(): string
+    {
+        return $this->base.'/feed.xml';
     }
 
     /** URL of a static file under the web root, e.g. 'vendor/mvp.css'. */

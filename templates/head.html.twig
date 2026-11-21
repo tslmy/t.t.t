@@ -1,5 +1,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+{% if meta_description %}
+<meta name="description" content="{{ meta_description }}" />
+<meta property="og:description" content="{{ meta_description }}" />
+{% endif %}
+{% if canonical_url %}
+<link rel="canonical" href="{{ canonical_url }}" />
+<meta property="og:url" content="{{ canonical_url }}" />
+{% endif %}
+<meta property="og:site_name" content="{{ site_name }}" />
+<meta property="og:title" content="{{ og_title|default(site_name) }}" />
+<meta property="og:type" content="{{ og_type|default('website') }}" />
+<link rel="alternate" type="application/atom+xml" title="{{ site_name }}" href="{{ feed_url }}" />
 <link rel="stylesheet" href="{{ base }}/vendor/mvp.css">
 <link rel="apple-touch-icon" sizes="180x180" href="{{ base }}/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ base }}/favicon-32x32.png">

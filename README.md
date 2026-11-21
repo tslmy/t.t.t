@@ -78,6 +78,7 @@ All settings are optional environment variables (for Docker, add `-e NAME=value`
 | `TTT_ITEMS_PER_PAGE` | `10` | Posts per index page |
 | `TTT_PREVIEW_BYTES` | `1000` | How much of each post the index previews |
 | `TTT_CONTENT_DIR` | `content` | Posts folder, relative to `public/` |
+| `TTT_SITE_URL` | _(guessed from the request)_ | Your site's origin, e.g. `https://example.com` — used for absolute links in the feed, sitemap and `canonical` tags. Set it in production. |
 | `TTT_DISQUS_SHORTNAME` | _(empty)_ | Set to enable Disqus comments |
 | `TTT_ANALYTICS_DOMAIN` | _(empty)_ | Set to enable a [Plausible](https://plausible.io)-style analytics script for this domain |
 | `TTT_ANALYTICS_SCRIPT_URL` | `https://plausible.io/js/script.js` | Point at a self-hosted Plausible/Umami-compatible script |
@@ -93,6 +94,8 @@ CSS ([mvp.css](https://andybrewer.github.io/mvp/)) and syntax highlighting ([hig
 | `/` | Newest posts (`?page=2` for more) |
 | `/folder/essays/2024` | Newest posts under `public/content/essays/2024/` |
 | `/post/essays/2024/title` | One post (`title.md` or `title.txt`) |
+| `/feed.xml` | [Atom](https://en.wikipedia.org/wiki/Atom_(web_standard)) feed of the 20 newest posts (advertised in every page's `<head>`) |
+| `/sitemap.xml` | Every post, for search engines |
 
 Old links (`view.php?name=…`, `index.php?folder=…`) are redirected permanently. Clean URLs need the rewrite rules in `public/.htaccess` (Apache with `mod_rewrite` and `AllowOverride All`; the Docker image and Heroku are already set up). For nginx, send any request that isn't a real file to `index.php`. The site also works in a sub-directory such as `/blog`.
 

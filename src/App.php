@@ -15,12 +15,14 @@ use Twig\Loader\FilesystemLoader;
  *   /                      newest posts
  *   /folder/<path>         newest posts under a folder
  *   /post/<path>           one post (file extension omitted)
+ *   /feed.xml              Atom feed of the newest posts
+ *   /sitemap.xml           every post, for search engines
  *   view.php?name=, index.php?folder=   old URLs, redirected permanently
  */
 final class App
 {
     /**
-     * @param array{site_name: string, site_desc: string, per_page: int, preview_bytes: int, content_dir: string, disqus: string, analytics_domain: string, analytics_script_url: string} $settings
+     * @param array{site_name: string, site_desc: string, per_page: int, preview_bytes: int, content_dir: string, origin: string, feed_items: int, disqus: string, analytics_domain: string, analytics_script_url: string} $settings
      */
     public function __construct(
         private PostRepository $posts,
@@ -46,6 +48,8 @@ final class App
                 'per_page' => constant('ITEMS_DISPLAYED_PER_PAGE'),
                 'preview_bytes' => constant('PREVIEW_SIZE_IN_BYTES'),
                 'content_dir' => constant('CONTENT_REL_DIR'),
+                'origin' => Urls::origin($server, constant('SITE_URL')),
+                'feed_items' => 20,
                 'disqus' => constant('DISQUS_SHORTNAME'),
                 'analytics_domain' => constant('ANALYTICS_DOMAIN'),
                 'analytics_script_url' => constant('ANALYTICS_SCRIPT_URL'),
@@ -76,6 +80,12 @@ final class App
                 return Response::redirect($this->urls->folder($folder));
             }
             return $this->index('', $query);
+        }
+        if ($route === 'feed.xml') {
+            return $this->feed();
+        }
+        if ($route === 'sitemap.xml') {
+            return $this->sitemap();
         }
         if (str_starts_with($route, 'folder/')) {
             return $this->index(substr($route, strlen('folder/')), $query);
@@ -125,6 +135,10 @@ final class App
             'head_title' => $title,
             'nav_breadcrumb' => $folder === '' ? '' : 'You are at: '.Breadcrumb::render(explode('/', $folder), '/'.$folder, $this->urls),
             'site_desc' => $this->settings['site_desc'],
+            'og_title' => $title,
+            'og_type' => 'website',
+            'meta_description' => $this->settings['site_desc'],
+            'canonical_url' => $this->settings['origin'].$this->urls->page($folder, $page),
             'entries' => $entries,
             'pages' => $pager->haveToPaginate() ? $pages : [],
         ])), ['Content-Type' => 'text/html; charset=UTF-8']);
@@ -137,14 +151,62 @@ final class App
             return $this->error(404, 'Not found.');
         }
         $dir = $post->dir();
+        $content = $this->markdown->renderFile($post->path);
         return new Response(200, $this->twig->render('view.html.twig', $this->context([
             'basename' => $post->title(),
+            'og_title' => $post->title().' - '.$this->settings['site_name'],
+            'og_type' => 'article',
+            'meta_description' => self::excerpt($content),
+            'canonical_url' => $this->settings['origin'].$this->urls->post($post->relPath),
             'nav_breadcrumb' => $dir === '' ? '' : 'You are at: '.Breadcrumb::render(explode('/', $dir), '/'.$dir, $this->urls),
             'date_str' => date('Y M d (D) H:i', $post->date()),
-            'content' => $this->markdown->renderFile($post->path),
+            'content' => $content,
             'disqus' => $this->settings['disqus'],
             'source_url' => $this->urls->asset($this->settings['content_dir'].'/'.$post->relPath),
         ])), ['Content-Type' => 'text/html; charset=UTF-8']);
+    }
+
+    private function feed(): Response
+    {
+        // Feed readers need absolute links, so render with a Urls that includes the origin.
+        $absolute = new Urls($this->settings['origin'].$this->urls->base(), constant('EXT_ALLOWED'));
+        $markdown = new Markdown($absolute);
+        $entries = [];
+        foreach (array_slice($this->posts->all(), 0, $this->settings['feed_items']) as $post) {
+            $entries[] = [
+                'title' => $post->title(),
+                'url' => $absolute->post($post->relPath),
+                'updated' => $post->date(),
+                'summary' => '',
+                'content' => $markdown->renderFile($post->path),
+            ];
+        }
+        $xml = Feed::atom(
+            $this->settings['site_name'],
+            $this->settings['site_desc'],
+            $absolute->home(),
+            $absolute->feed(),
+            $entries
+        );
+        return new Response(200, $xml, ['Content-Type' => 'application/atom+xml; charset=UTF-8']);
+    }
+
+    private function sitemap(): Response
+    {
+        $absolute = new Urls($this->settings['origin'].$this->urls->base(), constant('EXT_ALLOWED'));
+        $posts = $this->posts->all();
+        $pages = [['url' => $absolute->home(), 'updated' => isset($posts[0]) ? $posts[0]->date() : 0]];
+        foreach ($posts as $post) {
+            $pages[] = ['url' => $absolute->post($post->relPath), 'updated' => $post->date()];
+        }
+        return new Response(200, Feed::sitemap($pages), ['Content-Type' => 'application/xml; charset=UTF-8']);
+    }
+
+    /** Plain-text teaser of some HTML, for <meta name="description">. */
+    private static function excerpt(string $html, int $width = 200): string
+    {
+        $text = trim((string) preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5)));
+        return mb_strimwidth($text, 0, $width, '…');
     }
 
     private function error(int $status, string $message): Response
@@ -166,6 +228,7 @@ final class App
         return $extra + [
             'base' => $this->urls->base(),
             'home_url' => $this->urls->home(),
+            'feed_url' => $this->settings['origin'].$this->urls->feed(),
             'site_name' => $this->settings['site_name'],
             'analytics_domain' => $this->settings['analytics_domain'],
             'analytics_script_url' => $this->settings['analytics_script_url'],

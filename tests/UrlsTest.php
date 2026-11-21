@@ -22,6 +22,7 @@ final class UrlsTest extends TestCase
         $this->assertSame('/folder/a?page=3', $u->page('a', 3));
         $this->assertSame('/?page=2', $u->page('', 2));
         $this->assertSame('/content/a%20b.md', $u->asset('content/a b.md'));
+        $this->assertSame('/blog/feed.xml', (new Urls('/blog'))->feed());
     }
 
     public function testWorksInASubdirectory(): void
@@ -48,5 +49,15 @@ final class UrlsTest extends TestCase
         $u = new Urls();
         $this->assertSame('post/a b', $u->route('/post/a%20b/?x=1'));
         $this->assertSame('', $u->route('/'));
+    }
+
+    public function testOrigin(): void
+    {
+        $this->assertSame('https://blog.example:8443', Urls::origin([], 'https://blog.example:8443/some/path/'));
+        $this->assertSame('http://localhost', Urls::origin([], 'javascript:alert(1)'), 'invalid config is ignored');
+        $this->assertSame('https://a.org', Urls::origin(['HTTPS' => 'on', 'HTTP_HOST' => 'a.org']));
+        $this->assertSame('http://a.org:8080', Urls::origin(['HTTPS' => 'off', 'HTTP_HOST' => 'a.org:8080']));
+        $this->assertSame('http://localhost', Urls::origin(['HTTP_HOST' => 'evil.com/<script>']), 'hostile Host header');
+        $this->assertSame('https://configured.org', Urls::origin(['HTTP_HOST' => 'other.org'], 'https://configured.org'));
     }
 }

@@ -37,6 +37,7 @@ define('CONTENT_DIR', env_string('TTT_CONTENT_DIR', 'content'));      // Where t
 define('DISQUS_SHORTNAME', env_string('TTT_DISQUS_SHORTNAME', ''));   // Empty disables comments.
 define('ANALYTICS_DOMAIN', env_string('TTT_ANALYTICS_DOMAIN', ''));   // Empty disables analytics.
 define('ANALYTICS_SCRIPT_URL', env_string('TTT_ANALYTICS_SCRIPT_URL', 'https://plausible.io/js/script.js'));
+define('SITE_URL', env_string('TTT_SITE_URL', ''));                      // e.g. https://example.com — used in the feed and sitemap; guessed from the request if empty.
 define('EXT_ALLOWED', ['txt', 'md']);
 
 // Where the posts live: relative to public/, and absolute.
