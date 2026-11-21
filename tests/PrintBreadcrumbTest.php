@@ -1,21 +1,21 @@
 <?php
 
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 require_once "src/commons.php";
 
+#[CoversFunction('print_breadcrumb')]
 final class PrintBreadcrumbTest extends TestCase
 {
-    /**
-     * @dataProvider breadcrumbTestDataProvider
-     * @covers ::print_breadcrumb
-     */
+    #[DataProvider('breadcrumbTestDataProvider')]
     public function testOutputs($crumbs, $cur_path, $want): void
     {
         $got = print_breadcrumb($crumbs, $cur_path);
         $this->assertEquals($want, $got);
     }
-    public function breadcrumbTestDataProvider(): array
+    public static function breadcrumbTestDataProvider(): array
     {
         return [
             [

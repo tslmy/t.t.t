@@ -81,7 +81,7 @@
     }
 
     // Process file information for the current page
-    $paths_to_mtime = $pagerfanta->getCurrentPageResults();
+    $paths_to_mtime = iterator_to_array($pagerfanta->getCurrentPageResults());
     $paths_to_metadata = array();
     foreach ($paths_to_mtime as $path => $mtime) {
         // Extract relative path information

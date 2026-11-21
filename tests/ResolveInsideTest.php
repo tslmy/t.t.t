@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\Attributes\CoversFunction;
 use PHPUnit\Framework\TestCase;
 
 require_once "src/commons.php";
 
+#[CoversFunction('resolve_inside')]
 final class ResolveInsideTest extends TestCase
 {
     private string $root;
@@ -28,10 +30,6 @@ final class ResolveInsideTest extends TestCase
         }
         rmdir($this->root);
     }
-
-    /**
-     * @covers ::resolve_inside
-     */
     public function testResolvesFilesAndFolders(): void
     {
         $base = $this->root.'/content';
@@ -40,10 +38,6 @@ final class ResolveInsideTest extends TestCase
         $this->assertSame($base.'/sub', resolve_inside($base, 'sub'));
         $this->assertSame($base.'/sub/b.md', resolve_inside($base, 'sub/../sub/b.md'));
     }
-
-    /**
-     * @covers ::resolve_inside
-     */
     public function testRejectsTraversal(): void
     {
         $base = $this->root.'/content';
@@ -51,10 +45,6 @@ final class ResolveInsideTest extends TestCase
         $this->assertNull(resolve_inside($base, '../content-secret/s.md'));
         $this->assertNull(resolve_inside($base, '/../content-secret'));
     }
-
-    /**
-     * @covers ::resolve_inside
-     */
     public function testMissingPathIsNull(): void
     {
         $this->assertNull(resolve_inside($this->root.'/content', 'nope.md'));
