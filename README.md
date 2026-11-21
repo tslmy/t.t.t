@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/tslmy/t.t.t/actions/workflows/build.yml/badge.svg)](https://github.com/tslmy/t.t.t/actions/workflows/build.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![codecov](https://codecov.io/gh/tslmy/t.t.t/branch/master/graph/badge.svg?token=K603JQ63AV)](https://codecov.io/gh/tslmy/t.t.t)
+[![codecov](https://codecov.io/gh/tslmy/t.t.t/branch/main/graph/badge.svg?token=K603JQ63AV)](https://codecov.io/gh/tslmy/t.t.t)
 
 **t.t.t** is a lightweight, database-free blog engine that renders a folder of Markdown files as blog posts.
 
