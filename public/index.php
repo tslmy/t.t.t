@@ -10,7 +10,7 @@
 
     // Get folder parameter from URL or default to empty string
     $subfolder = isset($_GET["folder"]) && is_string($_GET["folder"]) ? $_GET["folder"] : '';
-    $path = resolve_inside($content_abs_dir, $subfolder);
+    $path = resolve_inside(CONTENT_ABS_DIR, $subfolder);
 
     // Missing paths and directory traversal attempts both look like "not found".
     // Also ensure the path is a directory, not a file.
@@ -66,7 +66,7 @@
 
     // Set up page title
     $head_title = constant('SITE_NAME');
-    $display_dir = substr($folder, strlen($content_dir)+1);
+    $display_dir = substr($folder, strlen(CONTENT_REL_DIR)+1);
     if ($display_dir!='') {
         // Add current directory to title if not in root
         $head_title .= ' - '.str_replace('/', '&gt;', $display_dir);
@@ -81,11 +81,11 @@
     }
 
     // Process file information for the current page
-    $paths_to_mtime = $pagerfanta->getCurrentPageResults();
+    $paths_to_mtime = iterator_to_array($pagerfanta->getCurrentPageResults());
     $paths_to_metadata = array();
     foreach ($paths_to_mtime as $path => $mtime) {
         // Extract relative path information
-        $rel_path=substr($path, strlen($content_dir)+1); //'essay/title.txt'
+        $rel_path=substr($path, strlen(CONTENT_REL_DIR)+1); //'essay/title.txt'
         $rel_dir=dirname($rel_path);
 
         // Get file content preview

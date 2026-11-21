@@ -1,9 +1,8 @@
 # ![Logo](public/favicon-16x16.png) **t.t.t**
 
+[![Build](https://github.com/tslmy/t.t.t/actions/workflows/build.yml/badge.svg)](https://github.com/tslmy/t.t.t/actions/workflows/build.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![Build Status](https://www.travis-ci.com/tslmy/t.t.t.svg?branch=master)](https://www.travis-ci.com/tslmy/t.t.t)
-[![codecov](https://codecov.io/gh/tslmy/t.t.t/branch/master/graph/badge.svg?token=K603JQ63AV)](https://codecov.io/gh/tslmy/t.t.t)
-[![HitCount](http://hits.dwyl.com/tslmy/ttt.svg)](http://hits.dwyl.com/tslmy/ttt)
+[![codecov](https://codecov.io/gh/tslmy/t.t.t/branch/main/graph/badge.svg?token=K603JQ63AV)](https://codecov.io/gh/tslmy/t.t.t)
 
 **t.t.t** is a lightweight, database-free blog engine that renders a folder of Markdown files as blog posts.
 
@@ -19,7 +18,7 @@
 
 ### 🔧 Local
 
-Make sure [Composer](https://getcomposer.org/doc/01-basic-usage.md) is installed and available in your `$PATH`.
+Requires PHP 8.2+ and [Composer](https://getcomposer.org/doc/01-basic-usage.md) available in your `$PATH`.
 
 ```bash
 composer install                   # Install dependencies
@@ -101,10 +100,12 @@ minikube service ttt-demo-service
 
 ## 🛠 Development
 
-Run [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) before committing:
+Run the checks before committing (CI runs the first two):
 
 ```bash
-php-cs-fixer fix
+vendor/bin/phpunit
+vendor/bin/phpstan analyse
+vendor/bin/php-cs-fixer fix
 ```
 
 ---

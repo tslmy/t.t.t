@@ -1,0 +1,9 @@
+parameters:
+    level: 1
+    bootstrapFiles:
+        - src/commons.php  # defines the TTT_* constants with define(), which PHPStan can't see statically
+    paths:
+        - src
+        - public
+    excludePaths:
+        - public/content

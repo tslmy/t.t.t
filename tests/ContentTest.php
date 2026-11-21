@@ -1,40 +1,30 @@
 <?php
 
+use PHPUnit\Framework\Attributes\CoversFunction;
 use PHPUnit\Framework\TestCase;
 
 require_once "src/commons.php";
 
+#[CoversFunction('truncate_text')]
+#[CoversFunction('internal_link')]
+#[CoversFunction('get_content')]
+#[CoversFunction('print_breadcrumb')]
 final class ContentTest extends TestCase
 {
-    /**
-     * @covers ::truncate_text
-     */
     public function testTruncateLeavesShortTextAlone(): void
     {
         $this->assertSame('hello', truncate_text('hello', 10));
     }
-
-    /**
-     * @covers ::truncate_text
-     */
     public function testTruncateDoesNotSplitMultibyteCharacters(): void
     {
         $got = truncate_text('ééééé', 5); // 2 bytes each
         $this->assertSame('éé', $got);
         $this->assertTrue(mb_check_encoding($got, 'UTF-8'));
     }
-
-    /**
-     * @covers ::truncate_text
-     */
     public function testTruncatePrefersParagraphBreak(): void
     {
         $this->assertSame('one two', truncate_text("one two\n\nthree four", 15));
     }
-
-    /**
-     * @covers ::internal_link
-     */
     public function testInternalLinkEncodesTarget(): void
     {
         $this->assertSame(
@@ -42,12 +32,6 @@ final class ContentTest extends TestCase
             internal_link('a b"><x)', 'label')
         );
     }
-
-    /**
-     * @covers ::get_content
-     * @covers ::internal_link
-     * @covers ::truncate_text
-     */
     public function testGetContentRendersMarkdownAndLinks(): void
     {
         $file = tempnam(sys_get_temp_dir(), 'ttt');
@@ -60,10 +44,6 @@ final class ContentTest extends TestCase
         $this->assertStringNotContainsString('<script>', $html);
         $this->assertStringContainsString('<del>gone</del>', $html);
     }
-
-    /**
-     * @covers ::print_breadcrumb
-     */
     public function testBreadcrumbEscapesFolderNames(): void
     {
         $got = print_breadcrumb(['<b>'], '');

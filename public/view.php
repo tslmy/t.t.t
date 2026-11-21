@@ -6,7 +6,7 @@
     if (!isset($_GET["name"]) || !is_string($_GET["name"])) {
         abort_with(400, 'Missing post name.');
     }
-    $path = resolve_inside($content_abs_dir, $_GET["name"]);
+    $path = resolve_inside(CONTENT_ABS_DIR, $_GET["name"]);
     if ($path === null || !is_file($path)) {
         abort_with(404, 'Not found.');
     }
@@ -15,7 +15,7 @@
         abort_with(403, 'Forbidden.');
     }
     $file_name = substr($path, strlen(getcwd())+1); # content/Lorem Ipsum.md
-    $get_name = substr($path, strlen($content_abs_dir)+1, strrpos($path, "."));
+    $get_name = substr($path, strlen(CONTENT_ABS_DIR)+1, strrpos($path, "."));
 
     $file_path = pathinfo($get_name);
     $display_dir = $file_path['dirname'];
