@@ -32,7 +32,7 @@ jobs:
         run: vendor/bin/phpstan analyse --no-progress
       - name: Upload coverage
         if: matrix.php == '8.4'
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           files: coverage.xml
           token: ${{ secrets.CODECOV_TOKEN }}
