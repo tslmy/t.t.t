@@ -115,7 +115,8 @@
 
     // Render the template with all collected data
     echo $twig->render('index.html.twig', [
-        'ga_id' => constant('GA_ID'),
+        'analytics_domain' => constant('ANALYTICS_DOMAIN'),
+        'analytics_script_url' => constant('ANALYTICS_SCRIPT_URL'),
         'head_title' => $head_title,
         'nav_breadcrumb' => $nav_breadcrumb,
         'site_name' => constant('SITE_NAME'),

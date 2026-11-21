@@ -1,12 +1,40 @@
 <?php
 
-define('SITE_NAME', "tslmy's blog");				//This defines the site's name.
-define('SITE_DESC', "A dummy blog for demonstrating the database-free blog engine, t.t.t.");				//This defines the site's description.
-define('ITEMS_DISPLAYED_PER_PAGE', 2);		//How many posts are to be shown on each page of the index.
-define('PREVIEW_SIZE_IN_BYTES', 1000);      //Roughly how many bytes of each post to show as a preview on the index.
-define('CONTENT_DIR', 'content');			//Where the text files should be stored.
-define('DISQUS_SHORTNAME', 'tslmy');			//disqus_shortname
-define('GA_ID', 'UA-21290300-1');           //Google Analytics tracking ID
+/**
+ * Read a setting from the environment, falling back to a default.
+ *
+ * @param string $name The environment variable name.
+ * @param string $default The value to use when the variable is unset or empty.
+ * @return string The setting.
+ */
+function env_string(string $name, string $default): string
+{
+    $value = getenv($name);
+    return ($value === false || $value === '') ? $default : $value;
+}
+
+/**
+ * Like env_string(), but for positive integers; anything else yields the default.
+ *
+ * @param string $name The environment variable name.
+ * @param int $default The value to use when the variable is unset or not a positive integer.
+ * @return int The setting.
+ */
+function env_int(string $name, int $default): int
+{
+    $value = filter_var(getenv($name), FILTER_VALIDATE_INT);
+    return ($value === false || $value < 1) ? $default : $value;
+}
+
+// Settings. Override any of them with the environment variable named in the comment.
+define('SITE_NAME', env_string('TTT_SITE_NAME', 'My blog'));
+define('SITE_DESC', env_string('TTT_SITE_DESC', 'Powered by t.t.t, a database-free blog engine.'));
+define('ITEMS_DISPLAYED_PER_PAGE', env_int('TTT_ITEMS_PER_PAGE', 10));
+define('PREVIEW_SIZE_IN_BYTES', env_int('TTT_PREVIEW_BYTES', 1000));  // Roughly how much of each post the index shows.
+define('CONTENT_DIR', env_string('TTT_CONTENT_DIR', 'content'));      // Where the text files live, relative to the web root.
+define('DISQUS_SHORTNAME', env_string('TTT_DISQUS_SHORTNAME', ''));   // Empty disables comments.
+define('ANALYTICS_DOMAIN', env_string('TTT_ANALYTICS_DOMAIN', ''));   // Empty disables analytics.
+define('ANALYTICS_SCRIPT_URL', env_string('TTT_ANALYTICS_SCRIPT_URL', 'https://plausible.io/js/script.js'));
 define('EXT_ALLOWED', ['txt', 'md']);
 
 // Where the posts live: relative to the working directory (public/), and absolute.

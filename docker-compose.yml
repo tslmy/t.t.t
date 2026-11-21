@@ -8,5 +8,13 @@ services:
     image: ttt
     ports:
       - 80:80
+    environment:
+      - TTT_SITE_NAME
+      - TTT_SITE_DESC
+      - TTT_ITEMS_PER_PAGE
+      - TTT_PREVIEW_BYTES
+      - TTT_DISQUS_SHORTNAME
+      - TTT_ANALYTICS_DOMAIN
+      - TTT_ANALYTICS_SCRIPT_URL
     volumes:
       - "${PATH_TO_NOTES}:/var/www/html/public/content"
