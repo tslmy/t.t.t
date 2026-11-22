@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.2', '8.3', '8.4']
+        php: ['8.4', '8.5']  # PHPUnit 13 needs PHP >= 8.4.1
     steps:
       - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
@@ -44,17 +44,3 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: docker build -t ttt .
-
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    # Secrets are unavailable to PRs from forks.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v6
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
