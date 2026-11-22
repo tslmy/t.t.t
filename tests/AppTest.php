@@ -9,6 +9,7 @@ use Ttt\App;
 use Ttt\Breadcrumb;
 use Ttt\FrontMatter;
 use Ttt\Comments;
+use Ttt\Feed;
 use Ttt\Markdown;
 use Ttt\Post;
 use Ttt\PostRepository;
@@ -19,6 +20,7 @@ use Twig\Loader\FilesystemLoader;
 
 #[CoversClass(App::class)]
 #[CoversClass(Response::class)]
+#[CoversClass(Feed::class)]
 #[UsesClass(Urls::class)]
 #[UsesClass(Post::class)]
 #[UsesClass(PostRepository::class)]
@@ -67,6 +69,8 @@ final class AppTest extends TestCase
                 'per_page' => $perPage,
                 'preview_bytes' => 1000,
                 'content_dir' => 'content',
+                'origin' => 'https://example.org',
+                'feed_items' => 2,
                 'comments' => null,
                 'analytics_domain' => '',
                 'analytics_script_url' => '',
@@ -181,6 +185,7 @@ final class AppTest extends TestCase
             new Markdown($urls),
             new Environment(new FilesystemLoader(dirname(__DIR__).'/templates')),
             ['site_name' => 'S', 'site_desc' => '', 'per_page' => 2, 'preview_bytes' => 10, 'content_dir' => 'c',
+             'origin' => 'https://e.org', 'feed_items' => 5,
              'comments' => Comments::giscus('me/blog', 'R_123', 'Announcements & more', 'DIC_"x"'),
              'analytics_domain' => '', 'analytics_script_url' => '']
         );
@@ -190,5 +195,88 @@ final class AppTest extends TestCase
         $this->assertStringContainsString('data-category="Announcements &amp; more"', $post, 'values are escaped');
         $this->assertStringContainsString('data-category-id="DIC_&quot;x&quot;"', $post);
         $this->assertStringNotContainsString('giscus', $app->handle('/')->body, 'only on post pages');
+    }
+
+    public function testAtomFeed(): void
+    {
+        file_put_contents($this->root.'/three.md', "See ~one~. A \x0b control & <b>tag</b>\n");
+        touch($this->root.'/three.md', 3000);
+        $r = $this->app('/blog')->handle('/blog/feed.xml');
+        $this->assertSame(200, $r->status);
+        $this->assertStringStartsWith('application/atom+xml', $r->headers['Content-Type']);
+
+        $xml = simplexml_load_string($r->body);  // must be well-formed despite the control character
+        $this->assertNotFalse($xml);
+        $this->assertSame('Test <Site>', (string) $xml->title);
+        $this->assertCount(2, $xml->entry, 'limited to feed_items');
+        $this->assertSame('https://example.org/blog/post/three', (string) $xml->entry[0]->id);
+        $this->assertSame('https://example.org/blog/post/two', (string) $xml->entry[1]->id);
+        $this->assertStringContainsString('href="https://example.org/blog/post/one"', (string) $xml->entry[0]->content, 'links in entries are absolute');
+        $this->assertSame(gmdate(DATE_ATOM, 3000), (string) $xml->updated);
+    }
+
+    public function testSitemapListsEveryPostAndHome(): void
+    {
+        $xml = simplexml_load_string($this->app()->handle('/sitemap.xml')->body);
+        $this->assertNotFalse($xml);
+        $locs = [];
+        foreach ($xml->url as $u) {
+            $locs[] = (string) $u->loc;
+        }
+        $this->assertSame([
+            'https://example.org/',
+            'https://example.org/post/three',
+            'https://example.org/post/two',
+            'https://example.org/post/one',
+            'https://example.org/post/essays/deep',
+        ], $locs);
+    }
+
+    public function testEmptySiteStillProducesValidXml(): void
+    {
+        $empty = realpath(sys_get_temp_dir()).'/ttt-empty-'.uniqid();
+        mkdir($empty);
+        $urls = new Urls();
+        $app = new App(
+            new PostRepository($empty, ['md']),
+            $urls,
+            new Markdown($urls),
+            new Environment(new FilesystemLoader(dirname(__DIR__).'/templates')),
+            ['site_name' => 'S', 'site_desc' => '', 'per_page' => 2, 'preview_bytes' => 10, 'content_dir' => 'c',
+             'origin' => 'https://e.org', 'feed_items' => 5, 'comments' => null, 'analytics_domain' => '', 'analytics_script_url' => '']
+        );
+        $this->assertNotFalse(simplexml_load_string($app->handle('/feed.xml')->body));
+        $this->assertNotFalse(simplexml_load_string($app->handle('/sitemap.xml')->body));
+        $this->assertSame(200, $app->handle('/')->status);
+        rmdir($empty);
+    }
+
+    public function testPagesCarryMetaTags(): void
+    {
+        $post = $this->app()->handle('/post/three')->body;
+        $this->assertStringContainsString('<meta name="description" content="three body of three"', $post);
+        $this->assertStringContainsString('<link rel="canonical" href="https://example.org/post/three"', $post);
+        $this->assertStringContainsString('property="og:type" content="article"', $post);
+        $this->assertStringContainsString('<link rel="alternate" type="application/atom+xml"', $post);
+        $this->assertStringContainsString('href="https://example.org/feed.xml"', $post);
+
+        $home = $this->app()->handle('/')->body;
+        $this->assertStringContainsString('<meta name="description" content="desc"', $home);
+        $this->assertStringContainsString('property="og:type" content="website"', $home);
+    }
+
+    public function testSummaryFeedsTheDescriptionAndTheFeed(): void
+    {
+        file_put_contents($this->root.'/fm.md', "---\ntitle: With Summary\ndate: 2099-01-01\nsummary: 'A *great* \"quoted\" teaser'\n---\nthe long body\n");
+
+        $post = $this->app()->handle('/post/fm')->body;
+        $this->assertStringContainsString('<meta name="description" content="A great &quot;quoted&quot; teaser"', $post);
+        $this->assertStringContainsString('<title>', $post);
+
+        $xml = simplexml_load_string($this->app()->handle('/feed.xml')->body);
+        $this->assertNotFalse($xml);
+        $this->assertSame('With Summary', (string) $xml->entry[0]->title);
+        $this->assertStringContainsString('great', (string) $xml->entry[0]->summary);
+        $this->assertStringContainsString('the long body', (string) $xml->entry[0]->content, 'the feed still carries the full post');
     }
 }

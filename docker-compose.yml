@@ -13,6 +13,7 @@ services:
       - TTT_SITE_DESC
       - TTT_ITEMS_PER_PAGE
       - TTT_PREVIEW_BYTES
+      - TTT_SITE_URL
       - TTT_SHOW_DRAFTS
       - TTT_GISCUS_REPO
       - TTT_GISCUS_REPO_ID
