@@ -7,6 +7,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Ttt\App;
 use Ttt\Breadcrumb;
+use Ttt\FrontMatter;
 use Ttt\Comments;
 use Ttt\Feed;
 use Ttt\Markdown;
@@ -25,6 +26,8 @@ use Twig\Loader\FilesystemLoader;
 #[UsesClass(PostRepository::class)]
 #[UsesClass(Markdown::class)]
 #[UsesClass(Breadcrumb::class)]
+#[UsesClass(FrontMatter::class)]
+#[UsesClass(Comments::class)]
 final class AppTest extends TestCase
 {
     private string $root;
@@ -151,6 +154,26 @@ final class AppTest extends TestCase
         $this->assertSame(404, $this->app('/blog')->handle('/post/one')->status);
     }
 
+    public function testFrontMatterTitleSummaryAndDrafts(): void
+    {
+        file_put_contents($this->root.'/fm.md', "---\ntitle: A <b>Title</b>\ndate: 2099-01-01\nsummary: The *short* version.\n---\n# Long\n\nlots of text\n");
+        file_put_contents($this->root.'/wip.md', "---\ndraft: true\ndate: 2099-02-02\n---\nunfinished\n");
+
+        $index = $this->app()->handle('/');
+        $this->assertStringContainsString('A &lt;b&gt;Title&lt;/b&gt;', $index->body, 'titles are escaped');
+        $this->assertStringContainsString('The <em>short</em> version.', $index->body);
+        $this->assertStringNotContainsString('lots of text', $index->body, 'the summary replaces the preview');
+        $this->assertStringNotContainsString('unfinished', $index->body);
+        $this->assertStringNotContainsString('href="/post/wip"', $index->body);
+
+        $post = $this->app()->handle('/post/fm');
+        $this->assertStringContainsString('lots of text', $post->body);
+        $this->assertStringNotContainsString('summary:', $post->body, 'the header is not rendered');
+        $this->assertStringContainsString('<h1> A &lt;b&gt;Title&lt;/b&gt; </h1>', $post->body);
+
+        $this->assertSame(404, $this->app()->handle('/post/wip')->status);
+    }
+
     public function testCommentsOnlyAppearWhenConfigured(): void
     {
         $this->assertStringNotContainsString('giscus', $this->app()->handle('/post/one')->body);
@@ -240,5 +263,20 @@ final class AppTest extends TestCase
         $home = $this->app()->handle('/')->body;
         $this->assertStringContainsString('<meta name="description" content="desc"', $home);
         $this->assertStringContainsString('property="og:type" content="website"', $home);
+    }
+
+    public function testSummaryFeedsTheDescriptionAndTheFeed(): void
+    {
+        file_put_contents($this->root.'/fm.md', "---\ntitle: With Summary\ndate: 2099-01-01\nsummary: 'A *great* \"quoted\" teaser'\n---\nthe long body\n");
+
+        $post = $this->app()->handle('/post/fm')->body;
+        $this->assertStringContainsString('<meta name="description" content="A great &quot;quoted&quot; teaser"', $post);
+        $this->assertStringContainsString('<title>', $post);
+
+        $xml = simplexml_load_string($this->app()->handle('/feed.xml')->body);
+        $this->assertNotFalse($xml);
+        $this->assertSame('With Summary', (string) $xml->entry[0]->title);
+        $this->assertStringContainsString('great', (string) $xml->entry[0]->summary);
+        $this->assertStringContainsString('the long body', (string) $xml->entry[0]->content, 'the feed still carries the full post');
     }
 }

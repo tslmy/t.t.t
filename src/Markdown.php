@@ -27,8 +27,8 @@ final class Markdown
      */
     public function renderFile(string $path, int $maxBytes = 0): string
     {
-        $text = (string) file_get_contents($path);
-        return $this->render($maxBytes > 0 ? self::truncate($text, $maxBytes) : $text);
+        $body = FrontMatter::split((string) file_get_contents($path))[1];
+        return $this->render($maxBytes > 0 ? self::truncate($body, $maxBytes) : $body);
     }
 
     /** Convert Markdown to HTML, apply SmartyPants, and resolve `~post~` / `~post:label~` links. */

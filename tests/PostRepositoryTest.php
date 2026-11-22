@@ -5,11 +5,13 @@ declare(strict_types=1);
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use Ttt\FrontMatter;
 use Ttt\Post;
 use Ttt\PostRepository;
 
 #[CoversClass(PostRepository::class)]
 #[UsesClass(Post::class)]
+#[UsesClass(FrontMatter::class)]
 final class PostRepositoryTest extends TestCase
 {
     private string $root;
@@ -77,5 +79,44 @@ final class PostRepositoryTest extends TestCase
         $this->assertSame(['sub/b.txt', 'a.md'], array_map(fn (Post $p) => $p->relPath, $this->repo->all()));
         $this->assertSame(['sub/b.txt'], array_map(fn (Post $p) => $p->relPath, $this->repo->all('sub')));
         $this->assertSame([], $this->repo->all('missing'));
+    }
+
+    public function testFrontMatterOverridesTitleAndDate(): void
+    {
+        file_put_contents($this->root.'/content/fm.md', "---\ntitle: Pretty Title\ndate: 2030-01-02 03:04\n---\nbody\n");
+        $post = $this->repo->find('fm');
+        $this->assertSame('Pretty Title', $post->title());
+        $this->assertSame(strtotime('2030-01-02 03:04'), $post->date());
+        $this->assertSame('fm.md', $post->relPath);
+        $this->assertSame('fm.md', $this->repo->all()[0]->relPath, 'sorted by the front matter date');
+    }
+
+    public function testBadFrontMatterFallsBackToFileFacts(): void
+    {
+        file_put_contents($this->root.'/content/bad.md', "---\ntitle: [oops\ndate: nonsense\n---\nbody\n");
+        touch($this->root.'/content/bad.md', 4000);
+        $post = $this->repo->find('bad');
+        $this->assertSame('bad', $post->title());
+        $this->assertSame(4000, $post->date());
+    }
+
+    public function testBlankOrNonScalarTitleFallsBack(): void
+    {
+        file_put_contents($this->root.'/content/t.md', "---\ntitle: '  '\n---\n");
+        $this->assertSame('t', $this->repo->find('t')->title());
+        file_put_contents($this->root.'/content/t2.md', "---\ntitle: [a, b]\nsummary: [x]\n---\n");
+        $this->assertSame('t2', $this->repo->find('t2')->title());
+        $this->assertSame('', $this->repo->find('t2')->summary());
+    }
+
+    public function testDraftsAreHiddenUnlessAsked(): void
+    {
+        file_put_contents($this->root.'/content/wip.md', "---\ndraft: true\n---\nsecret\n");
+        $this->assertNull($this->repo->find('wip'));
+        $this->assertNotContains('wip.md', array_map(fn (Post $p) => $p->relPath, $this->repo->all()));
+
+        $withDrafts = new PostRepository($this->root.'/content', ['md', 'txt'], true);
+        $this->assertTrue($withDrafts->find('wip')->isDraft());
+        $this->assertContains('wip.md', array_map(fn (Post $p) => $p->relPath, $withDrafts->all()));
     }
 }
