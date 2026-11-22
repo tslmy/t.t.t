@@ -10,7 +10,7 @@ RUN composer install \
     --optimize-autoloader
 
 
-FROM php:8.6.0RC7-apache AS php-server
+FROM php:8.6.0-apache AS php-server
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
