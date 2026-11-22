@@ -12,8 +12,9 @@ final class PostRepository
     /**
      * @param string $root Absolute path of the content folder.
      * @param list<string> $extensions Allowed post file extensions.
+     * @param bool $includeDrafts Whether posts marked `draft: true` are visible.
      */
-    public function __construct(string $root, private array $extensions)
+    public function __construct(string $root, private array $extensions, private bool $includeDrafts = false)
     {
         $this->root = rtrim($root, '/');
     }
@@ -54,7 +55,8 @@ final class PostRepository
         foreach ($this->extensions as $ext) {
             $path = self::resolveInside($this->root, $slug.'.'.$ext);
             if ($path !== null && is_file($path)) {
-                return $this->post($path);
+                $post = $this->post($path);
+                return $this->visible($post) ? $post : null;
             }
         }
         return null;
@@ -77,15 +79,44 @@ final class PostRepository
         );
         foreach ($iterator as $file) {
             if ($file->isFile() && in_array($file->getExtension(), $this->extensions, true)) {
-                $posts[] = $this->post($file->getPathname());
+                $post = $this->post($file->getPathname());
+                if ($this->visible($post)) {
+                    $posts[] = $post;
+                }
             }
         }
         usort($posts, fn (Post $a, Post $b) => [$b->date(), $a->relPath] <=> [$a->date(), $b->relPath]);
         return $posts;
     }
 
+    private function visible(Post $post): bool
+    {
+        return $this->includeDrafts || !$post->isDraft();
+    }
+
     private function post(string $absPath): Post
     {
-        return new Post($absPath, ltrim(substr($absPath, strlen($this->root)), '/'), (int) filemtime($absPath));
+        return new Post(
+            $absPath,
+            ltrim(substr($absPath, strlen($this->root)), '/'),
+            (int) filemtime($absPath),
+            $this->readMeta($absPath),
+        );
+    }
+
+    /** @return array<string, mixed> */
+    private function readMeta(string $absPath): array
+    {
+        // Only files that start with a front matter fence are worth reading in full.
+        $handle = fopen($absPath, 'rb');
+        if ($handle === false) {
+            return [];
+        }
+        $start = (string) fread($handle, 6);
+        fclose($handle);
+        if (!str_contains($start, '---')) {
+            return [];
+        }
+        return FrontMatter::split((string) file_get_contents($absPath))[0];
     }
 }

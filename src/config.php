@@ -41,6 +41,7 @@ define('GISCUS_CATEGORY', env_string('TTT_GISCUS_CATEGORY', ''));          // di
 define('GISCUS_CATEGORY_ID', env_string('TTT_GISCUS_CATEGORY_ID', ''));
 define('ANALYTICS_DOMAIN', env_string('TTT_ANALYTICS_DOMAIN', ''));   // Empty disables analytics.
 define('ANALYTICS_SCRIPT_URL', env_string('TTT_ANALYTICS_SCRIPT_URL', 'https://plausible.io/js/script.js'));
+define('SHOW_DRAFTS', env_string('TTT_SHOW_DRAFTS', '') !== '');         // Set (to anything) to preview posts marked `draft: true`.
 define('EXT_ALLOWED', ['txt', 'md']);
 
 // Where the posts live: relative to public/, and absolute.
