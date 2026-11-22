@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Ttt\App;
 use Ttt\Breadcrumb;
 use Ttt\FrontMatter;
+use Ttt\Comments;
 use Ttt\Markdown;
 use Ttt\Post;
 use Ttt\PostRepository;
@@ -24,6 +25,7 @@ use Twig\Loader\FilesystemLoader;
 #[UsesClass(Markdown::class)]
 #[UsesClass(Breadcrumb::class)]
 #[UsesClass(FrontMatter::class)]
+#[UsesClass(Comments::class)]
 final class AppTest extends TestCase
 {
     private string $root;
@@ -65,7 +67,7 @@ final class AppTest extends TestCase
                 'per_page' => $perPage,
                 'preview_bytes' => 1000,
                 'content_dir' => 'content',
-                'disqus' => '',
+                'comments' => null,
                 'analytics_domain' => '',
                 'analytics_script_url' => '',
             ]
@@ -166,5 +168,27 @@ final class AppTest extends TestCase
         $this->assertStringContainsString('<h1> A &lt;b&gt;Title&lt;/b&gt; </h1>', $post->body);
 
         $this->assertSame(404, $this->app()->handle('/post/wip')->status);
+    }
+
+    public function testCommentsOnlyAppearWhenConfigured(): void
+    {
+        $this->assertStringNotContainsString('giscus', $this->app()->handle('/post/one')->body);
+
+        $urls = new Urls();
+        $app = new App(
+            new PostRepository($this->root, ['md', 'txt']),
+            $urls,
+            new Markdown($urls),
+            new Environment(new FilesystemLoader(dirname(__DIR__).'/templates')),
+            ['site_name' => 'S', 'site_desc' => '', 'per_page' => 2, 'preview_bytes' => 10, 'content_dir' => 'c',
+             'comments' => Comments::giscus('me/blog', 'R_123', 'Announcements & more', 'DIC_"x"'),
+             'analytics_domain' => '', 'analytics_script_url' => '']
+        );
+        $post = $app->handle('/post/one')->body;
+        $this->assertStringContainsString('<script src="https://giscus.app/client.js"', $post);
+        $this->assertStringContainsString('data-repo="me/blog"', $post);
+        $this->assertStringContainsString('data-category="Announcements &amp; more"', $post, 'values are escaped');
+        $this->assertStringContainsString('data-category-id="DIC_&quot;x&quot;"', $post);
+        $this->assertStringNotContainsString('giscus', $app->handle('/')->body, 'only on post pages');
     }
 }
