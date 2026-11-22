@@ -22,7 +22,7 @@ use Twig\Loader\FilesystemLoader;
 final class App
 {
     /**
-     * @param array{site_name: string, site_desc: string, per_page: int, preview_bytes: int, content_dir: string, origin: string, feed_items: int, disqus: string, analytics_domain: string, analytics_script_url: string} $settings
+     * @param array{site_name: string, site_desc: string, per_page: int, preview_bytes: int, content_dir: string, origin: string, feed_items: int, comments: array{repo: string, repo_id: string, category: string, category_id: string}|null, analytics_domain: string, analytics_script_url: string} $settings
      */
     public function __construct(
         private PostRepository $posts,
@@ -50,7 +50,12 @@ final class App
                 'content_dir' => constant('CONTENT_REL_DIR'),
                 'origin' => Urls::origin($server, constant('SITE_URL')),
                 'feed_items' => 20,
-                'disqus' => constant('DISQUS_SHORTNAME'),
+                'comments' => Comments::giscus(
+                    constant('GISCUS_REPO'),
+                    constant('GISCUS_REPO_ID'),
+                    constant('GISCUS_CATEGORY'),
+                    constant('GISCUS_CATEGORY_ID')
+                ),
                 'analytics_domain' => constant('ANALYTICS_DOMAIN'),
                 'analytics_script_url' => constant('ANALYTICS_SCRIPT_URL'),
             ]
@@ -161,7 +166,7 @@ final class App
             'nav_breadcrumb' => $dir === '' ? '' : 'You are at: '.Breadcrumb::render(explode('/', $dir), '/'.$dir, $this->urls),
             'date_str' => date('Y M d (D) H:i', $post->date()),
             'content' => $content,
-            'disqus' => $this->settings['disqus'],
+            'comments' => $this->settings['comments'],
             'source_url' => $this->urls->asset($this->settings['content_dir'].'/'.$post->relPath),
         ])), ['Content-Type' => 'text/html; charset=UTF-8']);
     }

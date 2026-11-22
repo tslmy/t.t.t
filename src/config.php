@@ -34,7 +34,11 @@ define('SITE_DESC', env_string('TTT_SITE_DESC', 'Powered by t.t.t, a database-fr
 define('ITEMS_DISPLAYED_PER_PAGE', env_int('TTT_ITEMS_PER_PAGE', 10));
 define('PREVIEW_SIZE_IN_BYTES', env_int('TTT_PREVIEW_BYTES', 1000));  // Roughly how much of each post the index shows.
 define('CONTENT_DIR', env_string('TTT_CONTENT_DIR', 'content'));      // Where the text files live, relative to the web root.
-define('DISQUS_SHORTNAME', env_string('TTT_DISQUS_SHORTNAME', ''));   // Empty disables comments.
+// Comments via giscus (GitHub Discussions). All four must be set to enable them; get them from https://giscus.app.
+define('GISCUS_REPO', env_string('TTT_GISCUS_REPO', ''));                  // owner/name of the repository holding the discussions
+define('GISCUS_REPO_ID', env_string('TTT_GISCUS_REPO_ID', ''));
+define('GISCUS_CATEGORY', env_string('TTT_GISCUS_CATEGORY', ''));          // discussion category name, e.g. Announcements
+define('GISCUS_CATEGORY_ID', env_string('TTT_GISCUS_CATEGORY_ID', ''));
 define('ANALYTICS_DOMAIN', env_string('TTT_ANALYTICS_DOMAIN', ''));   // Empty disables analytics.
 define('ANALYTICS_SCRIPT_URL', env_string('TTT_ANALYTICS_SCRIPT_URL', 'https://plausible.io/js/script.js'));
 define('SITE_URL', env_string('TTT_SITE_URL', ''));                      // e.g. https://example.com — used in the feed and sitemap; guessed from the request if empty.

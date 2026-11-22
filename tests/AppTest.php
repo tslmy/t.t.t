@@ -7,6 +7,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Ttt\App;
 use Ttt\Breadcrumb;
+use Ttt\Comments;
 use Ttt\Feed;
 use Ttt\Markdown;
 use Ttt\Post;
@@ -67,7 +68,7 @@ final class AppTest extends TestCase
                 'content_dir' => 'content',
                 'origin' => 'https://example.org',
                 'feed_items' => 2,
-                'disqus' => '',
+                'comments' => null,
                 'analytics_domain' => '',
                 'analytics_script_url' => '',
             ]
@@ -150,6 +151,29 @@ final class AppTest extends TestCase
         $this->assertSame(404, $this->app('/blog')->handle('/post/one')->status);
     }
 
+    public function testCommentsOnlyAppearWhenConfigured(): void
+    {
+        $this->assertStringNotContainsString('giscus', $this->app()->handle('/post/one')->body);
+
+        $urls = new Urls();
+        $app = new App(
+            new PostRepository($this->root, ['md', 'txt']),
+            $urls,
+            new Markdown($urls),
+            new Environment(new FilesystemLoader(dirname(__DIR__).'/templates')),
+            ['site_name' => 'S', 'site_desc' => '', 'per_page' => 2, 'preview_bytes' => 10, 'content_dir' => 'c',
+             'origin' => 'https://e.org', 'feed_items' => 5,
+             'comments' => Comments::giscus('me/blog', 'R_123', 'Announcements & more', 'DIC_"x"'),
+             'analytics_domain' => '', 'analytics_script_url' => '']
+        );
+        $post = $app->handle('/post/one')->body;
+        $this->assertStringContainsString('<script src="https://giscus.app/client.js"', $post);
+        $this->assertStringContainsString('data-repo="me/blog"', $post);
+        $this->assertStringContainsString('data-category="Announcements &amp; more"', $post, 'values are escaped');
+        $this->assertStringContainsString('data-category-id="DIC_&quot;x&quot;"', $post);
+        $this->assertStringNotContainsString('giscus', $app->handle('/')->body, 'only on post pages');
+    }
+
     public function testAtomFeed(): void
     {
         file_put_contents($this->root.'/three.md', "See ~one~. A \x0b control & <b>tag</b>\n");
@@ -196,7 +220,7 @@ final class AppTest extends TestCase
             new Markdown($urls),
             new Environment(new FilesystemLoader(dirname(__DIR__).'/templates')),
             ['site_name' => 'S', 'site_desc' => '', 'per_page' => 2, 'preview_bytes' => 10, 'content_dir' => 'c',
-             'origin' => 'https://e.org', 'feed_items' => 5, 'disqus' => '', 'analytics_domain' => '', 'analytics_script_url' => '']
+             'origin' => 'https://e.org', 'feed_items' => 5, 'comments' => null, 'analytics_domain' => '', 'analytics_script_url' => '']
         );
         $this->assertNotFalse(simplexml_load_string($app->handle('/feed.xml')->body));
         $this->assertNotFalse(simplexml_load_string($app->handle('/sitemap.xml')->body));
