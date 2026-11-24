@@ -35,6 +35,7 @@ define('CONTENT_DIR', env_string('TTT_CONTENT_DIR', 'content'));      // Where t
 define('DISQUS_SHORTNAME', env_string('TTT_DISQUS_SHORTNAME', ''));   // Empty disables comments.
 define('ANALYTICS_DOMAIN', env_string('TTT_ANALYTICS_DOMAIN', ''));   // Empty disables analytics.
 define('ANALYTICS_SCRIPT_URL', env_string('TTT_ANALYTICS_SCRIPT_URL', 'https://plausible.io/js/script.js'));
+define('SHOW_DRAFTS', env_string('TTT_SHOW_DRAFTS', '') !== '');         // Set (to anything) to preview posts marked `draft: true`.
 define('EXT_ALLOWED', ['txt', 'md']);
 
 // Where the posts live: relative to the working directory (public/), and absolute.
@@ -43,9 +44,11 @@ define('CONTENT_ABS_DIR', getcwd().'/'.CONTENT_REL_DIR);
 
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Michelf\SmartyPants;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
- * Get the content of a file, convert Markdown to HTML, apply SmartyPants, and add internal links.
+ * Get the content of a post file as HTML (its front matter header, if any, is left out).
  *
  * @param string $file_name The path to the file to read.
  * @param int $max_size The maximum number of bytes to read from the file. Use 0 for no limit.
@@ -53,27 +56,127 @@ use Michelf\SmartyPants;
  */
 function get_content(string $file_name, int $max_size): string
 {
+    $content = split_front_matter((string) file_get_contents($file_name))[1];
+    if ($max_size>0) {
+        $content = truncate_text($content, $max_size);
+    }
+    return render_markdown($content);
+}
+
+/**
+ * Convert Markdown to HTML, apply SmartyPants, and turn `~post~` / `~post:label~` into links.
+ *
+ * @param string $markdown The Markdown text.
+ * @return string The HTML.
+ */
+function render_markdown(string $markdown): string
+{
     $converter = new GithubFlavoredMarkdownConverter([
         'html_input' => 'strip',
         'allow_unsafe_links' => false,
     ]);
-    $content = (string) file_get_contents($file_name);
-    if ($max_size>0) {
-        $content = truncate_text($content, $max_size);
-    }
     // Internal links must be rewritten *before* conversion: GitHub-flavored Markdown
     // would otherwise swallow `~name~` as strikethrough. `~~double~~` is left alone.
-    $content = preg_replace_callback(
+    $markdown = preg_replace_callback(
         '/(?<!~)~([^~\s][^~\n]*?)~(?!~)/',
         function (array $m): string {
             $parts = explode(':', $m[1], 2);
             return internal_link($parts[0], $parts[1] ?? $parts[0]);
         },
-        trim($content)
+        trim($markdown)
     );
-    $content = $converter->convertToHtml($content);
-    $content = SmartyPants::defaultTransform($content);
-    return $content;
+    return SmartyPants::defaultTransform((string) $converter->convertToHtml($markdown));
+}
+
+/**
+ * Split a post into its optional YAML header ("front matter") and its body:
+ *
+ *     ---
+ *     title: Hello
+ *     date: 2024-05-01 09:30
+ *     summary: Shown on the index instead of the start of the post.
+ *     draft: true
+ *     ---
+ *     Post text…
+ *
+ * A missing or malformed header yields no metadata and the text untouched, so a typo
+ * can never stop a post from rendering.
+ *
+ * @param string $text The whole file.
+ * @return array{0: array<string, mixed>, 1: string} [metadata, body]
+ */
+function split_front_matter(string $text): array
+{
+    $text = ltrim($text, "\u{FEFF}");  // byte order mark
+    if (!preg_match('/\A---[ \t]*\R(.*?)\R---[ \t]*(?:\R|\z)/s', $text, $m)) {
+        return [[], $text];
+    }
+    try {
+        $meta = Yaml::parse($m[1], Yaml::PARSE_DATETIME);
+    } catch (ParseException) {
+        return [[], $text];
+    }
+    if (!is_array($meta)) {
+        return [[], $text];
+    }
+    return [$meta, substr($text, strlen($m[0]))];
+}
+
+/**
+ * Read a post file's front matter. Only files that start with a fence are read in full.
+ *
+ * @return array<string, mixed>
+ */
+function read_post_meta(string $path): array
+{
+    $handle = fopen($path, 'rb');
+    if ($handle === false) {
+        return [];
+    }
+    $start = (string) fread($handle, 6);
+    fclose($handle);
+    if (!str_contains($start, '---')) {
+        return [];
+    }
+    return split_front_matter((string) file_get_contents($path))[0];
+}
+
+/** The front matter `title`, else the file name without its extension. */
+function post_title(array $meta, string $path): string
+{
+    $title = $meta['title'] ?? null;
+    return is_scalar($title) && trim((string) $title) !== ''
+        ? trim((string) $title)
+        : pathinfo($path, PATHINFO_FILENAME);
+}
+
+/** The front matter `date` (a YAML date, a Unix timestamp or a date string), else $mtime. */
+function post_date(array $meta, int $mtime): int
+{
+    $value = $meta['date'] ?? null;
+    if ($value instanceof DateTimeInterface) {
+        return $value->getTimestamp();
+    }
+    if (is_int($value)) {
+        return $value;
+    }
+    if (is_string($value) && ($t = strtotime($value)) !== false) {
+        return $t;
+    }
+    return $mtime;
+}
+
+/** The front matter `summary` (Markdown), or '' if there is none. */
+function post_summary(array $meta): string
+{
+    $summary = $meta['summary'] ?? null;
+    return is_scalar($summary) ? trim((string) $summary) : '';
+}
+
+/** Whether the front matter marks the post as `draft: true`. */
+function post_is_draft(array $meta): bool
+{
+    return filter_var($meta['draft'] ?? false, FILTER_VALIDATE_BOOLEAN);
 }
 
 /**
