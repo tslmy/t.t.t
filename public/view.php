@@ -34,14 +34,21 @@
     $loader = new FilesystemLoader(__DIR__ . '/../templates');
     $twig = new Environment($loader);
 
+    $content = get_content($file_name, -1);
+
     echo $twig->render('view.html.twig', [
+        'meta_description' => html_excerpt($content),
+        'og_title' => $basename.' - '.constant('SITE_NAME'),
+        'og_type' => 'article',
+        'canonical_url' => absolute_url($_SERVER, 'view.php?name='.rawurlencode(substr($path, strlen(CONTENT_ABS_DIR)+1))),
+        'feed_url' => absolute_url($_SERVER, 'feed.php'),
         'analytics_domain' => constant('ANALYTICS_DOMAIN'),
         'analytics_script_url' => constant('ANALYTICS_SCRIPT_URL'),
         'basename' => $basename,
         'site_name' => constant('SITE_NAME'),
         'nav_breadcrumb' => $nav_breadcrumb,
         'date_str' => date("Y M d (D) H:i", filemtime($file_name)),
-        'content' => get_content($file_name, -1),
+        'content' => $content,
         'disqus' => constant('DISQUS_SHORTNAME'),
         'file_name' => $file_name,
     ]);

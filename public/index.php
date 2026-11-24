@@ -113,8 +113,15 @@
     $loader = new FilesystemLoader(__DIR__ . '/../templates');
     $twig = new Environment($loader);
 
+    // The canonical URL of this listing: the home page, or a folder and/or page of it
+    $canonical_query = array_filter(['folder' => $display_dir !== '' ? '/'.$display_dir : '', 'page' => $page > 1 ? $page : '']);
+
     // Render the template with all collected data
     echo $twig->render('index.html.twig', [
+        'meta_description' => constant('SITE_DESC'),
+        'og_title' => $head_title,
+        'canonical_url' => absolute_url($_SERVER, $canonical_query ? 'index.php?'.http_build_query($canonical_query) : ''),
+        'feed_url' => absolute_url($_SERVER, 'feed.php'),
         'analytics_domain' => constant('ANALYTICS_DOMAIN'),
         'analytics_script_url' => constant('ANALYTICS_SCRIPT_URL'),
         'head_title' => $head_title,
