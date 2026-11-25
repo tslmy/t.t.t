@@ -4,6 +4,8 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![codecov](https://codecov.io/gh/tslmy/t.t.t/branch/main/graph/badge.svg?token=K603JQ63AV)](https://codecov.io/gh/tslmy/t.t.t)
 
+> **This project is archived.** It is read-only and no longer maintained. The final release is [2.0.0](https://github.com/tslmy/t.t.t/releases/tag/2.0.0).
+
 **t.t.t** is a small, database-free blog engine. Point it at a folder of Markdown files and it serves them as a blog: no build step, no admin panel, no database.
 
 <p align="center">
