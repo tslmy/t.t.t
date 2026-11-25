@@ -78,6 +78,7 @@ All settings are optional environment variables (for Docker, add `-e NAME=value`
 | `TTT_ITEMS_PER_PAGE` | `10` | Posts per index page |
 | `TTT_PREVIEW_BYTES` | `1000` | How much of each post the index previews |
 | `TTT_CONTENT_DIR` | `content` | Posts folder, relative to `public/` |
+| `TTT_SHOW_DRAFTS` | _(empty)_ | Set to anything to also show posts marked `draft: true` (handy locally) |
 | `TTT_SITE_URL` | _(guessed from the request)_ | Your site's origin, e.g. `https://example.com` — used for absolute links in the feed, sitemap and `canonical` tags. Set it in production. |
 | `TTT_GISCUS_REPO`, `TTT_GISCUS_REPO_ID`, `TTT_GISCUS_CATEGORY`, `TTT_GISCUS_CATEGORY_ID` | _(empty)_ | Set all four to enable [giscus](https://giscus.app) comments (see below) |
 | `TTT_ANALYTICS_DOMAIN` | _(empty)_ | Set to enable a [Plausible](https://plausible.io)-style analytics script for this domain |
@@ -102,6 +103,19 @@ Set `TTT_SITE_URL` in production: without it the site's address is guessed from 
 ## ✍️ Usage
 
 - **To publish a post:** Upload your `.txt` or `.md` file to `public/content/`.
+- **To set a title, date or summary** (all optional), start the file with a YAML header:
+
+  ```markdown
+  ---
+  title: Hello, world
+  date: 2024-05-01 09:30     # defaults to the file's modification time
+  summary: Shown on the index instead of the start of the post (Markdown).
+  draft: true                # hides the post until you remove this line
+  ---
+  Post text…
+  ```
+
+  Without a `title` the file name is used. A header that can't be parsed is ignored and shown as ordinary text.
 - **To categorize posts:** Create subdirectories under `public/content/` and place files inside. Nested directories are supported.
 - **To change the favicon:** Replace the following files:
 

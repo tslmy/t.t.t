@@ -34,12 +34,17 @@
             $extn = $file->getExtension();
             // Only include files with allowed extensions
             if (in_array($extn, $allowed)) {
-                $files[$file->getPathname()] = $file->getMTime();
+                $meta = read_post_meta($file->getPathname());
+                // Drafts stay hidden unless TTT_SHOW_DRAFTS is set.
+                if (post_is_draft($meta) && !constant('SHOW_DRAFTS')) {
+                    continue;
+                }
+                $files[$file->getPathname()] = post_date($meta, $file->getMTime());
             }
         }
     }
 
-    // Sort files by modification time (newest first)
+    // Sort files by date (newest first): the front matter date, else the modification time
     arsort($files, SORT_NUMERIC);
 
     // Import Pagerfanta for pagination
@@ -88,8 +93,12 @@
         $rel_path=substr($path, strlen(CONTENT_REL_DIR)+1); //'essay/title.txt'
         $rel_dir=dirname($rel_path);
 
-        // Get file content preview
-        $file_content = get_content($path, constant('PREVIEW_SIZE_IN_BYTES'));
+        // Preview: the front matter summary if there is one, else the start of the post
+        $meta = read_post_meta($path);
+        $summary = post_summary($meta);
+        $file_content = $summary !== ''
+            ? render_markdown($summary)
+            : get_content($path, constant('PREVIEW_SIZE_IN_BYTES'));
 
         // Generate breadcrumb for this file
         $path_tags=explode('/', $rel_dir);
@@ -101,7 +110,7 @@
             'rel_path' => $rel_path,
             'rel_dir' => $rel_dir,
             'breadcrumb' => $breadcrumb,
-            'filename' => pathinfo($rel_path, PATHINFO_FILENAME),
+            'title' => post_title($meta, $rel_path),
             'preview' => $file_content,
         );
     }

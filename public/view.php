@@ -14,6 +14,10 @@
     if (!in_array($extn, constant('EXT_ALLOWED'))) {
         abort_with(403, 'Forbidden.');
     }
+    $meta = read_post_meta($path);
+    if (post_is_draft($meta) && !constant('SHOW_DRAFTS')) {
+        abort_with(404, 'Not found.');
+    }
     $file_name = substr($path, strlen(getcwd())+1); # content/Lorem Ipsum.md
     $get_name = substr($path, strlen(CONTENT_ABS_DIR)+1, strrpos($path, "."));
 
@@ -35,19 +39,21 @@
     $twig = new Environment($loader);
 
     $content = get_content($file_name, -1);
+    $title = post_title($meta, $path);
+    $summary = post_summary($meta);
 
     echo $twig->render('view.html.twig', [
-        'meta_description' => html_excerpt($content),
-        'og_title' => $basename.' - '.constant('SITE_NAME'),
+        'meta_description' => html_excerpt($summary !== '' ? render_markdown($summary) : $content),
+        'og_title' => $title.' - '.constant('SITE_NAME'),
         'og_type' => 'article',
         'canonical_url' => absolute_url($_SERVER, 'view.php?name='.rawurlencode(substr($path, strlen(CONTENT_ABS_DIR)+1))),
         'feed_url' => absolute_url($_SERVER, 'feed.php'),
         'analytics_domain' => constant('ANALYTICS_DOMAIN'),
         'analytics_script_url' => constant('ANALYTICS_SCRIPT_URL'),
-        'basename' => $basename,
+        'title' => $title,
         'site_name' => constant('SITE_NAME'),
         'nav_breadcrumb' => $nav_breadcrumb,
-        'date_str' => date("Y M d (D) H:i", filemtime($file_name)),
+        'date_str' => date("Y M d (D) H:i", post_date($meta, (int) filemtime($file_name))),
         'content' => $content,
         'comments' => giscus_settings(
             constant('GISCUS_REPO'),

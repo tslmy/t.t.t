@@ -8,14 +8,15 @@ require __DIR__ . "/../src/commons.php";
 const FEED_ITEMS = 20;
 
 $entries = [];
-foreach (array_slice(list_post_files(CONTENT_ABS_DIR, constant('EXT_ALLOWED')), 0, FEED_ITEMS) as $post) {
+foreach (array_slice(published_posts(CONTENT_ABS_DIR, constant('EXT_ALLOWED'), constant('SHOW_DRAFTS')), 0, FEED_ITEMS) as $post) {
     // Posts link to each other with relative URLs; a feed reader needs absolute ones.
-    $html = str_replace('href="view.php?', 'href="'.absolute_url($_SERVER, 'view.php?'), get_content($post['path'], -1));
+    $absolute_links = fn (string $html): string => str_replace('href="view.php?', 'href="'.absolute_url($_SERVER, 'view.php?'), $html);
     $entries[] = [
-        'title' => pathinfo($post['rel'], PATHINFO_FILENAME),
+        'title' => $post['title'],
         'url' => absolute_url($_SERVER, 'view.php?name='.rawurlencode($post['rel'])),
-        'updated' => $post['mtime'],
-        'content' => $html,
+        'updated' => $post['date'],
+        'summary' => $post['summary'] !== '' ? $absolute_links(render_markdown($post['summary'])) : '',
+        'content' => $absolute_links(get_content($post['path'], -1)),
     ];
 }
 
