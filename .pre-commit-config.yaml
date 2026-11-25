@@ -7,7 +7,7 @@ repos:
     rev: v6.0.0
     hooks:
     -   id: check-ast
-    -   id: check-byte-order-marker
+    -   id: fix-byte-order-marker
     -   id: check-case-conflict
     -   id: check-executables-have-shebangs
     -   id: check-json
@@ -24,3 +24,7 @@ repos:
     files: \.(php)$
   - id: php-stan
     files: \.(php)$
+
+# pre-commit.ci has no PHP toolchain, so skip the PHP hooks there.
+ci:
+  skip: [php-lint-all, php-unit, php-cs-fixer, php-stan]
