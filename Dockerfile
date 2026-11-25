@@ -11,6 +11,12 @@ RUN composer install \
 
 
 FROM php:8.6.0-apache AS php-server
+# The app uses mb_strcut() and mb_strimwidth(); install mbstring if the base image lacks it.
+RUN php -m | grep -qi '^mbstring$' || ( \
+    apt-get update \
+    && apt-get install -y --no-install-recommends libonig-dev \
+    && docker-php-ext-install mbstring \
+    && rm -rf /var/lib/apt/lists/* )
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
