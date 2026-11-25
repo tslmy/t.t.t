@@ -38,14 +38,23 @@
     $loader = new FilesystemLoader(__DIR__ . '/../templates');
     $twig = new Environment($loader);
 
+    $content = get_content($file_name, -1);
+    $title = post_title($meta, $path);
+    $summary = post_summary($meta);
+
     echo $twig->render('view.html.twig', [
+        'meta_description' => html_excerpt($summary !== '' ? render_markdown($summary) : $content),
+        'og_title' => $title.' - '.constant('SITE_NAME'),
+        'og_type' => 'article',
+        'canonical_url' => absolute_url($_SERVER, 'view.php?name='.rawurlencode(substr($path, strlen(CONTENT_ABS_DIR)+1))),
+        'feed_url' => absolute_url($_SERVER, 'feed.php'),
         'analytics_domain' => constant('ANALYTICS_DOMAIN'),
         'analytics_script_url' => constant('ANALYTICS_SCRIPT_URL'),
-        'title' => post_title($meta, $path),
+        'title' => $title,
         'site_name' => constant('SITE_NAME'),
         'nav_breadcrumb' => $nav_breadcrumb,
         'date_str' => date("Y M d (D) H:i", post_date($meta, (int) filemtime($file_name))),
-        'content' => get_content($file_name, -1),
+        'content' => $content,
         'comments' => giscus_settings(
             constant('GISCUS_REPO'),
             constant('GISCUS_REPO_ID'),
