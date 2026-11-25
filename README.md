@@ -10,7 +10,7 @@
   <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2r3dr7vyqj20qw0m0jt1.jpg" alt="Screenshot" width="400px" />
 </p>
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/tslmy/t.t.t)
 
 ---
 
@@ -45,6 +45,10 @@ docker run -p 80:80 --rm --name ttt-demo \
 ```bash
 docker-compose up
 ```
+
+### ☁️ Render
+
+Click the **Deploy to Render** button above, or create a Blueprint from this repo. [`render.yaml`](render.yaml) builds the `Dockerfile` and sets `PORT=80`. Add more `TTT_*` settings under `envVars` or in the Render dashboard.
 
 ### ☸️ Kubernetes (via Minikube)
 

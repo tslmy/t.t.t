@@ -1,0 +1,16 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: ttt-demo
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: PORT # Apache in the Dockerfile listens on 80, not Render's default 10000.
+        value: "80"
+      - key: TTT_SITE_NAME
+        value: t.t.t demo
+      - key: TTT_SITE_DESC
+        value: A database-free blog engine.
