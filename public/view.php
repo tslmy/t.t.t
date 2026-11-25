@@ -49,6 +49,11 @@
         'nav_breadcrumb' => $nav_breadcrumb,
         'date_str' => date("Y M d (D) H:i", filemtime($file_name)),
         'content' => $content,
-        'disqus' => constant('DISQUS_SHORTNAME'),
+        'comments' => giscus_settings(
+            constant('GISCUS_REPO'),
+            constant('GISCUS_REPO_ID'),
+            constant('GISCUS_CATEGORY'),
+            constant('GISCUS_CATEGORY_ID')
+        ),
         'file_name' => $file_name,
     ]);
