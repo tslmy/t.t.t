@@ -13,6 +13,9 @@ jobs:
   test:
     name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # lets codecov-action authenticate with GitHub OIDC
     strategy:
       fail-fast: false
       matrix:
@@ -35,7 +38,7 @@ jobs:
         uses: codecov/codecov-action@v7
         with:
           files: coverage.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           fail_ci_if_error: false
 
   docker:
