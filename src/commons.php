@@ -39,6 +39,7 @@ define('GISCUS_CATEGORY', env_string('TTT_GISCUS_CATEGORY', ''));          // di
 define('GISCUS_CATEGORY_ID', env_string('TTT_GISCUS_CATEGORY_ID', ''));
 define('ANALYTICS_DOMAIN', env_string('TTT_ANALYTICS_DOMAIN', ''));   // Empty disables analytics.
 define('ANALYTICS_SCRIPT_URL', env_string('TTT_ANALYTICS_SCRIPT_URL', 'https://plausible.io/js/script.js'));
+define('SITE_URL', env_string('TTT_SITE_URL', ''));                      // e.g. https://example.com — used in the feed and sitemap; guessed from the request if empty.
 define('EXT_ALLOWED', ['txt', 'md']);
 
 // Where the posts live: relative to the working directory (public/), and absolute.
@@ -187,4 +188,135 @@ function print_breadcrumb(array $crumbs, string $cur_path): string
         }
     }
     return $output;
+}
+
+/**
+ * The site's origin ("https://example.com", no path): the configured one if valid, else guessed from the request.
+ *
+ * @param array<string, mixed> $server The $_SERVER array.
+ * @param string $configured The TTT_SITE_URL setting.
+ */
+function site_origin(array $server, string $configured = ''): string
+{
+    $parts = $configured === '' ? false : parse_url($configured);
+    if (is_array($parts) && in_array($parts['scheme'] ?? '', ['http', 'https'], true) && ($parts['host'] ?? '') !== '') {
+        return $parts['scheme'].'://'.$parts['host'].(isset($parts['port']) ? ':'.$parts['port'] : '');
+    }
+    $https = isset($server['HTTPS']) && $server['HTTPS'] !== '' && $server['HTTPS'] !== 'off';
+    $host = is_string($server['HTTP_HOST'] ?? null) && preg_match('/^[A-Za-z0-9.\-]+(:\d+)?$/', $server['HTTP_HOST'])
+        ? $server['HTTP_HOST']
+        : 'localhost';
+    return ($https ? 'https' : 'http').'://'.$host;
+}
+
+/**
+ * The URL of a page of this site, absolute, so it works in a feed. Handles installs in a sub-directory.
+ *
+ * @param array<string, mixed> $server The $_SERVER array.
+ * @param string $relative Path relative to the site root, e.g. 'view.php?name=a.md'. '' is the home page.
+ */
+function absolute_url(array $server, string $relative = ''): string
+{
+    $script = is_string($server['SCRIPT_NAME'] ?? null) ? $server['SCRIPT_NAME'] : '/index.php';
+    $base = rtrim(str_replace('\\', '/', dirname($script)), '/');
+    return site_origin($server, constant('SITE_URL')).$base.'/'.ltrim($relative, '/');
+}
+
+/**
+ * Every post file under a directory, newest first.
+ *
+ * @param string $abs_dir Absolute path of the content folder.
+ * @param list<string> $extensions Allowed file extensions.
+ * @return list<array{path: string, rel: string, mtime: int}>
+ */
+function list_post_files(string $abs_dir, array $extensions): array
+{
+    $posts = [];
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($abs_dir, FilesystemIterator::SKIP_DOTS));
+    foreach ($iterator as $file) {
+        if ($file->isFile() && in_array($file->getExtension(), $extensions, true)) {
+            $path = $file->getPathname();
+            $posts[] = ['path' => $path, 'rel' => ltrim(substr($path, strlen($abs_dir)), '/'), 'mtime' => (int) $file->getMTime()];
+        }
+    }
+    usort($posts, fn (array $a, array $b) => [$b['mtime'], $a['rel']] <=> [$a['mtime'], $b['rel']]);
+    return $posts;
+}
+
+/** Plain-text teaser of some HTML, for <meta name="description">. */
+function html_excerpt(string $html, int $width = 200): string
+{
+    $text = trim((string) preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5)));
+    return mb_strimwidth($text, 0, $width, '…');
+}
+
+/** Drop characters that are not allowed in XML 1.0 (a stray control character would break a whole feed). */
+function xml_clean(string $text): string
+{
+    return (string) preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]/u', '', $text);
+}
+
+/**
+ * An Atom feed.
+ *
+ * @param list<array{title: string, url: string, updated: int, content: string}> $entries Newest first; URLs absolute.
+ */
+function atom_feed(string $title, string $subtitle, string $home_url, string $self_url, array $entries): string
+{
+    $w = new XMLWriter();
+    $w->openMemory();
+    $w->setIndent(true);
+    $w->startDocument('1.0', 'UTF-8');
+    $w->startElementNs(null, 'feed', 'http://www.w3.org/2005/Atom');
+    $w->writeElement('title', xml_clean($title));
+    if ($subtitle !== '') {
+        $w->writeElement('subtitle', xml_clean($subtitle));
+    }
+    foreach ([[$self_url, 'self'], [$home_url, 'alternate']] as [$href, $rel]) {
+        $w->startElement('link');
+        $w->writeAttribute('rel', $rel);
+        $w->writeAttribute('href', $href);
+        $w->endElement();
+    }
+    $w->writeElement('id', $home_url);
+    $w->writeElement('updated', gmdate(DATE_ATOM, max(array_column($entries, 'updated') ?: [0])));
+    foreach ($entries as $e) {
+        $w->startElement('entry');
+        $w->writeElement('title', xml_clean($e['title']));
+        $w->startElement('link');
+        $w->writeAttribute('rel', 'alternate');
+        $w->writeAttribute('href', $e['url']);
+        $w->endElement();
+        $w->writeElement('id', $e['url']);
+        $w->writeElement('updated', gmdate(DATE_ATOM, $e['updated']));
+        $w->startElement('content');
+        $w->writeAttribute('type', 'html');
+        $w->text(xml_clean($e['content']));
+        $w->endElement();
+        $w->endElement();
+    }
+    $w->endElement();
+    return $w->outputMemory();
+}
+
+/**
+ * An XML sitemap.
+ *
+ * @param list<array{url: string, updated: int}> $pages Absolute URLs with their last change.
+ */
+function sitemap_xml(array $pages): string
+{
+    $w = new XMLWriter();
+    $w->openMemory();
+    $w->setIndent(true);
+    $w->startDocument('1.0', 'UTF-8');
+    $w->startElementNs(null, 'urlset', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+    foreach ($pages as $page) {
+        $w->startElement('url');
+        $w->writeElement('loc', $page['url']);
+        $w->writeElement('lastmod', gmdate(DATE_ATOM, $page['updated']));
+        $w->endElement();
+    }
+    $w->endElement();
+    return $w->outputMemory();
 }

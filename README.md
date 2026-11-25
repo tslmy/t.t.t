@@ -78,6 +78,7 @@ All settings are optional environment variables (for Docker, add `-e NAME=value`
 | `TTT_ITEMS_PER_PAGE` | `10` | Posts per index page |
 | `TTT_PREVIEW_BYTES` | `1000` | How much of each post the index previews |
 | `TTT_CONTENT_DIR` | `content` | Posts folder, relative to `public/` |
+| `TTT_SITE_URL` | _(guessed from the request)_ | Your site's origin, e.g. `https://example.com` — used for absolute links in the feed, sitemap and `canonical` tags. Set it in production. |
 | `TTT_GISCUS_REPO`, `TTT_GISCUS_REPO_ID`, `TTT_GISCUS_CATEGORY`, `TTT_GISCUS_CATEGORY_ID` | _(empty)_ | Set all four to enable [giscus](https://giscus.app) comments (see below) |
 | `TTT_ANALYTICS_DOMAIN` | _(empty)_ | Set to enable a [Plausible](https://plausible.io)-style analytics script for this domain |
 | `TTT_ANALYTICS_SCRIPT_URL` | `https://plausible.io/js/script.js` | Point at a self-hosted Plausible/Umami-compatible script |
@@ -85,6 +86,16 @@ All settings are optional environment variables (for Docker, add `-e NAME=value`
 **Comments** are optional and powered by [giscus](https://giscus.app): each post's comments are a GitHub Discussion in a repository you choose, so there is no extra account, ads or tracking. To enable them, install the [giscus app](https://github.com/apps/giscus) on a repository with Discussions turned on, then open [giscus.app](https://giscus.app), enter the repository and a category, and copy `data-repo`, `data-repo-id`, `data-category` and `data-category-id` from its generated snippet into the four `TTT_GISCUS_*` variables. Comments are matched to posts by URL path, so renaming a post starts a new thread. (`TTT_DISQUS_SHORTNAME` is no longer used; existing Disqus comments are not migrated.)
 
 CSS ([mvp.css](https://andybrewer.github.io/mvp/)) and syntax highlighting ([highlight.js](https://highlightjs.org/)) are vendored in `public/vendor/`, so the site makes no third-party requests unless you enable comments or analytics.
+
+---
+
+## 📰 Feed and sitemap
+
+- `feed.php` is an [Atom](https://en.wikipedia.org/wiki/Atom_(web_standard)) feed of the 20 newest posts; every page advertises it in its `<head>`.
+- `sitemap.php` lists every post for search engines.
+- Every page also gets a `<meta description>`, a canonical URL and Open Graph tags.
+
+Set `TTT_SITE_URL` in production: without it the site's address is guessed from the request's `Host` header.
 
 ---
 
